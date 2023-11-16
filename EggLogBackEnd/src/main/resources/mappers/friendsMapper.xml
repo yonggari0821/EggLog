@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.egglog.dao.FriendsDao">
+<!-- 
+	Goal : friends 테이블에서 my_id가 my_id인 애들의 friend_id 전부 가져오기
+	Parameter : my_id
+	Return : id 리스트 
+	 -->
+<select id="getFriends" parameterType="String" resultType="String"> SELECT f.friend_id FROM friends f WHERE my_id = #{myId} </select>
+<!-- 
+	Goal : friends 테이블에서 my_id가 my_id인 애들 중 friend_id가 있는 지 확인!
+	Parameter : my_id , friend_id
+	Return : COUNT 한 값 => 있으면 1 // 없으면 0
+	 -->
+<select id="searchFriendsById" parameterType="String" resultType="int"> SELECT COUNT(*) FROM friends WHERE my_id = #{myId} AND friend_id = #{friendId} </select>
+<!-- 
+	Goal : 친구 관계 생성 // 양 방향 방식으로 1관계 2 데이터
+	Parameter : 요청 인스턴스
+	Return : 친구 관계 추가 성공 시 int 값 // 0 => 실패 // 1 이상 => 성공
+	cf) insert 문이라 따로 resultType 써 줄 필요 X
+	 -->
+<insert id="addFriends" parameterType="Request"> INSERT INTO friends (my_id, friend_id) VALUES (#{from}, #{to}), (#{to}, #{from}) </insert>
+<!-- 
+	Goal : 친구 관계 끊기 // 양 방향 방식으로 1관계 2 데이터
+	Parameter : 친구 인스턴스
+	Return : 친구 관계 추가 성공 시 int 값 // 0 => 실패 // 1 이상 => 성공
+	cf) insert 문이라 따로 resultType 써 줄 필요 X
+	 -->
+<delete id="removeFriends" parameterType="Friends"> DELETE FROM friends WHERE my_id = #{myId} AND friend_id = #{friendId} OR my_id = #{friendId} AND friend_id = #{myId} </delete>
+</mapper>

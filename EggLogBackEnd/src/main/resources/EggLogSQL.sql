@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `id` varchar(40) NOT NULL,
   `password` varchar(40) NOT NULL,
   `nickname` varchar(40) NOT NULL,
-  `sex` varchar(40) NOT NULL,
+  `gender` varchar(40) NOT NULL,
   `birth` DATE NOT NULL,
 --   `phonenum` varchar(40) NOT NULL,
 --   `public status` boolean NOT NULL,
@@ -22,8 +22,8 @@ CREATE TABLE IF NOT EXISTS `user` (
 CREATE TABLE IF NOT EXISTS `diary` (
   `user_id` varchar(40) NOT NULL,
   `title` VARCHAR(40) NOT NULL,
-  `context` VARCHAR(500) NOT NULL,
-  `diary_date` date NOT NULL,
+  `content` VARCHAR(500) NOT NULL,
+  `diary_date` DATE NOT NULL,
   `diary_picture` varchar(100) default NULL,
   `location` varchar(40) default NULL,
 	PRIMARY KEY (`diary_date`),
@@ -34,9 +34,10 @@ CREATE TABLE IF NOT EXISTS `diary` (
 -- Table `request`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `request` (
-  `request_num` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `from` VARCHAR(40) NOT NULL,
-  `to` varchar(40) NOT NULL
+  `to` varchar(40) NOT NULL,
+  PRIMARY KEY (`from`,`to`),
+  FOREIGN KEY (`from`) REFERENCES `user` (`id`)
   ) ENGINE = InnoDB;
   
 -- -----------------------------------------------------

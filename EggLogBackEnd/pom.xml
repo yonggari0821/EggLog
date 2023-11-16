@@ -22,7 +22,8 @@
 	
 	<!-- 의존 라이브러리 모음 -->
 	<dependencies>
-		<dependency>
+	
+		<dependency> <!-- 여기에 jackson도 포함! -->
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>

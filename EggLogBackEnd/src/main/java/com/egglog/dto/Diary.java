@@ -1,25 +1,25 @@
 package com.egglog.dto;
 
-import java.time.LocalDate;
+import java.sql.Date;
 
 public class Diary {
-	private String user_id;
-	private LocalDate diary_date;
+	private String userId;
+	private String diaryDate;
 	private String title;
 	private String content;
-	private String diary_picture;
+	private String diaryPicture;
 	private String location;
-	public String getUser_id() {
-		return user_id;
+	public String getUserId() {
+		return userId;
 	}
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
-	public LocalDate getDiary_date() {
-		return diary_date;
+	public String getDiaryDate() {
+		return diaryDate;
 	}
-	public void setDiary_date(LocalDate diary_date) {
-		this.diary_date = diary_date;
+	public void setDiaryDate(String diaryDate) {
+		this.diaryDate = diaryDate;
 	}
 	public String getTitle() {
 		return title;
@@ -33,11 +33,11 @@ public class Diary {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public String getDiary_picture() {
-		return diary_picture;
+	public String getDiaryPicture() {
+		return diaryPicture;
 	}
-	public void setDiary_picture(String diary_picture) {
-		this.diary_picture = diary_picture;
+	public void setDiaryPicture(String diaryPicture) {
+		this.diaryPicture = diaryPicture;
 	}
 	public String getLocation() {
 		return location;
@@ -45,15 +45,22 @@ public class Diary {
 	public void setLocation(String location) {
 		this.location = location;
 	}
-	public Diary(String user_id, LocalDate diary_date, String title, String content, String diary_picture,
+	public Diary() {}
+	
+	public Diary(String userId, String diaryDate, String title, String content, String diaryPicture,
 			String location) {
-		super();
-		this.user_id = user_id;
-		this.diary_date = diary_date;
+		this.userId = userId;
+		this.diaryDate = diaryDate;
 		this.title = title;
 		this.content = content;
-		this.diary_picture = diary_picture;
+		this.diaryPicture = diaryPicture;
 		this.location = location;
 	}
+	@Override
+	public String toString() {
+		return "Diary [userId=" + userId + ", diaryDate=" + diaryDate + ", title=" + title + ", content=" + content
+				+ ", diaryPicture=" + diaryPicture + ", location=" + location + "]";
+	}
+	
 	
 }

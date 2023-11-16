@@ -1,15 +1,33 @@
 package com.egglog.dto;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 public class User {
 	private String id; // 아이디 // PK
 	private String password; // 비밀번호
 	private String gender; // 성별
-	private LocalDate birth;
+	private Date birth;	// 생년월일
 	private String nickname; // 이름
-	private String status_message;
-	private String profile;
+	private String statusMessage;	// 상태 메세지
+	private String profilePicture;	// 프로필 사진
+	
+	
+	public User() {
+	}
+	
+	public User(String id, String password, String gender, Date birth, String nickname, String statusMessage,
+			String profilePicture) {
+		super();
+		this.id = id;
+		this.password = password;
+		this.gender = gender;
+		this.birth = birth;
+		this.nickname = nickname;
+		this.statusMessage = statusMessage;
+		this.profilePicture = profilePicture;
+	}
+
 	public String getId() {
 		return id;
 	}
@@ -28,10 +46,10 @@ public class User {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
-	public LocalDate getBirth() {
+	public Date getBirth() {
 		return birth;
 	}
-	public void setBirth(LocalDate birth) {
+	public void setBirth(Date birth) {
 		this.birth = birth;
 	}
 	public String getNickname() {
@@ -40,27 +58,41 @@ public class User {
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
-	public String getStatus_message() {
-		return status_message;
+	
+
+	public String getStatusMessage() {
+		return statusMessage;
 	}
-	public void setStatus_message(String status_message) {
-		this.status_message = status_message;
+
+
+
+	public void setStatusMessage(String statusMessage) {
+		this.statusMessage = statusMessage;
 	}
-	public String getProfile() {
-		return profile;
+
+
+
+	public String getProfilePicture() {
+		return profilePicture;
 	}
-	public void setProfile(String profile) {
-		this.profile = profile;
+
+
+
+	public void setProfilePicture(String profilePicture) {
+		this.profilePicture = profilePicture;
 	}
-	public User(String id, String password, String gender, LocalDate birth, String nickname, String status_message,
-			String profile) {
-		super();
-		this.id = id;
-		this.password = password;
-		this.gender = gender;
-		this.birth = birth;
-		this.nickname = nickname;
-		this.status_message = status_message;
-		this.profile = profile;
+
+
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", password=" + password + ", gender=" + gender + ", birth=" + birth + ", nickname="
+				+ nickname + ", statusMessage=" + statusMessage + ", profilePicture=" + profilePicture + "]";
 	}
+
+
+
+
+
+
 }

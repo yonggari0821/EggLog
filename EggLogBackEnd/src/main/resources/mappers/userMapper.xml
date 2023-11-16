@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.egglog.dao.UserDao">
+<resultMap type="User" id="userMap">
+<result column="status_message" property="statusMessage"/>
+<result column="profile_picture" property="profilePicture"/>
+</resultMap>
+<select id="getUser" resultMap="userMap" parameterType="String"> SELECT * FROM user WHERE id = #{id}; </select>
+<insert id="insert" parameterType="User" keyProperty="id" useGeneratedKeys="true"> INSERT INTO user (id, password, gender, birth, nickname, status_message, profile_picture) VALUES (#{id}, #{password}, #{gender}, #{birth}, #{nickname}, #{statusMessage}, #{profilePicture}) </insert>
+<delete id="deleteUser" parameterType="String"> DELETE FROM user WHERE id = #{id} </delete>
+<update id="modifyUser" parameterType="User"> UPDATE user SET password = #{password}, gender = #{gender}, birth = #{birth}, nickname = #{nickname}, status_message = #{statusMessage}, profile_picture = #{profilePicture} WHERE id = #{id} </update>
+</mapper>
