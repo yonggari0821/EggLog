@@ -16,5 +16,10 @@ public interface UserDao {
 	
 	// 회원정보수정
 	public int modifyUser(User user);
+
+    // 이 id를 가진 User가 있는지 확인, 반환값 user
+	public User searchById(String id);
+	
+	
 	
 }

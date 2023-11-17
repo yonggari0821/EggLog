@@ -6,7 +6,7 @@ use `egglog`;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `user` (
   `id` varchar(40) NOT NULL,
-  `password` varchar(40) NOT NULL,
+  `password` varchar(255) NOT NULL,
   `gender` varchar(40) NOT NULL,
   `birth` DATE NOT NULL,
   `nickname` varchar(40) NOT NULL,
@@ -23,14 +23,14 @@ VALUES("1", "2", "123", "2000/10/10","123","123","123");
 
 
 -- -----------------------------------------------------
--- Table `diary`
+-- Table `diary`board
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `diary` (
   `user_id` varchar(40) NOT NULL,
   `title` VARCHAR(40) NOT NULL,
   `content` VARCHAR(500) NOT NULL,
   `diary_date` date NOT NULL,
-  `	` varchar(100) default NULL,
+  `diary_picture` varchar(100) default NULL,
   `location` varchar(40) default NULL,
 	PRIMARY KEY (`diary_date`),
   	FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)

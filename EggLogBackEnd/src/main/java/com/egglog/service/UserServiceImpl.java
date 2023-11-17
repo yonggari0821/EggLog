@@ -39,4 +39,9 @@ public class UserServiceImpl implements UserService {
 	public boolean modifyUser(User user) {
 		return userDao.modifyUser(user) > 0;
 	}
+
+  @Override
+  public User searchById(String id) {
+    return userDao.searchById(id);
+  }
 }

@@ -17,4 +17,7 @@ public interface UserService {
 	
 	// 회원정보수정
 	boolean modifyUser(User user);
+
+	// id로 User 찾기
+	User searchById(String id);
 }
