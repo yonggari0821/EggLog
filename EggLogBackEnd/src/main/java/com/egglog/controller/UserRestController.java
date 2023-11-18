@@ -1,5 +1,12 @@
 package com.egglog.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,15 +21,27 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.egglog.dto.User;
 import com.egglog.service.UserService;
+import com.egglog.util.JwtUtil;
+
+import io.swagger.annotations.Api;
+import springfox.documentation.annotations.ApiIgnore;
 
 
 // 목적, 매개변수, 반환값
 @RestController
 @RequestMapping("/api")
+@Api(tags="유저 컨트롤러")
 public class UserRestController {
 
+	private static final String SUCCESS = "success";
+	private static final String FAIL = "fail";
+	
+  @Autowired
+  private JwtUtil jwtUtil;
+  
 	@Autowired
 	private UserService userService;
+	
 	
 	// 목적: 회원정보확인
 	// 매개변수: id
@@ -35,17 +54,30 @@ public class UserRestController {
 		return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
 	}
 	
+	
 	// 목적: 회원가입
 	// 매개변수: user
 	// 반환값: user JSON 정보로 받기
 	@PostMapping("/user")
-	public ResponseEntity<Boolean> doRegist(@RequestBody User user) {
-
+	
+	// throw 한 것 나중에 모아서 한꺼번에 try catch로 해결할 것
+	public ResponseEntity<Boolean> doRegist(@RequestBody User user) throws UnsupportedEncodingException {
+	  
+	    // 비밀번호 토큰 생성
+	    String token = jwtUtil.createToken("password", user.getPassword());
+	    
+	    // 비밀번호를 database password자리에 넣기
+	    user.setPassword(token);
+	    
+	    if(userService.searchById(user.getId()) != null)
+	    	// BAD_REQUEST : 아이디가 이미 있을 경우
+	    	return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
+	    
 		// DB에 user 정보 등록
-		if(userService.insert(user)>0)
-			return new ResponseEntity<Boolean>(true, HttpStatus.CREATED);
-		return new ResponseEntity<Boolean>(false, HttpStatus.NOT_ACCEPTABLE);
+		userService.insert(user);
+		return new ResponseEntity<Boolean>(true, HttpStatus.CREATED);
 	}
+	
 	
 	// 목적: 회원 탈퇴
 	// 매개변수: id
@@ -57,13 +89,51 @@ public class UserRestController {
 		return new ResponseEntity<Boolean>(false, HttpStatus.NOT_FOUND);
 	}
 	
+	
 	// 목적: 회원정보수정
 	// 매개변수: user
 	// 반환값: boolean
 	@PutMapping("/user")
-	public ResponseEntity<Boolean> update(@RequestBody User user) {
+	public ResponseEntity<Boolean> update(@RequestBody User user) throws UnsupportedEncodingException {
+		String token = jwtUtil.createToken("password", user.getPassword());
+		user.setPassword(token);
+		
 		if (userService.modifyUser(user))
 			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 		return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
 	}
+	
+
+	// 목적: 로그인
+    // 매개변수: id, password
+    // 반환값: Map<String, Object>
+	   @PostMapping("/login")
+	   
+	// throw 한 것 나중에 모아서 한꺼번에 try catch로 해결할 것
+	    public ResponseEntity<Map<String, Object>> doLogin(String id, String password) throws UnsupportedEncodingException {
+		   Map<String, Object> result = new HashMap<String, Object>();
+		   
+		   // password 토큰 생성
+		   String pw = jwtUtil.createToken("password", password);
+		   User loginUser = userService.searchById(id);
+		
+			HttpStatus status = null;
+			if(id != null && password != null && loginUser.getPassword().equals(pw)){
+				result.put("access-token", pw);
+				result.put("message", SUCCESS);
+				status = HttpStatus.ACCEPTED;
+			} else {
+				result.put("message", FAIL);
+				status = HttpStatus.NO_CONTENT;
+			}
+			return new ResponseEntity<Map<String,Object>>(result, status);
+	   }
+			
+
+		// 목적: 로그아웃
+	    // 세션 종료를 통해 로그 아웃
+	    @GetMapping("/logout")
+	    public ResponseEntity<Void> doLogout(HttpServletRequest request) {
+	        return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
+	    }
 }
