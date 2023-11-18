@@ -2,6 +2,7 @@ package com.egglog.interceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -25,6 +26,15 @@ public class JwtInterceptor implements HandlerInterceptor {
 
     String token = request.getHeader(HEADER_AUTH);
 
+ // 로그아웃 요청일 경우 세션 무효화
+    if (request.getRequestURI().endsWith("/logout")) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+        return true;
+    }
+    
     if (token != null) {
       jwtUtil.valid(token);
       return true;
