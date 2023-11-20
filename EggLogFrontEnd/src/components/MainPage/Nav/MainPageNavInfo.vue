@@ -4,6 +4,7 @@
 
     <p>{{ user.nickname }} 님 환영합니다.</p>
     <p>{{ user.statusMessage }}</p>
+    <p>{{ id }} -- 얘가 로컬스토리지아이디임</p>
     <p></p>
   </div>
 </template>
@@ -15,6 +16,10 @@ import { onMounted, computed, onBeforeMount } from "vue"; // 희
 const userStore = useUserStore();
 
 const user = computed(() => userStore.user);
+
+const id = localStorage.getItem("userid");
+
+onMounted(() => {});
 </script>
 
 <style scoped>
