@@ -23,11 +23,10 @@ export const useUserStore = defineStore("user", () => {
   // localstorage에 저장한 id를 기반으로 가져오자.
   const setLoginUser = function (inputuser) {
     axios
-      .get(`${REST_BOARD_API}/${inputuser.id}`)
+      .get(`${REST_BOARD_API}/${inputuser}`)
       .then((response) => {
         user.value = response.data;
         router.push({ name: "MainPage" });
-        console.log(user.value.nickname);
       })
       .catch((err) => {
         console.error(err); // Logging the error for debugging
