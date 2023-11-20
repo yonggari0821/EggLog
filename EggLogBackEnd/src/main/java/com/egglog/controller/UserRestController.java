@@ -107,8 +107,7 @@ public class UserRestController {
 	// 목적: 로그인
     // 매개변수: id, password
     // 반환값: Map<String, Object>
-	   @PostMapping("/login")
-	   
+	   @PostMapping("/user/login")
 	// throw 한 것 나중에 모아서 한꺼번에 try catch로 해결할 것
 	    public ResponseEntity<Map<String, Object>> doLogin(String id, String password) throws UnsupportedEncodingException {
 		   Map<String, Object> result = new HashMap<String, Object>();
@@ -128,11 +127,29 @@ public class UserRestController {
 			}
 			return new ResponseEntity<Map<String,Object>>(result, status);
 	   }
+	   
+	   @PostMapping("/user/login2")// 테스트
+	   public ResponseEntity<?> login(@RequestBody User user) {
+	        System.out.println(user);
+	        User check = userService.login(user);
+	        // 로그인 실패함!
+	        if (check == null) {
+	            //실패 상태 보내주고
+	            return new ResponseEntity<Void>(HttpStatus.UNAUTHORIZED);
+	        } else {
+	            //loginUser에 넣어준다
+//	            session.setAttribute("loginUser", check.getName());
+	        	// 이름을 받아오는게 맞을까.
+	        	// 그냥 트루 펄스 받아온다음에 localstorage에 user정보를 저장하는게 맞다.
+	            return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+	        }
+
+	    }
 			
 
 		// 목적: 로그아웃
 	    // 세션 종료를 통해 로그 아웃
-	    @GetMapping("/logout")
+	    @GetMapping("/user/logout")
 	    public ResponseEntity<Void> doLogout(HttpServletRequest request) {
 	        return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
 	    }

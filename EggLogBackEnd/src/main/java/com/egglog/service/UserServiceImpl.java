@@ -44,4 +44,14 @@ public class UserServiceImpl implements UserService {
   public User searchById(String id) {
     return userDao.searchById(id);
   }
+
+@Override
+public User login(User user) {
+	// TODO Auto-generated method stub
+	User check = userDao.getUser(user.getId());
+	if(check!=null && check.getPassword().equals(user.getPassword()))
+		return check;
+	
+	return null;
+}
 }
