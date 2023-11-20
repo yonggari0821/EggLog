@@ -107,15 +107,30 @@ export const useUserStore = defineStore("user", () => {
       },
       data: userss,
     })
-      .then(() => {
+      .then((response) => {
         //response 응답으로 들어온 게시글의 id를 이용해서
         //상세보기로 바로 점프도 가넝이야~~
-        router.push({ name: "List" });
+        if (response.data == "true") {
+          console.log("회원가입 성공");
+        } else {
+          console.log("회원가입 실패");
+        }
       })
       .catch((err) => {
-        console.log(err);
+        console.log("회원가입 오류:", err);
+        console.log(err.response);
       });
   };
 
-  return { user, setLoginUser };
+  return {
+    user,
+    setLoginUser,
+    createUser,
+    deleteUser,
+    updateUser,
+    searchName,
+    setUsers,
+    setLogout,
+    searchUserCnt,
+  };
 });
