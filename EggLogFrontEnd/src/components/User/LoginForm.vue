@@ -28,7 +28,7 @@ const login = () => {
     password: pw.value,
   };
 
-  userStore.setLoginUser2(user);
+  userStore.Login(user);
 };
 
 const moveIntroduce = function () {

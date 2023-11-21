@@ -107,31 +107,31 @@ public class UserRestController {
 	// 목적: 로그인
     // 매개변수: id, password
     // 반환값: Map<String, Object>
-	   @PostMapping("/user/login")
-	// throw 한 것 나중에 모아서 한꺼번에 try catch로 해결할 것
-	    public ResponseEntity<Map<String, Object>> doLogin(User user) throws UnsupportedEncodingException {
-		   Map<String, Object> result = new HashMap<String, Object>();
-		   
-		   // password 토큰 생성
-		   String pw = jwtUtil.createToken("password", user.getPassword());
-		   User loginUser = userService.searchById(user.getId());
-		
-			HttpStatus status = null;
-			if(user.getId() != null && user.getPassword() != null && loginUser.getPassword().equals(pw)){
-				result.put("access-token", pw);
-				result.put("message", SUCCESS);
-				status = HttpStatus.ACCEPTED;
-			} else {
-				result.put("message", FAIL);
-				status = HttpStatus.NO_CONTENT;
-			}
-			return new ResponseEntity<Map<String,Object>>(result, status);
-	   }
+//	   @PostMapping("/user/login")
+//	// throw 한 것 나중에 모아서 한꺼번에 try catch로 해결할 것
+//	    public ResponseEntity<Map<String, Object>> doLogin(User user) throws UnsupportedEncodingException {
+//		   Map<String, Object> result = new HashMap<String, Object>();
+//		   
+//		   // password 토큰 생성
+//		   String pw = jwtUtil.createToken("password", user.getPassword());
+//		   User loginUser = userService.searchById(user.getId());
+//		
+//			HttpStatus status = null;
+//			if(user.getId() != null && user.getPassword() != null && loginUser.getPassword().equals(pw)){
+//				result.put("access-token", pw);
+//				result.put("message", SUCCESS);
+//				status = HttpStatus.ACCEPTED;
+//			} else {
+//				result.put("message", FAIL);
+//				status = HttpStatus.NO_CONTENT;
+//			}
+//			return new ResponseEntity<Map<String,Object>>(result, status);
+//	   }
 	   
 	   // 토큰화되어서 들어간다.
 	   
 	   
-	   @PostMapping("/user/login2")// 테스트
+	   @PostMapping("/user/login")// 로그인
 	   public ResponseEntity<?> login(@RequestBody User user) {
 	        System.out.println(user);
 	        String password = null;

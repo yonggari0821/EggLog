@@ -35,10 +35,10 @@ export const useUserStore = defineStore("user", () => {
   }; //
 
   // 테스트용;
-  const setLoginUser2 = function (User) {
+  const Login = function (User) {
     console.log(User);
     axios
-      .post(`${REST_BOARD_API}/login2`, User)
+      .post(`${REST_BOARD_API}/login`, User)
       // 트루 반환시 localstorage에 정보 저장,
       // false면 alert로 알람처리
       .then((response) => {
@@ -61,5 +61,5 @@ export const useUserStore = defineStore("user", () => {
     loginUser.value = false;
   };
 
-  return { user, setLoginUser, setLoginUser2 };
+  return { user, setLoginUser, Login };
 });
