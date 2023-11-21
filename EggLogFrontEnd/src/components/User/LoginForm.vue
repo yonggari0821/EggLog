@@ -14,8 +14,8 @@
 
 <script setup>
 import { ref } from "vue";
-import { useUserStore } from "@/stores/userStore";
 import router from "@/router";
+import { useUserStore } from "@/stores/userStore";
 
 const userStore = useUserStore();
 
@@ -28,15 +28,11 @@ const login = () => {
     password: pw.value,
   };
 
-  userStore.setLoginUser(user);
+  userStore.Login(user);
 };
 
 const moveIntroduce = function () {
   router.push({ name: "IntroducePage" });
-};
-
-const moveMain = function () {
-  router.push({ name: "MainPage" });
 };
 </script>
 

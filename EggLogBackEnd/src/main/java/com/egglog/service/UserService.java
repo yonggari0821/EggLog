@@ -21,5 +21,5 @@ public interface UserService {
 	// id로 User 찾기
 	User searchById(String id);
 	
-	User login(User user);
+	User login(String id , String pw);
 }

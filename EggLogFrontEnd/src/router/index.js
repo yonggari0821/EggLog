@@ -3,6 +3,7 @@ import LoginForm from "../components/User/LoginForm.vue";
 import RegistForm from "../components/User/RegistForm.vue";
 import MainPage from "../views/MainPage.vue";
 import IntroducePage from "../views/IntroducePage.vue";
+import Diary from "../components/Diary/Diary.vue";
 
 const routes = [
   {
@@ -24,6 +25,11 @@ const routes = [
     path: "/regist",
     name: "Regist",
     component: RegistForm,
+  },
+  {
+    path: "/diary/:date",
+    name: "Diary",
+    component: Diary,
   },
 ];
 
