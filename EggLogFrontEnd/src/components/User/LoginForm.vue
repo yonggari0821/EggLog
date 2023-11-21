@@ -16,8 +16,10 @@
 import { ref } from "vue";
 import router from "@/router";
 import { useUserStore } from "@/stores/userStore";
+import { useFriendsStore } from "@/stores/friendsStore";
 
 const userStore = useUserStore();
+const friendsStore = useFriendsStore();
 
 const id = ref("");
 const pw = ref("");
@@ -27,7 +29,7 @@ const login = () => {
     id: id.value,
     password: pw.value,
   };
-
+  friendsStore.getFriendsList(user.id);
   userStore.Login(user);
 };
 

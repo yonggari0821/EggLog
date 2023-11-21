@@ -44,8 +44,9 @@ public class DiaryRestController {
 		try {
 			Diary diary = diaryService.getDiary(userId, diaryDate);
 			if (diary != null) return new ResponseEntity<Diary>(diary, HttpStatus.OK);
-			else return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+			else return new ResponseEntity<Void>(HttpStatus.OK);
 		} catch (Exception e) {
+			System.out.println("다이어리 찾는 중 오류 발생!!");
 			return exceptionHandling(e);
 		}
 	}
@@ -58,6 +59,13 @@ public class DiaryRestController {
 	    List<Diary> list = diaryService.getDiaryList(userId);
 	    return new ResponseEntity<List<Diary>>(list, HttpStatus.OK);
 	}
+
+//	const diaryList = ref([]);
+//
+//	const getDiaryList = function (userId) {
+//	  axios
+//	    .get(`${REST_DIARY_API}/${userId}`)
+//	}
 
 	// Goal : 해당 날짜 다이어리 정보 삭제
 	// Parameter : userId, diaryDate

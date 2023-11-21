@@ -1,5 +1,8 @@
 package com.egglog.service;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +21,13 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User getUser(String id) {
 		return userDao.getUser(id);
+	}
+	
+	public List<User> getUsersByIds(List<String> friendIds) {
+	    // Implement the logic to retrieve users by their IDs from the database
+	    // For example:
+	    // return userRepository.findUsersByIdIn(friendIds);
+	    return Collections.emptyList(); // Placeholder, replace with actual implementation
 	}
 	
 	// 회원 가입

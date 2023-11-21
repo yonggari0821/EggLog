@@ -6,7 +6,7 @@
       <button @click="searchWithInput()">검색</button>
     </div>
     <div class="searchResultZone">
-      <div v-if="searchedUser.value == null || searchedUser.value.length == 0" class="foundNoUser">
+      <div v-if="!searchedUser" class="foundNoUser">
         <p>검색된 유저가 없습니다! 다시 한 번 정확히 검색해주세요!</p>
       </div>
       <div v-else class="FoundUser">
@@ -33,8 +33,9 @@ const searchedUser = computed(() => userStore.searchedUser);
 
 const searchInput = ref("");
 const searchWithInput = function () {
-  console.log(searchInput.value);
+  console.log(searchInput.value + "로 유저 검색");
   userStore.searchUserById(searchInput.value);
+  console.log(searchedUser.value);
 };
 </script>
 

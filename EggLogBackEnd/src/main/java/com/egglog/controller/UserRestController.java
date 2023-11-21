@@ -2,6 +2,7 @@ package com.egglog.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -46,11 +47,21 @@ public class UserRestController {
 	// 매개변수: id
 	// 반환값: user
 	@GetMapping("/user/{id}")
-	public ResponseEntity<User> detail(@PathVariable String id) {
+	public ResponseEntity<?> detail(@PathVariable String id) {
 		User user = userService.getUser(id);
 		if (user != null)
 			return new ResponseEntity<User>(user, HttpStatus.OK);
-		return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+	
+	@GetMapping("/user/getFriendUsers")
+	public ResponseEntity<List<User>> getFriendUsers(@RequestParam List<String> friendIds) {
+	    try {
+	        List<User> userList = userService.getUsersByIds(friendIds);
+	        return new ResponseEntity<>(userList, HttpStatus.OK);
+	    } catch (Exception e) {
+	        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
 	}
 	
 	

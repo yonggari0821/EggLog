@@ -31,7 +31,7 @@ public class FriendsRestController {
 	FriendsService friendsService;
 	
 	
-	@GetMapping("friends/{myId}")
+	@GetMapping("/friends/{myId}")
 	@ApiOperation(value = "친구들 아이디 리스트를 가져온다.", response = Friends.class)
 	public ResponseEntity<?> selectAll(@PathVariable String myId) {
 		try {
@@ -43,7 +43,7 @@ public class FriendsRestController {
 		}
 	}
 	
-	@PostMapping("friends/")
+	@PostMapping("/friends")
 	@ApiOperation(value = "친구가 된다.", response = Integer.class)
 	public ResponseEntity<?> insert (@RequestBody Request request)
 	{
@@ -61,7 +61,7 @@ public class FriendsRestController {
 	}
 	
 	
-	@DeleteMapping("friends/")
+	@DeleteMapping("/friends")
 	@ApiOperation(value = "친구 관계를 끊는다.", response = Integer.class)
 	public ResponseEntity<?> delete (@RequestBody Friends friends)
 	{

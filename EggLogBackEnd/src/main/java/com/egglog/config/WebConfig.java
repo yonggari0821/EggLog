@@ -42,7 +42,7 @@ public class WebConfig implements WebMvcConfigurer {
 																		// 대해
 																		// intercept
 																		// 한다
-				.excludePathPatterns("/api/login", "/api/user/**", "/swagger-resources/**",
+				.excludePathPatterns("/api/login", "/api/user/**", "/api/friends/**" ,"/swagger-resources/**",
 						"/swagger-ui/**", "/v2/api-docs"); // login 제외하고
 	}
 

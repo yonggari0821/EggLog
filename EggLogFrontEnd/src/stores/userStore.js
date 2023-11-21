@@ -66,6 +66,7 @@ export const useUserStore = defineStore("user", () => {
     status_message: null,
     profile_picture: null,
   });
+  
   const searchUserById = function (id) {
     axios({
       url: `${REST_USER_API}/${id}`,
@@ -73,7 +74,7 @@ export const useUserStore = defineStore("user", () => {
       headers: {
         "Content-Type": "application/json",
       },
-      data: user,
+      data: searchedUser,
     })
       .then((res) => {
         searchedUser.value = res.data;
@@ -105,6 +106,20 @@ export const useUserStore = defineStore("user", () => {
       .catch((err) => {
         console.log("회원가입 오류:", err);
         console.log(err.response);
+      });
+  };
+
+  const getFriendUsers = function (friendIds) {
+    axios.get(`${REST_USER_API}/getFriendUsers`, {
+        params: { friendIds: friendIds }
+      })
+      .then(response => {
+        // Handle the response containing the user information for the friends
+        const userList = response.data;
+        console.log(userList);
+      })
+      .catch(err => {
+        console.error(err);
       });
   };
 

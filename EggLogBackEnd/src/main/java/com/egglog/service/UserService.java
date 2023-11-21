@@ -1,5 +1,8 @@
 package com.egglog.service;
 
+
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.egglog.dto.User;
@@ -8,6 +11,9 @@ import com.egglog.dto.User;
 public interface UserService {
 	// 유저 정보 불러오기
 	User getUser(String id);
+	
+	//
+	public List<User> getUsersByIds(List<String> friendIds);
 	
 	// 회원 가입
 	int insert(User user);

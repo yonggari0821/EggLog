@@ -11,7 +11,7 @@ export const useDiaryStore = defineStore("diary", () => {
 
   const getDiary = function (userId, diaryDate) {
     axios
-      .get(`${REST_DIARY_API}`)
+      .get(`${REST_DIARY_API}?userId=${userId}&diaryDate=${diaryDate}`)
       .then((response) => {
         diary.value = response.data;
         router.push({ name: "Diary", params: "diary" });
@@ -23,3 +23,5 @@ export const useDiaryStore = defineStore("diary", () => {
 
   return { diary, getDiary };
 });
+
+
