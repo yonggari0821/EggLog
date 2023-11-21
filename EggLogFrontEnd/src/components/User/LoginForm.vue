@@ -28,7 +28,6 @@ const login = () => {
     password: pw.value,
   };
 
-  userStore.setLoginUser(user);
 };
 
 const moveIntroduce = function () {
