@@ -34,32 +34,9 @@ export const useUserStore = defineStore("user", () => {
       });
   }; //
 
-  // 테스트용;
-  const Login = function (User) {
-    console.log(User);
-    axios
-      .post(`${REST_BOARD_API}/login`, User)
-      // 트루 반환시 localstorage에 정보 저장,
-      // false면 alert로 알람처리
-      .then((response) => {
-        const user = ref({
-          id: response.data.id,
-          token: response.data.password,
-        });
-        console.log("유저정보는? " + user);
-        localStorage.setItem("userid", user.value.id);
-        localStorage.setItem("accesstoken", user.value.token);
-        router.push({ name: "MainPage" });
-      })
-      .catch((err) => {
-        console.error(err); // Logging the error for debugging
-        alert("로그인에 실패하였습니다.");
-      });
-  }; // 테스트용
 
   const setLogout = function () {
     loginUser.value = false;
   };
 
-  return { user, setLoginUser, Login };
 });

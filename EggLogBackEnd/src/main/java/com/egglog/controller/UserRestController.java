@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.egglog.dto.User;
@@ -24,7 +24,6 @@ import com.egglog.service.UserService;
 import com.egglog.util.JwtUtil;
 
 import io.swagger.annotations.Api;
-import springfox.documentation.annotations.ApiIgnore;
 
 
 // 목적, 매개변수, 반환값
@@ -61,21 +60,21 @@ public class UserRestController {
 	@PostMapping("/user")
 	
 	// throw 한 것 나중에 모아서 한꺼번에 try catch로 해결할 것
-	public ResponseEntity<Boolean> doRegist(@RequestBody User user) throws UnsupportedEncodingException {
-	  
-	    // 비밀번호 토큰 생성
-	    String token = jwtUtil.createToken("password", user.getPassword());
-	    
-	    // 비밀번호를 database password자리에 넣기
-	    user.setPassword(token);
-	    
-	    if(userService.searchById(user.getId()) != null)
-	    	// BAD_REQUEST : 아이디가 이미 있을 경우
-	    	return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
-	    
-		// DB에 user 정보 등록
-		userService.insert(user);
-		return new ResponseEntity<Boolean>(true, HttpStatus.CREATED);
+	public ResponseEntity<String> doRegist(@RequestBody User user) {
+	    try {
+	        // 비밀번호 토큰 생성
+	        String token = jwtUtil.createToken("password", user.getPassword());
+	        
+	        // 비밀번호를 database password 자리에 넣기
+	        user.setPassword(token);
+	        
+	        // DB에 user 정보 등록
+	        userService.insert(user);
+	        return new ResponseEntity<>("true", HttpStatus.CREATED);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return new ResponseEntity<>("false", HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
 	}
 	
 	
@@ -160,6 +159,11 @@ public class UserRestController {
 
 	    }
 			
+	   @GetMapping("/user/checkID")
+	   public ResponseEntity<Boolean> checkID(@RequestParam String id) {
+	       User isExist = userService.searchById(id);
+	       return new ResponseEntity<>(isExist != null, HttpStatus.OK);
+	   }
 
 		// 목적: 로그아웃
 	    // 세션 종료를 통해 로그 아웃
