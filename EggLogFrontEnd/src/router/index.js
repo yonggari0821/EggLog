@@ -4,6 +4,7 @@ import RegistForm from "../components/User/RegistForm.vue";
 import MainPage from "../views/MainPage.vue";
 import IntroducePage from "../views/IntroducePage.vue";
 import Diary from "../components/Diary/Diary.vue";
+import friendsRequest from "../components/Friends/friendsRequest.vue";
 
 const routes = [
   {
@@ -30,6 +31,11 @@ const routes = [
     path: "/diary/:date",
     name: "Diary",
     component: Diary,
+  },
+  {
+    path: "/friendsRequest",
+    name: "FriendsRequest",
+    component: friendsRequest,
   },
 ];
 
