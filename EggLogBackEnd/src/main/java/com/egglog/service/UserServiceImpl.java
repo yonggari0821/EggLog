@@ -46,10 +46,10 @@ public class UserServiceImpl implements UserService {
   }
 
 @Override
-public User login(User user) {
+public User login(String id, String pw) {
 	// TODO Auto-generated method stub
-	User check = userDao.getUser(user.getId());
-	if(check!=null && check.getPassword().equals(user.getPassword()))
+	User check = userDao.getUser(id);
+	if(check!=null && check.getPassword().equals(pw))
 		return check;
 	
 	return null;

@@ -18,7 +18,8 @@ CREATE TABLE IF NOT EXISTS `user` (
 ) ENGINE=InnoDB DEFAULT CHARACTER SET = utf8mb4;
 
 insert INTO `user`
-VALUES("1", "2", "123", "2000/10/10","123","123","123");
+VALUES("1", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXNzd29yZCI6IjIifQ.9x1bQAqJlzWdD4n5LHi2DOD493wmufsrPmm31HisU6Y", "123", "2000/10/10","페이커","우승달달하다","123"),
+       ("2", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXNzd29yZCI6IjMifQ.TXzi4wGEPaE8SksUKSBRRWbf5BtuhRDu8IablFv3iOY", "234", "2000/11/11", "페이커친구", "그만잘해 페이커", "234");
 
 
 
@@ -32,8 +33,8 @@ CREATE TABLE IF NOT EXISTS `diary` (
   `diary_date` date NOT NULL,
   `diary_picture` varchar(100) default NULL,
   `location` varchar(40) default NULL,
-	PRIMARY KEY (`diary_date`),
-  	FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+    PRIMARY KEY (`diary_date`),
+      FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
   ) ENGINE = InnoDB;
   
   insert INTO `diary`
@@ -51,7 +52,8 @@ CREATE TABLE IF NOT EXISTS `request` (
   ) ENGINE = InnoDB;
   
 insert INTO `request`
-VALUES("1", "2");
+VALUES("1", "2"),
+        ("2", "3");
   
 -- -----------------------------------------------------
 -- Table `friends`
@@ -63,7 +65,10 @@ CREATE TABLE IF NOT EXISTS `friends` (
   ) ENGINE = InnoDB;
   
   insert INTO `friends`
-VALUES("2", "3");
+VALUES("1", "2"),
+        ("2", "1"),
+        ("2", "3"),
+        ("3", "2");
   
 select * from user;
 select * from diary;
