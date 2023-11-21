@@ -109,15 +109,15 @@ public class UserRestController {
     // 반환값: Map<String, Object>
 	   @PostMapping("/user/login")
 	// throw 한 것 나중에 모아서 한꺼번에 try catch로 해결할 것
-	    public ResponseEntity<Map<String, Object>> doLogin(User user) throws UnsupportedEncodingException {
+	    public ResponseEntity<Map<String, Object>> doLogin(String id, String password) throws UnsupportedEncodingException {
 		   Map<String, Object> result = new HashMap<String, Object>();
 		   
 		   // password 토큰 생성
-		   String pw = jwtUtil.createToken("password", user.getPassword());
-		   User loginUser = userService.searchById(user.getId());
+		   String pw = jwtUtil.createToken("password", password);
+		   User loginUser = userService.searchById(id);
 		
 			HttpStatus status = null;
-			if(user.getId() != null && user.getPassword() != null && loginUser.getPassword().equals(pw)){
+			if(id != null && password != null && loginUser.getPassword().equals(pw)){
 				result.put("access-token", pw);
 				result.put("message", SUCCESS);
 				status = HttpStatus.ACCEPTED;
@@ -128,34 +128,20 @@ public class UserRestController {
 			return new ResponseEntity<Map<String,Object>>(result, status);
 	   }
 	   
-	   // 토큰화되어서 들어간다.
-	   
-	   
 	   @PostMapping("/user/login2")// 테스트
 	   public ResponseEntity<?> login(@RequestBody User user) {
 	        System.out.println(user);
-	        String password = null;
-			try {
-				password = jwtUtil.createToken("password",user.getPassword());
-				System.out.println(password);
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	        User check = userService.login(user.getId(),password); // 아이디 비밀번호 맞는지 홧인
+	        User check = userService.login(user);
 	        // 로그인 실패함!
 	        if (check == null) {
 	            //실패 상태 보내주고
-	        	System.out.println("실패");
-	            return new ResponseEntity<Boolean>(false,HttpStatus.UNAUTHORIZED);
+	            return new ResponseEntity<Void>(HttpStatus.UNAUTHORIZED);
 	        } else {
 	            //loginUser에 넣어준다
 //	            session.setAttribute("loginUser", check.getName());
 	        	// 이름을 받아오는게 맞을까.
 	        	// 그냥 트루 펄스 받아온다음에 localstorage에 user정보를 저장하는게 맞다.
-	        	System.out.println("체크" + check);
-	        	System.out.println("성공");
-	            return new ResponseEntity<User>(check, HttpStatus.OK);
+	            return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 	        }
 
 	    }
