@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav><MainPageNav /></nav>
+    <MainPageNav />
     <section class="main-page">
       <body class="main-section">
         <MainPageSection class="Height" />

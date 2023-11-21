@@ -1,51 +1,86 @@
 <template>
-  <div>
-    <img
-      src="../../assets/egglogo.jpg"
-      click="moveIntroduce"
-      style="width: 3rem"
-    />
-    <h2>회원가입</h2>
-    <form @submit.prevent="submitForm">
-      <label for="id">아이디:</label>
-      <input type="text" id="id" v-model="user.id" @blur="checkID" required />
-      <span v-if="IDExists">이미 사용 중인 이메일입니다.</span>
+  <div class="registration-container">
+    <img src="../../assets/계란이2배경삭제.png" style="width: 10vw" />
+    <p style="color :bisque; font-size: 3vw; font-weight: bold; 'Noto Sans KR', sans-serif;">
+      환영합니다
+    </p>
+    <!-- 여기서부터 값 입력 받는 부분들-->
+    <form @submit.prevent="submitForm" class="registration-form">
+      <div class="form-group">
+        <div style="display: flex; flex: 2; justify-content: space-around">
+          <label for="id">아이디</label>
+        </div>
+        <div style="flex: 3">
+          <input type="text" id="id" v-model="user.id" @blur="checkID" required />
+        </div>
+        <span v-if="IDExists" class="error-message">이미 사용 중인 아이디입니다.</span>
+      </div>
 
-      <label for="password">비밀번호:</label>
-      <input type="password" id="password" v-model="user.password" required />
+      <div class="form-group">
+        <div style="display: flex; flex: 2; justify-content: space-around">
+          <label for="password">비밀번호</label>
+        </div>
+        <div style="flex: 3">
+          <input type="password" id="password" v-model="user.password" required />
+        </div>
+      </div>
 
-      <label for="passwordConfirm">비밀번호 확인:</label>
-      <input
-        type="password"
-        id="passwordConfirm"
-        v-model="passwordConfirm"
-        required
-      />
-      <span v-if="passwordsDoNotMatch">비밀번호가 일치하지 않습니다.</span>
+      <div class="form-group">
+        <div style="display: flex; flex: 2; justify-content: space-around">
+          <label for="passwordConfirm">비밀번호 확인</label>
+        </div>
+        <div style="flex: 3">
+          <input type="password" id="passwordConfirm" v-model="passwordConfirm" required />
+        </div>
+        <span v-if="passwordsDoNotMatch" class="error-message">비밀번호가 일치하지 않습니다.</span>
+      </div>
 
-      <label for="birth">생년월일:</label>
-      <input type="date" id="birth" v-model="user.birth" required />
+      <div class="form-group">
+        <div style="display: flex; flex: 2; justify-content: space-around">
+          <label for="birth">생년월일</label>
+        </div>
+        <div style="flex: 3">
+          <input type="date" id="birth" v-model="user.birth" required />
+        </div>
+      </div>
 
-      <label for="nickname">닉네임:</label>
-      <input type="text" id="nickname" v-model="user.nickname" required />
+      <div class="form-group">
+        <div style="display: flex; flex: 2; justify-content: space-around">
+          <label for="nickname">닉네임</label>
+        </div>
+        <div style="flex: 3">
+          <input type="text" id="nickname" v-model="user.nickname" required />
+        </div>
+      </div>
 
-      <label for="gender">성별:</label>
-      <input type="checkbox" id="gender" v-model="user.gender" required />
+      <div class="form-group">
+        <div style="display: flex; flex: 2; justify-content: space-around">
+          <label>성별</label>
+        </div>
+        <div class="gender-options" style="flex: 3">
+          <input type="radio" id="male" value="male" v-model="user.gender" required />
+          <label for="male">남성</label>
 
-      <!-- <button type="submit" :disabled="emailExists || passwordsDoNotMatch">
-        가입하기
-      </button> -->
-      <button
-        type="button"
-        class="btn btn-outline-primary"
-        @click="registUser"
-        :disabled="IDExists || passwordsDoNotMatch"
-      >
-        등록
-      </button>
-      <button type="button" class="btn btn-outline-secondary" @click="cancel">
-        취소
-      </button>
+          <input type="radio" id="female" value="female" v-model="user.gender" required />
+          <label for="female">여성</label>
+
+          <input type="radio" id="else" value="else" v-model="user.gender" required />
+          <label for="else">그 외</label>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button
+          type="button"
+          class="btn btn-primary"
+          @click="registUser"
+          :disabled="IDExists || passwordsDoNotMatch"
+          style="margin-right: 8vw"
+        >
+          등록
+        </button>
+        <button type="button" class="btn btn-secondary" @click="cancel">취소</button>
+      </div>
     </form>
   </div>
 </template>
@@ -94,6 +129,7 @@ const registUser = function () {
   passwordsDoNotMatch.value = false;
   IDExists.value = false;
   console.log("확인되었습니다");
+  alert("회원가입이 완료되었습니다!");
   router.push({ name: "Login" });
 };
 
@@ -103,5 +139,44 @@ const cancel = function () {
 </script>
 
 <style scoped>
-/* 필요한 스타일링을 추가하세요 */
+.registration-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 10vh;
+  height: 93vh;
+}
+
+.logo {
+  width: 3rem;
+  cursor: pointer;
+}
+
+.registration-form {
+  width: 35vw;
+  margin-top: 20px;
+  height: 100%;
+}
+
+.form-group {
+  margin-bottom: 15px;
+  display: flex;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 5px;
+}
+
+.gender-options {
+  display: flex;
+  gap: 10px;
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
 </style>

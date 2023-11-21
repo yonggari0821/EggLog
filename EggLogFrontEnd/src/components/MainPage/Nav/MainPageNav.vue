@@ -15,6 +15,7 @@ import MainPageNavInfo from "./MainPageNavInfo.vue";
   background-color: yellow;
   display: flex;
   width: 100%;
+  padding-top: 5vh;
 }
 
 /* Media query for smaller screens */

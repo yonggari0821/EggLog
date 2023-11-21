@@ -35,6 +35,9 @@ export const useUserStore = defineStore("user", () => {
   }; //
 
   // 테스트용;
+
+  // Nav 표시에 사용할 loginUser
+  const loginUser = ref("");
   const Login = function (User) {
     console.log(User);
     axios
@@ -49,6 +52,7 @@ export const useUserStore = defineStore("user", () => {
         console.log("유저정보는? " + user);
         localStorage.setItem("userid", user.value.id);
         localStorage.setItem("accesstoken", user.value.token);
+        loginUser.value = user.value.id;
         router.push({ name: "MainPage" });
       })
       .catch((err) => {
@@ -108,5 +112,5 @@ export const useUserStore = defineStore("user", () => {
       });
   };
 
-  return { user, setLoginUser, Login, searchedUser, searchUserById, createUser };
+  return { user, loginUser, setLoginUser, Login, searchedUser, searchUserById, createUser }; // LoginCheck
 });
