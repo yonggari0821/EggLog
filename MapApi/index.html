@@ -10,17 +10,8 @@
     <div id="clickLatlng">지도에서 위치를 클릭해서 오늘의 장소를 등록해보세요!</div>
     <input id="keywordInput" type="text" placeholder="검색 할 위치">
     <button onclick="searchByKeyword()">검색</button>
-
-    <!-- 라이브러리 추가 -->
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=APIKEY&libraries=LIBRARY"></script>
-    <!-- services 라이브러리 불러오기 for 장소 검색 및 주소-좌표 전환 -->
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=APIKEY&libraries=services"></script>
-    <!-- services와 clusterer, drawing 라이브러리 불러오기 for 지도 위의 마커 및 그래픽스 객체-->
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=APIKEY&libraries=services,clusterer,drawing"></script>
-
-    <!-- 지도 영역에 지도 넣기 -->
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=df1121badf1ccb1a5144d8b82705b21a&libraries=services"></script>
-
+    
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=df1121badf1ccb1a5144d8b82705b21a&libraries=services,clusterer,drawing"></script>
     
     <!-- 지도 삽입 코드 for 정적 크기  -->
         <script>
@@ -41,7 +32,6 @@
                 return date.getFullYear() + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
             }
 
-
             function successCallback({ coords, timestamp }) {
                 latitude = coords.latitude;   // 위도
                 longitude = coords.longitude; // 경도
@@ -59,16 +49,16 @@
             // = position.coords.longitude;
 
             var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
-            var options = { //지도를 생성할 때 필요한 기본 옵션
+            var options = { // 지도를 생성할 때 필요한 기본 옵션
                 center : new kakao.maps.LatLng(36.35512, 127.2983), //지도의 중심좌표.
-                level: 5 //지도의 레벨(확대, 축소 정도)
+                level: 5 // 지도의 레벨(확대, 축소 정도)
             };
             // 마커 이미지
             var markerImageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
             var markerImageSize = new kakao.maps.Size(22, 35); 
             var markerImage = new kakao.maps.MarkerImage(markerImageSrc, markerImageSize); 
 
-            var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+            var map = new kakao.maps.Map(container, options); // 지도 생성 및 객체 리턴
 
             // 지도를 클릭한 위치에 표출할 마커입니다
             var marker = new kakao.maps.Marker({ 
@@ -98,7 +88,7 @@
                 
             });
 
-            // 인포윈도우 추가하기
+            // 인포 윈도우 추가하기
             var iwContent = '<div style="padding:15px;">제목</div>', // 인포윈도우에 표출될 내용 == HTML 문자열
                 iwContentOnlyDate = '<div style="padding:15px;">다이어리 날짜</div>', // 인포윈도우에 표출될 내용 == HTML 문자열
                 iwPosition = map.getCenter(), // 인포윈도우 표시 위치 // 위에서 마커 위치 활용!
@@ -159,7 +149,7 @@
                     // LatLngBounds 객체에 좌표를 추가합니다
                     var bounds = new kakao.maps.LatLngBounds();
                     
-                    removeMarker();
+                    removeMarker(); // 이 부분 빼면 전의 검색한 결과도 남아있는다.
 
                     for (var i=0; i<data.length; i++) {
                         displayMarker(data[i]);    
@@ -206,18 +196,6 @@
             }
             
         </script> 
-   
-
-   
-
-
-
-
-
-
-
-
-
 
 </body>
 </html>

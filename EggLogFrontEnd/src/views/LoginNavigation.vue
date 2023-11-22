@@ -43,6 +43,7 @@
   </div>
 </template>
 
+
 <script setup>
 import router from "@/router";
 import { useUserStore } from "../stores/userStore";
@@ -60,7 +61,7 @@ const Logout = function () {
 };
 
 const moveMyPage = function () {
-  router.push({ name: "Regist" }); // 마이페이지로 변경해야하구요
+  router.push({ name: "MyPage" }); // 마이페이지로 변경해야하구요
 };
 
 const moveDiary = function () {
