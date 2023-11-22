@@ -19,7 +19,7 @@
         <div id="modal">
               <div v-for="request in friendRequestList" class="eachRequest" style="display: inline-flex; width: 25vw;">
                 <p>{{ request.from }}</p>
-                <button @click="addFriends(request)">수락</button>
+                <button @click="beFriends(request)">수락</button>
                 <button @click="denyFriends(request)">거부</button>
               </div>
               <button @click="closeModal()" class="close-button">닫기</button>
@@ -98,12 +98,14 @@ function closeModal() { document.getElementById('modal').style.display = 'none';
 function beFriends(request) {
   friendsStore.addFriends(request);
   requestStore.deleteRequest(request);
+  location.reload();
 }
 
 // 거부 누르면 요청만 삭제하고 친구는 안됨!
 function denyFriends(request)
 {
-  requestStore.deleteRequest(request); 
+  requestStore.deleteRequest(request);
+  location.reload();
 }
 
 // eachFriend 클릭 시 해당 친구의 다이어리로 이동하기

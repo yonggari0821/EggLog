@@ -9,7 +9,10 @@
 <result column="profile_picture" property="profilePicture"/>
 </resultMap>
 <select id="getUser" resultMap="userMap" parameterType="String"> SELECT * FROM user WHERE id = #{id}; </select>
-<insert id="insert" parameterType="User" keyProperty="id" useGeneratedKeys="true"> INSERT INTO user (id, password, gender, birth, nickname, status_message, profile_picture) VALUES (#{id}, #{password}, #{gender}, #{birth}, #{nickname}, #{statusMessage}, #{profilePicture}) </insert>
+<insert id="insert" parameterType="User" keyProperty="id" useGeneratedKeys="true"> 
+INSERT INTO user (id, password, gender, birth, reg_date, nickname, status_message, profile_picture)
+VALUES (#{id}, #{password}, #{gender}, #{birth}, #{regDate} #{nickname}, #{statusMessage}, #{profilePicture})
+</insert>
 <delete id="deleteUser" parameterType="String"> DELETE FROM user WHERE id = #{id} </delete>
 <update id="modifyUser" parameterType="User">
 	UPDATE user SET password = #{password}, gender = #{gender}, birth = #{birth}, nickname = #{nickname}, status_message = #{statusMessage}, profile_picture = #{profilePicture} WHERE id = #{id}
