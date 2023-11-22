@@ -1,7 +1,5 @@
 package com.egglog.controller;
 
-
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,86 +27,87 @@ import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/api")
-@Api(tags="다이어리 컨트롤러")
+@Api(tags = "다이어리 컨트롤러")
 public class DiaryRestController {
-	@Autowired
-	DiaryService diaryService;
-	
-	
-	// Goal : 해당 유저의 다이어리 1개를 조회한다
-	// Parameter : myId, diaryDate를 쿼리 스트링으로 받아와야 함
-	// Return : 다이어리 인스턴스 1개
-	@GetMapping("/diary")
-	@ApiOperation(value = "다이어리 1개를 조회한다.", response = Diary.class)
-	public ResponseEntity<?> getDiary(@RequestParam String userId, @RequestParam String diaryDate) {
-		try {
-			Diary diary = diaryService.getDiary(userId, diaryDate);
-			if (diary != null) return new ResponseEntity<Diary>(diary, HttpStatus.OK);
-			else return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
-		} catch (Exception e) {
-			return exceptionHandling(e);
-		}
-	}
-	
-	// Goal : 해당 유저의 다이어리 리스트 가져오기
-	// Parameter : userId
-	// Return : 다이어리 리스트
-	@GetMapping("/diary/{userId}")
-	public ResponseEntity<List<Diary>> getDiaryList(@PathVariable String userId) {
-	    List<Diary> list = diaryService.getDiaryList(userId);
-	    return new ResponseEntity<List<Diary>>(list, HttpStatus.OK);
-	}
+    @Autowired
+    DiaryService diaryService;
 
-	// Goal : 해당 날짜 다이어리 정보 삭제
-	// Parameter : userId, diaryDate
-	// Return : 다이어리 정보 삭제 여부
-	@DeleteMapping("/diary")
-	public ResponseEntity<Boolean> deleteDiary(String userId, String diaryDate) {
-	    if(diaryService.deleteDiary(userId, diaryDate))
-	        return new ResponseEntity<Boolean>(true, HttpStatus.CREATED);
-	    return new ResponseEntity<Boolean>(false, HttpStatus.NOT_ACCEPTABLE);
-	}
-	
-	// Goal : 다이어리 작성
-	// Parameter : 다이어리 인스턴스
-	// Return : 다이어리 작성 여부
-	@PostMapping("/diary")
-	@ApiOperation(value = "새로운 다이어리를 작성한다.", response = Integer.class)
-	public ResponseEntity<?> writeDiary (@RequestBody Diary diary)
-	{
-		try {
-			boolean result = diaryService.writeDiary(diary);
-			if (result) return new ResponseEntity<Boolean>(true, HttpStatus.OK);
-			else return new ResponseEntity<Boolean>(false, HttpStatus.NO_CONTENT);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
-		}
-	}
-	
-	
-	// Goal : 다이어리 수정
-	// Parameter : 다이어리 인스턴스
-	// Return : 다이어리 수정 여부
-	@PutMapping("/diary")
-	@ApiOperation(value = "썼던 다이어리를 수정한다.", response = Integer.class)
-	public ResponseEntity<?> modifyDiary (@RequestBody Diary diary)
-	{
-		try {
-			boolean result = diaryService.modifyDiary(diary);
-			if (result) return new ResponseEntity<Boolean>(true, HttpStatus.OK);
-			else return new ResponseEntity<Boolean>(false, HttpStatus.NO_CONTENT);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
-		}
-	}
-	
-	private ResponseEntity<String> exceptionHandling(Exception e) {
-	    e.printStackTrace();
-	    return new ResponseEntity<String>("Sorry : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-	}
-	
-	
-	
+    // Goal : 해당 유저의 다이어리 1개를 조회한다
+    // Parameter : myId, diaryDate를 쿼리 스트링으로 받아와야 함
+    // Return : 다이어리 인스턴스 1개
+    @GetMapping("/diary")
+    @ApiOperation(value = "다이어리 1개를 조회한다.", response = Diary.class)
+//    public ResponseEntity<?> getDiary(@RequestParam String userId, @RequestParam String diaryDate) {
+    public ResponseEntity<?> getDiary(@RequestParam String userId, @RequestParam String diaryDate) {
+        try {
+            Diary diary = diaryService.getDiary(userId, diaryDate);
+            if (diary != null)
+                return new ResponseEntity<Diary>(diary, HttpStatus.OK);
+            else
+                return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return exceptionHandling(e);
+        }
+    }
+
+    // Goal : 해당 유저의 다이어리 리스트 가져오기
+    // Parameter : userId
+    // Return : 다이어리 리스트
+    @GetMapping("/diary/{userId}")
+    public ResponseEntity<List<Diary>> getDiaryList(@PathVariable String userId) {
+        List<Diary> list = diaryService.getDiaryList(userId);
+        return new ResponseEntity<List<Diary>>(list, HttpStatus.OK);
+    }
+
+    // Goal : 해당 날짜 다이어리 정보 삭제
+    // Parameter : userId, diaryDate
+    // Return : 다이어리 정보 삭제 여부
+    @DeleteMapping("/diary")
+    public ResponseEntity<String> deleteDiary(String userId, String diaryDate) {
+        if (diaryService.deleteDiary(userId, diaryDate))
+            return new ResponseEntity<String>("true", HttpStatus.OK);
+        return new ResponseEntity<String>("false", HttpStatus.OK);
+    }
+
+    // Goal : 다이어리 작성
+    // Parameter : 다이어리 인스턴스
+    // Return : 다이어리 작성 여부
+    @PostMapping("/diary")
+    @ApiOperation(value = "새로운 다이어리를 작성한다.", response = Integer.class)
+    public ResponseEntity<?> writeDiary(@RequestBody Diary diary) {
+        try {
+            boolean result = diaryService.writeDiary(diary);
+            if (result)
+                return new ResponseEntity<String>("true", HttpStatus.OK);
+            else
+                return new ResponseEntity<String>("false", HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    // Goal : 다이어리 수정
+    // Parameter : 다이어리 인스턴스
+    // Return : 다이어리 수정 여부
+    @PutMapping("/diary")
+    @ApiOperation(value = "썼던 다이어리를 수정한다.", response = Integer.class)
+    public ResponseEntity<?> modifyDiary(@RequestBody Diary diary) {
+        try {
+            boolean result = diaryService.modifyDiary(diary);
+            if (result)
+                return new ResponseEntity<String>("true", HttpStatus.OK);
+            else
+                return new ResponseEntity<String>("false", HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    private ResponseEntity<String> exceptionHandling(Exception e) {
+        e.printStackTrace();
+        return new ResponseEntity<String>("Sorry : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 }

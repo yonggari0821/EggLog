@@ -71,6 +71,11 @@
 			<artifactId>jjwt</artifactId>
 			<version>0.9.1</version>
 		</dependency>
+		        <!-- Mac에서 발생하는 axios 에러를 잡기 위해 -->
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+        </dependency>
 	</dependencies>
 
 	<build>

@@ -1,11 +1,6 @@
 <template>
-  <div class="footer">
-    <div class="footerdiv">
-      <p>푸터입니다</p>
-      <p>고객센터</p>
-      <p>문의하기</p>
-    </div>
-    <div class="copyright">Copy머시깽이 머시깽이</div>
+  <div class="footerdiv">
+    <p style="margin-top: 3vh">&copy copyright 안상준 이창헌 양희태 2023 Vue Spring Project</p>
   </div>
 </template>
 
@@ -15,9 +10,8 @@
 .footerdiv {
   display: flex;
   justify-content: space-around;
-}
-.footer {
-  background-color: chartreuse;
+  background-color: beige;
+  height: 8vh;
 }
 
 .copyright {

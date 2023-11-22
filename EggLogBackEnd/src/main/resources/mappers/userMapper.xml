@@ -4,19 +4,38 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.egglog.dao.UserDao">
+
 <resultMap type="User" id="userMap">
 <result column="status_message" property="statusMessage"/>
 <result column="profile_picture" property="profilePicture"/>
 </resultMap>
+
 <select id="getUser" resultMap="userMap" parameterType="String"> SELECT * FROM user WHERE id = #{id}; </select>
-<insert id="insert" parameterType="User" keyProperty="id" useGeneratedKeys="true"> INSERT INTO user (id, password, gender, birth, nickname, status_message, profile_picture) VALUES (#{id}, #{password}, #{gender}, #{birth}, #{nickname}, #{statusMessage}, #{profilePicture}) </insert>
+
+<insert id="insert" parameterType="User" keyProperty="id" useGeneratedKeys="true"> 
+INSERT INTO user (id, password, gender, birth, reg_date, nickname, status_message, profile_picture)
+VALUES (#{id}, #{password}, #{gender}, #{birth}, #{regDate} #{nickname}, #{statusMessage}, #{profilePicture})
+</insert>
+
 <delete id="deleteUser" parameterType="String"> DELETE FROM user WHERE id = #{id} </delete>
+
 <update id="modifyUser" parameterType="User">
-	UPDATE user SET password = #{password}, gender = #{gender}, birth = #{birth}, nickname = #{nickname}, status_message = #{statusMessage}, profile_picture = #{profilePicture} WHERE id = #{id}
+    UPDATE user SET password = #{password}, gender = #{gender}, birth = #{birth}, nickname = #{nickname}, status_message = #{statusMessage}, profile_picture = #{profilePicture} WHERE id = #{id}
 </update>
+
 <select id="searchById" parameterType="String" resultMap="userMap">
-	SELECT *
-	FROM user
-	WHERE id = #{id};
+    SELECT *
+    FROM user
+    WHERE id = #{id};
 </select>
+
+<select id="searchFriendsUsers" parameterType="java.util.List" resultMap="userMap">
+  <if test="friendIds != null and friendIds.size() > 0">
+    SELECT * FROM user WHERE id IN
+    <foreach collection="friendIds" item="friendId" separator="," open="(" close=")">
+      #{friendId}
+    </foreach>
+  </if>
+</select>
+
 </mapper>

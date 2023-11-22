@@ -1,5 +1,6 @@
 <template>
   <div class="myinfo">
+    <div @click="mypage">마이페이지</div>
     <p>{{ user.nickname }} 님 환영합니다.</p>
     <p>{{ user.statusMessage }}</p>
     <button @click="logout">로그아웃</button>
@@ -20,6 +21,10 @@ const logout = () => {
   localStorage.removeItem("userid");
   localStorage.removeItem("accesstoken");
   router.push({ name: "IntroducePage" });
+};
+
+const mypage = () => {
+  router.push({ name: "MyPage" });
 };
 
 onMounted(() => {

@@ -1,25 +1,86 @@
-import axios from "axios";
+import axios from "@/util/http-common";
 import { defineStore } from "pinia";
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import router from "@/router";
 // import http from "@/util/http-common.js";
 
 const REST_DIARY_API = "http://localhost:8080/api/diary";
 
 export const useDiaryStore = defineStore("diary", () => {
-  const diary = ref({});
+  const diary = ref({
+    userId: null,
+    title: null,
+    content: null,
+    diaryDate: null,
+    diaryPicture: null,
+    location: null,
+  });
 
-  const getDiary = function (userId, diaryDate) {
+  const getDiary = function (someUserId, someDiaryDate) {
+    const params = {
+      userId: someUserId,
+      diaryDate: someDiaryDate,
+    };
+
     axios
-      .get(`${REST_DIARY_API}`)
+      .get(`${REST_DIARY_API}`, { params: params })
       .then((response) => {
-        diary.value = response.data;
-        router.push({ name: "Diary", params: "diary" });
+        if (response.data === null || response.data === "") {
+          router.push({
+            name: "DiaryRegist",
+            params: {
+              user_id: someUserId,
+              diary_date: someDiaryDate,
+            },
+          });
+        } else {
+          diary.value = response.data;
+          router.push({
+            name: "Diary",
+            params: { diary: JSON.stringify(diary.value) },
+          });
+        }
       })
       .catch((err) => {
-        console.error(err); // Logging the error for debugging
+        console.error("Error in getDiary:", err); // Logging the error for debugging
+        if (err.response) {
+          console.error("Server responded with:", err.response.data);
+        }
       });
-  }; //
+  };
 
-  return { diary, getDiary };
+  const registDiary = async function (diary) {
+    try {
+      console.log(diary);
+      await axios.post(REST_DIARY_API, diary);
+    } catch (err) {
+      console.log("게시물 등록 오류:", err);
+      console.log(err.response);
+    }
+  };
+
+  const updateDiary = async function (diary) {
+    try {
+      console.log(diary);
+      await axios.put(REST_DIARY_API, diary);
+    } catch (err) {
+      console.log("게시물 수정 오류:", err);
+      console.log(err.response);
+    }
+  };
+
+  const deleteDiary = async function (someUserId, someDiaryDate) {
+    const params = {
+      userId: someUserId,
+      diaryDate: someDiaryDate,
+    };
+    try {
+      await axios.delete(`${REST_DIARY_API}`, { params: params });
+    } catch (err) {
+      console.log("게시물 삭제 오류:", err);
+      console.log(err.response);
+    }
+  };
+
+  return { diary, getDiary, registDiary, updateDiary, deleteDiary };
 });

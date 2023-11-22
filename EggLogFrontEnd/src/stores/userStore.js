@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "@/util/http-common";
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 import router from "@/router";
@@ -57,6 +57,24 @@ export const useUserStore = defineStore("user", () => {
       });
   }; // 테스트용
 
+  // 회원 정보 수정
+  const updateUser = function (user) {
+    axios
+      .put(`${REST_USER_API}`, user)
+      // 트루 반환시 localstorage에 정보 저장,
+      // false면 alert로 알람처리
+      .then((response) => {
+        if (response === "true") {
+          alert("회원 정보를 수정 완료했습니다.");
+          router.push({ name: "MainPage" });
+        }
+      })
+      .catch((err) => {
+        console.error(err); // Logging the error for debugging
+        alert("회원 정보 수정을 실패했습니다.");
+      });
+  }; // 테스트용
+
   const searchedUser = ref({
     id: null,
     password: null,
@@ -66,6 +84,7 @@ export const useUserStore = defineStore("user", () => {
     status_message: null,
     profile_picture: null,
   });
+
   const searchUserById = function (id) {
     axios({
       url: `${REST_USER_API}/${id}`,
@@ -108,5 +127,44 @@ export const useUserStore = defineStore("user", () => {
       });
   };
 
-  return { user, setLoginUser, Login, searchedUser, searchUserById, createUser };
+  const friendsUsersList = ref([
+    {
+      id: null,
+      password: null,
+      gender: null,
+      birth: null,
+      nickname: null,
+      status_message: null,
+      profile_picture: null,
+    },
+  ]);
+
+  const getFriendUsers = function (friendIds) {
+    console.log(friendIds);
+    const encodedFriendIds = friendIds.map((id) => encodeURIComponent(id));
+    const url = `${REST_USER_API}/getFriendUsers?friendIds=${encodedFriendIds.join(
+      ","
+    )}`;
+    axios
+      .get(url)
+      .then((response) => {
+        friendsUsersList.value = response.data;
+        console.log(friendsUsersList.value.length);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
+  return {
+    user,
+    setLoginUser,
+    Login,
+    searchedUser,
+    searchUserById,
+    createUser,
+    updateUser,
+    friendsUsersList,
+    getFriendUsers,
+  };
 });
