@@ -15,12 +15,12 @@ VALUES (#{id}, #{password}, #{gender}, #{birth}, #{regDate} #{nickname}, #{statu
 </insert>
 <delete id="deleteUser" parameterType="String"> DELETE FROM user WHERE id = #{id} </delete>
 <update id="modifyUser" parameterType="User">
-	UPDATE user SET password = #{password}, gender = #{gender}, birth = #{birth}, nickname = #{nickname}, status_message = #{statusMessage}, profile_picture = #{profilePicture} WHERE id = #{id}
+    UPDATE user SET password = #{password}, gender = #{gender}, birth = #{birth}, nickname = #{nickname}, status_message = #{statusMessage}, profile_picture = #{profilePicture} WHERE id = #{id}
 </update>
 <select id="searchById" parameterType="String" resultMap="userMap">
-	SELECT *
-	FROM user
-	WHERE id = #{id};
+    SELECT *
+    FROM user
+    WHERE id = #{id};
 </select>
 
 <select id="searchFriendsUsers" parameterType="java.util.List" resultMap="userMap">

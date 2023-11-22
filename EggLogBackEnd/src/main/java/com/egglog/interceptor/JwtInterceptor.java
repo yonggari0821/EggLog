@@ -34,10 +34,12 @@ public class JwtInterceptor implements HandlerInterceptor {
         }
         return true;
     }
+    
     if (token != null) {
       jwtUtil.valid(token);
       return true;
     }
+
     throw new Exception("유효하지 않은 접근이다.");
   }
 }

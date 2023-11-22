@@ -8,37 +8,47 @@
           <button @click="openModal">확인 하기</button>
         </div>
 
-        <div @click="toMain()" style="cursor: pointer;">
-          <img src="user.profilePicture" alt="본인 프로필 사진">
+        <div @click="toMain()" style="cursor: pointer">
+          <img src="user.profilePicture" alt="본인 프로필 사진" />
           <p>{{ user.id }}</p>
           <p>{{ user.nickname }}</p>
         </div>
 
-        <hr>
+        <hr />
 
         <div id="modal">
-              <div v-for="request in friendRequestList" class="eachRequest" style="display: inline-flex; width: 25vw;">
-                <p>{{ request.from }}</p>
-                <button @click="beFriends(request)">수락</button>
-                <button @click="denyFriends(request)">거부</button>
-              </div>
-              <button @click="closeModal()" class="close-button">닫기</button>
+          <div
+            v-for="request in friendRequestList"
+            class="eachRequest"
+            style="display: inline-flex; width: 25vw"
+          >
+            <p>{{ request.from }}</p>
+            <button @click="beFriends(request)">수락</button>
+            <button @click="denyFriends(request)">거부</button>
+          </div>
+          <button @click="closeModal()" class="close-button">닫기</button>
         </div>
 
-        <br>
-        
+        <br />
+
         <div v-if="friendsList.length > 3">친구 많으니깐 페이지</div>
         <div v-else-if="friendsList.length > 0">
           <div v-for="friendUser in friendsUsersList" :key="friendUser.id">
             <p>친구 사진 : {{ friendUser.profilePicture }}</p>
-            <p>{{ friendUser.id }}</p> <br>
+            <p>{{ friendUser.id }}</p>
+            <br />
             <p>{{ friendUser.nickname }}</p>
-            <img src="../../../assets/trash.png" alt="친구 삭제 버튼" class="settingButton" @click="requestDelete(friendUser.id)">
+            <img
+              src="../../../assets/trash.png"
+              alt="친구 삭제 버튼"
+              class="settingButton"
+              @click="requestDelete(friendUser.id)"
+            />
           </div>
         </div>
         <div v-else>친구 좀 사겨라</div>
-        <br>
-        <button @click="moveToFriendsRequest()" >친구 추가 하기</button>
+        <br />
+        <button @click="moveToFriendsRequest()">친구 추가 하기</button>
       </div>
     </div>
   </div>
@@ -59,9 +69,8 @@ const requestStore = useRequestStore();
 const user = computed(() => userStore.user);
 
 const friendsList = computed(() => friendsStore.friendsList);
-const friendsUsersList = computed ( () => userStore.friendsUsersList);
-const friendRequestList = computed ( () => requestStore.friendRequestList);
-
+const friendsUsersList = computed(() => userStore.friendsUsersList);
+const friendRequestList = computed(() => requestStore.friendRequestList);
 
 // friendsList를 보내서
 // 해당 friend들의 이름과 사진을 받아와야 함
@@ -73,12 +82,11 @@ const moveToFriendsRequest = function () {
 
 const toMain = function () {
   alert("본인 다이어리로 돌아가겠습니다!");
-  router.push({name : "MainPage"});
-}
-
+  router.push({ name: "MainPage" });
+};
 
 // 새로고침시마다 아래 사항들 리뉴얼
-onMounted(async() => {
+onMounted(async () => {
   await friendsStore.getFriendsList(localStorage.getItem("userid")); // 친구 리스트
   const friendIds = friendsStore.friendsList;
   userStore.getFriendUsers(friendIds); // 친구들의 유저정보들
@@ -88,9 +96,13 @@ onMounted(async() => {
 });
 
 // 모달 열기
-function openModal() { document.getElementById('modal').style.display = 'block'; }
+function openModal() {
+  document.getElementById("modal").style.display = "block";
+}
 // 모달 달기
-function closeModal() { document.getElementById('modal').style.display = 'none'; }
+function closeModal() {
+  document.getElementById("modal").style.display = "none";
+}
 
 // 수락 누르면
 // 해당 요청 삭제 및 해당 친구와 친구되기
@@ -102,8 +114,7 @@ function beFriends(request) {
 }
 
 // 거부 누르면 요청만 삭제하고 친구는 안됨!
-function denyFriends(request)
-{
+function denyFriends(request) {
   requestStore.deleteRequest(request);
   location.reload();
 }
@@ -112,39 +123,36 @@ function denyFriends(request)
 
 // 친구 삭제 버튼 클릭 시 친구 삭제하기 + MainPage로 이동하기
 // request 필요 없음!
-const requestDelete = function (friendId)
-{
-  const friends = {myId: localStorage.getItem("userid"), friendId: friendId};
+const requestDelete = function (friendId) {
+  const friends = { myId: localStorage.getItem("userid"), friendId: friendId };
   friendsStore.deleteFriends(friends);
   location.reload();
-}
+};
 </script>
-
-
 
 <style scoped>
 #modal {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 200px; 
-    background-color: palegoldenrod;
-    border: 3px solid #cc5252; 
-    box-shadow: 0 30px 90px rgba(0, 0, 0, 0.1); /* Increased box-shadow values by 3 times */
-    z-index: 1000;
-    font-size: 20px;
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 200px;
+  background-color: palegoldenrod;
+  border: 3px solid #cc5252;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.1); /* Increased box-shadow values by 3 times */
+  z-index: 1000;
+  font-size: 20px;
 }
 .close-button {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    padding: 10px; /* Adjust padding based on your requirement */
-    background-color: #007bff; /* Adjust background color based on your requirement */
-    color: #fff; /* Adjust text color based on your requirement */
-    border: none;
-    cursor: pointer;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  padding: 10px; /* Adjust padding based on your requirement */
+  background-color: #007bff; /* Adjust background color based on your requirement */
+  color: #fff; /* Adjust text color based on your requirement */
+  border: none;
+  cursor: pointer;
 }
 
 .eachRequest {

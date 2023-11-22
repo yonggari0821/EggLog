@@ -10,9 +10,9 @@ export const useFriendsStore = defineStore("friends", () => {
   const friendsList = ref([]);
 
   const getFriendsList = async function (id) {
-    console.log(id)
+    console.log(id);
     try {
-      const res =  await axios.get(`${REST_FRIENDS_API}/${id}`);
+      const res = await axios.get(`${REST_FRIENDS_API}/${id}`);
       friendsList.value = res.data;
     } catch (err) {
       console.error(err);
@@ -40,7 +40,7 @@ export const useFriendsStore = defineStore("friends", () => {
         console.log("친구 맺기 오류:", err);
         console.log(err.response);
       });
-  }
+  };
 
   const deleteFriends = function (friends) {
     console.log(friends);
@@ -63,7 +63,7 @@ export const useFriendsStore = defineStore("friends", () => {
         console.log("친구 삭제 오류:", err);
         console.log(err.response);
       });
-  }
+  };
 
   return { friendsList, getFriendsList, addFriends, deleteFriends };
 });

@@ -1,4 +1,4 @@
-import axios from "@/util/http-common";
+import axios from "axios";
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 import router from "@/router";
@@ -35,6 +35,12 @@ export const useUserStore = defineStore("user", () => {
   }; //
 
   // 테스트용;
+
+  // Nav 표시에 사용할 loginUser
+  const loginUser = ref(null);
+
+  // 세션 jwt
+
   const Login = function (User) {
     console.log(User);
     axios
@@ -49,6 +55,7 @@ export const useUserStore = defineStore("user", () => {
         console.log("유저정보는? " + user);
         localStorage.setItem("userid", user.value.id);
         localStorage.setItem("accesstoken", user.value.token);
+        console.log("유저 밸류는 ? " + user.value.id);
         router.push({ name: "MainPage" });
       })
       .catch((err) => {
@@ -66,7 +73,7 @@ export const useUserStore = defineStore("user", () => {
     status_message: null,
     profile_picture: null,
   });
-  
+
   const searchUserById = function (id) {
     axios({
       url: `${REST_USER_API}/${id}`,
@@ -74,7 +81,7 @@ export const useUserStore = defineStore("user", () => {
       headers: {
         "Content-Type": "application/json",
       },
-      data: searchedUser,
+      data: user,
     })
       .then((res) => {
         searchedUser.value = res.data;
@@ -108,30 +115,42 @@ export const useUserStore = defineStore("user", () => {
         console.log(err.response);
       });
   };
+  const friendsUsersList = ref([
+    {
+      id: null,
+      password: null,
+      gender: null,
+      birth: null,
+      nickname: null,
+      status_message: null,
+      profile_picture: null,
+    },
+  ]);
 
-  const friendsUsersList = ref([{
-    id: null,
-    password: null,
-    gender: null,
-    birth: null,
-    nickname: null,
-    status_message: null,
-    profile_picture: null,
-  }]);
-    
   const getFriendUsers = function (friendIds) {
     console.log(friendIds);
-    const encodedFriendIds = friendIds.map(id => encodeURIComponent(id));
-    const url = `${REST_USER_API}/getFriendUsers?friendIds=${encodedFriendIds.join(',')}`;
-    axios.get(url)
-      .then(response => {
+    const encodedFriendIds = friendIds.map((id) => encodeURIComponent(id));
+    const url = `${REST_USER_API}/getFriendUsers?friendIds=${encodedFriendIds.join(",")}`;
+    axios
+      .get(url)
+      .then((response) => {
         friendsUsersList.value = response.data;
         console.log(friendsUsersList.value.length);
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
       });
   };
 
-  return { user, setLoginUser, Login, searchedUser, searchUserById, createUser, friendsUsersList, getFriendUsers };
+  return {
+    user,
+    loginUser,
+    setLoginUser,
+    Login,
+    searchedUser,
+    searchUserById,
+    createUser,
+    friendsUsersList,
+    getFriendUsers,
+  }; // LoginCheck
 });
