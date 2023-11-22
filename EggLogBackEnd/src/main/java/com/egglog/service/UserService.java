@@ -28,4 +28,6 @@ public interface UserService {
     User searchById(String id);
     
     User login(String id , String pw);
+
+	String getRegDate(String id);
 }

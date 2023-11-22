@@ -1,26 +1,37 @@
 <template>
-  <div>
-    <h2>게시물 등록</h2>
-    <form @submit.prevent="submitForm">
-      <label for="title">제목:</label>
-      <input type="text" id="title" v-model="postDiary.title" required />
+  <div class="divPadding">
+    <div class="form-container">
+      <h2>다이어리 등록</h2>
+      <form @submit.prevent="submitForm">
+        <div class="form-group">
+          <label for="title">제목</label>
+          <input type="text" id="title" v-model="postDiary.title" required />
+        </div>
 
-      <label for="content">내용:</label>
-      <input type="text" id="content" v-model="postDiary.content" required />
+        <div class="form-group">
+          <label for="content">내용</label>
+          <!-- 내용 입력 부분에 style 속성을 추가하여 width를 조절합니다. -->
+          <input
+            type="text"
+            id="content"
+            v-model="postDiary.content"
+            required
+            style="width: 100%"
+          />
+        </div>
 
-      <label for="location">게시물에 현재 위치 넣기</label>
-      <input type="checkbox" id="location" checked />
+        <div class="form-group">
+          <label for="location">게시물에 현재 위치 넣기</label>
+          <input type="checkbox" id="location" checked />
+        </div>
 
-      <button
-        type="button"
-        class="btn btn-outline-primary"
-        @click="registDiary"
-      >
-        등록
-      </button>
+        <button type="button" class="btn btn-primary" @click="registDiary">
+          등록
+        </button>
 
-      <!--모달 끄기 버튼 필요-->
-    </form>
+        <!-- 모달 끄기 버튼 필요 -->
+      </form>
+    </div>
   </div>
 </template>
 
@@ -63,5 +74,45 @@ onMounted(() => {});
 </script>
 
 <style scoped>
+.divPadding {
+  padding-top: 3.3vw;
+}
 
+.form-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+input {
+  width: 100%;
+  padding: 0.5rem;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+}
+
+.btn {
+  padding: 0.75rem 1rem;
+  background-color: #aad1f1;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #fbff0c;
+}
 </style>

@@ -60,10 +60,10 @@ public class UserRestController {
     // 반환값: List<User>
     @GetMapping("/user/getFriendUsers")
     public ResponseEntity<List<User>> getFriendUsers(@RequestParam List<String> friendIds) {
-        System.out.println(friendIds.toString());
+
         try {
             List<User> userList = userService.getUsersByIds(friendIds);
-            System.out.println(userList.toString());
+
             return new ResponseEntity<>(userList, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -119,11 +119,9 @@ public class UserRestController {
        
    @PostMapping("/user/login")// 로그인
    public ResponseEntity<?> login(@RequestBody User user) {
-        System.out.println(user);
         String password = null;
         try {
             password = jwtUtil.createToken("password",user.getPassword());
-            System.out.println(password);
         } catch (UnsupportedEncodingException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -132,15 +130,12 @@ public class UserRestController {
         // 로그인 실패함!
         if (check == null) {
             //실패 상태 보내주고
-            System.out.println("실패");
             return new ResponseEntity<Boolean>(false,HttpStatus.UNAUTHORIZED);
         } else {
             //loginUser에 넣어준다
 //                session.setAttribute("loginUser", check.getName());
             // 이름을 받아오는게 맞을까.
             // 그냥 트루 펄스 받아온다음에 localstorage에 user정보를 저장하는게 맞다.
-            System.out.println("체크" + check);
-            System.out.println("성공");
             return new ResponseEntity<User>(check, HttpStatus.OK);
         }
 
@@ -165,6 +160,21 @@ public class UserRestController {
    public ResponseEntity<Boolean> checkID(@RequestParam String id) {
        User isExist = userService.searchById(id);
        return new ResponseEntity<>(isExist != null, HttpStatus.OK);
+   }
+   
+   @GetMapping("/user/reg_date/{id}")
+   public ResponseEntity<?> getRegDate(@PathVariable String id) {
+	   System.out.println("id :" + id);
+	   try {
+		   String regDate = userService.getRegDate(id);
+		   System.out.println(regDate);
+		   if(regDate != null)
+			   return new ResponseEntity<String> (regDate, HttpStatus.OK);
+		   return new ResponseEntity<Void> (HttpStatus.NO_CONTENT);
+	   } catch (Exception e) {
+           return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
+       }
+	   
    }
 
     // 목적: 로그아웃
