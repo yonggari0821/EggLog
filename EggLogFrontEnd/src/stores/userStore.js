@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "@/util/http-common";
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 import router from "@/router";
@@ -109,19 +109,29 @@ export const useUserStore = defineStore("user", () => {
       });
   };
 
+  const friendsUsersList = ref([{
+    id: null,
+    password: null,
+    gender: null,
+    birth: null,
+    nickname: null,
+    status_message: null,
+    profile_picture: null,
+  }]);
+    
   const getFriendUsers = function (friendIds) {
-    axios.get(`${REST_USER_API}/getFriendUsers`, {
-        params: { friendIds: friendIds }
-      })
+    console.log(friendIds);
+    const encodedFriendIds = friendIds.map(id => encodeURIComponent(id));
+    const url = `${REST_USER_API}/getFriendUsers?friendIds=${encodedFriendIds.join(',')}`;
+    axios.get(url)
       .then(response => {
-        // Handle the response containing the user information for the friends
-        const userList = response.data;
-        console.log(userList);
+        friendsUsersList.value = response.data;
+        console.log(friendsUsersList.value.length);
       })
       .catch(err => {
         console.error(err);
       });
   };
 
-  return { user, setLoginUser, Login, searchedUser, searchUserById, createUser };
+  return { user, setLoginUser, Login, searchedUser, searchUserById, createUser, friendsUsersList, getFriendUsers };
 });

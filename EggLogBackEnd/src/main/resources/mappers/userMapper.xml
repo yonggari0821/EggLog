@@ -19,4 +19,14 @@
 	FROM user
 	WHERE id = #{id};
 </select>
+
+<select id="searchFriendsUsers" parameterType="java.util.List" resultMap="userMap">
+  <if test="friendIds != null and friendIds.size() > 0">
+    SELECT * FROM user WHERE id IN
+    <foreach collection="friendIds" item="friendId" separator="," open="(" close=")">
+      #{friendId}
+    </foreach>
+  </if>
+</select>
+
 </mapper>

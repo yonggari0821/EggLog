@@ -1,6 +1,7 @@
 package com.egglog.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,10 +55,15 @@ public class UserRestController {
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	
+	// 목적: 친구 리스트에 해당하는 유저 정보 가져오기
+	// 매개변수: 친구 아이디 리스트
+	// 반환값: List<User>
 	@GetMapping("/user/getFriendUsers")
 	public ResponseEntity<List<User>> getFriendUsers(@RequestParam List<String> friendIds) {
+		System.out.println(friendIds.toString());
 	    try {
 	        List<User> userList = userService.getUsersByIds(friendIds);
+	        System.out.println(userList.toString());
 	        return new ResponseEntity<>(userList, HttpStatus.OK);
 	    } catch (Exception e) {
 	        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

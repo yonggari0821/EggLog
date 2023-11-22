@@ -28,8 +28,8 @@ public class WebConfig implements WebMvcConfigurer {
 	
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping("/**").allowedOrigins("*");
-		registry.addMapping("/**").allowedMethods("GET", "POST", "DELETE", "PUT");
+		registry.addMapping("/**").allowedOrigins("*").allowedHeaders("*").allowCredentials(true);
+		registry.addMapping("/**").allowedMethods("GET", "POST", "DELETE", "PUT").maxAge(3600);;
 	}
 
 	// 등록할 인터셉터가 있다면...
@@ -42,7 +42,7 @@ public class WebConfig implements WebMvcConfigurer {
 																		// 대해
 																		// intercept
 																		// 한다
-				.excludePathPatterns("/api/login/**", "/api/user/**", "/api/friends/**" ,"/swagger-resources/**",
+				.excludePathPatterns("/api/login/**", "/api/user/**", "/api/friends/**" , "/api/request/**", "/swagger-resources/**",
 						"/swagger-ui/**", "/v2/api-docs"); // login 제외하고
 	}
 

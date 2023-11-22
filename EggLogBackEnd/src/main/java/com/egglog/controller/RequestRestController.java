@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.egglog.dto.Request;
@@ -47,7 +48,9 @@ public class RequestRestController {
 	// Return : 있다면 요청 반환, 없다면 NO_CONTENT
 	@GetMapping("/request/{to}")
 	public ResponseEntity<?> getRequest(@PathVariable String to) {
+//		System.out.println("to = " + to);
 		List<Request> list = requestService.getRequest(to);
+//		System.out.println(list.toString());
 		if(list == null || list.size() == 0) 
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<List<Request>>(list, HttpStatus.OK);
@@ -58,9 +61,10 @@ public class RequestRestController {
 	// Parameter : request
 	// Return : 요청 등록 완료 반환
 	@PostMapping("/request")
-	public ResponseEntity<Boolean> sendRequest(@RequestBody Request request) {
-		if(requestService.sendRequest(request))
-			return new ResponseEntity<Boolean>(true, HttpStatus.CREATED);
+	public ResponseEntity<?> sendRequest(@RequestBody Request request) {
+		System.out.println("요청요청요청요청");
+		System.out.println(request);
+		if(requestService.sendRequest(request)) return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 		return new ResponseEntity<Boolean>(false, HttpStatus.NOT_ACCEPTABLE);
 	}
 	

@@ -24,10 +24,7 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	public List<User> getUsersByIds(List<String> friendIds) {
-	    // Implement the logic to retrieve users by their IDs from the database
-	    // For example:
-	    // return userRepository.findUsersByIdIn(friendIds);
-	    return Collections.emptyList(); // Placeholder, replace with actual implementation
+	    return userDao.searchFriendsUsers(friendIds);
 	}
 	
 	// 회원 가입

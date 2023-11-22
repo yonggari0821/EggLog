@@ -53,7 +53,7 @@ public class FriendsRestController {
 				// 이 부분에 요청 삭제 요청 메서드 추가해야 함
 				return new ResponseEntity<String>("Success to be friend with user " + request.getTo(), HttpStatus.OK);
 			}
-			else return new ResponseEntity<String>("Fail to be new friends. ", HttpStatus.NO_CONTENT);
+			else return new ResponseEntity<String>("Fail to be new friends.", HttpStatus.NO_CONTENT);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
@@ -65,10 +65,11 @@ public class FriendsRestController {
 	@ApiOperation(value = "친구 관계를 끊는다.", response = Integer.class)
 	public ResponseEntity<?> delete (@RequestBody Friends friends)
 	{
+		System.out.println(friends);
 		try {
 			boolean result = friendsService.delete(friends);
-			if (result) return new ResponseEntity<String>("Success to break off with friend " + friends.getFriendId(), HttpStatus.OK);
-			else return new ResponseEntity<String>("Fail to break off with friend " + friends.getFriendId(), HttpStatus.NO_CONTENT);
+			if (result) return new ResponseEntity<String>("Success to break off with friend", HttpStatus.OK);
+			else return new ResponseEntity<String>("Fail to break off with friend", HttpStatus.NO_CONTENT);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
