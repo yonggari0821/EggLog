@@ -1,14 +1,10 @@
 <template>
-  <!-- <nav style="position: fixed">
-    <img src="../assets/egglogo.jpg" click="moveIntroduce" style="width: 3rem" />
-    <p style="color: white; font-weight: bold; font-size: 1.6rem">Egglog</p>
-  </nav> -->
-
-  <body>
+  <div>
     <section class="login">
-      <div style="background-color: antiquewhite; height: 30vw">
+      <!-- 첫 번째 이미지 -->
+      <div style="background-color: antiquewhite; height: 60vh">
         <div class="divMargin">
-          <div style="width: 50%">
+          <div style="width: 50%" class="test">
             <img src="../assets/께란이배경삭제.png" alt="" style="width: 100%" />
           </div>
           <div
@@ -30,7 +26,7 @@
         </div>
       </div>
 
-      <!--이미지 2-->
+      <!-- 두 번째 이미지 -->
       <div style="background-color: azure">
         <div class="divMargin">
           <div style="display: inline-block; align-items: center">
@@ -41,16 +37,16 @@
               EggLog를 소개합니다
             </p>
           </div>
-          <div>
+          <div class="test2">
             <img src="../assets/접시배경삭제.png" alt="" style="width: 35vw" />
           </div>
         </div>
       </div>
 
-      <!--이미지4-->
+      <!-- 세 번째 이미지 -->
       <div style="background-color: rgb(204, 255, 102)">
         <div class="divMargin">
-          <div style="justify-content: left">
+          <div style="justify-content: left" class="test3">
             <img
               src="../assets/책배경제거.png"
               alt=""
@@ -67,8 +63,25 @@
           </div>
         </div>
       </div>
+
+      <!-- 네 번째 이미지 -->
+      <div style="background-color: azure">
+        <div class="divMargin">
+          <div style="display: inline-block; align-items: center">
+            <p style="font-size: 1.5vw; font-weight: bold; font-family: 'Noto Sans KR', sans-serif">
+              하루하루의 기록을 함께할
+            </p>
+            <p style="font-size: 3vw; font-weight: bold; font-family: 'Noto Sans KR', sans-serif">
+              EggLog를 소개합니다
+            </p>
+          </div>
+          <div>
+            <img src="../assets/접시배경삭제.png" alt="" style="width: 35vw" />
+          </div>
+        </div>
+      </div>
     </section>
-  </body>
+  </div>
 </template>
 
 <script setup>
@@ -76,14 +89,52 @@ import router from "@/router";
 </script>
 
 <style scoped>
-/* nav {
-  background-color: rgb(255, 208, 0);
-  display: inline-flex;
-  width: 100%;
-  justify-content: center;
-  height: 5vh;
-} */
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700&display=swap");
+
+@keyframes move {
+  0% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes moveRight {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes moveAlone {
+  0% {
+    opacity: 0;
+    transform: translateX(0%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.test {
+  animation: move 1s ease-in-out;
+}
+
+.test2 {
+  animation: moveRight 1s ease-in-out;
+}
+
+.test3 {
+  animation: moveAlone ease-in-out 4s;
+}
 .divMargin {
   margin-left: 20rem;
   margin-right: 20rem;
@@ -91,7 +142,7 @@ import router from "@/router";
 
 body {
   padding-top: 5vh;
-  height: 200vh;
+  height: 220vh;
   background-color: rgb(246, 250, 122);
 }
 

@@ -126,6 +126,8 @@ const checkID = async () => {
 };
 
 const registUser = function () {
+  user.value.regDate = store.todayDate;
+  console.log(user.value.regDate);
   if (user.value.password !== passwordConfirm.value) {
     passwordsDoNotMatch.value = true;
     return;

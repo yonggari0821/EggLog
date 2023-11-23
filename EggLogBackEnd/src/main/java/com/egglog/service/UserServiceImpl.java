@@ -52,13 +52,18 @@ public class UserServiceImpl implements UserService {
     return userDao.searchById(id);
   }
 
-@Override
-public User login(String id, String pw) {
-    // TODO Auto-generated method stub
-    User check = userDao.getUser(id);
-    if(check!=null && check.getPassword().equals(pw))
-        return check;
+    @Override
+    public User login(String id, String pw) {
+        // TODO Auto-generated method stub
+        User check = userDao.getUser(id);
+        if(check!=null && check.getPassword().equals(pw))
+            return check;
+        
+        return null;
+    }
     
-    return null;
-}
+    @Override
+    public String getRegDate(String id) {
+        return userDao.getRegDate(id);
+    }
 }

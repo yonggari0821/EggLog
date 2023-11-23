@@ -35,11 +35,12 @@ onMounted(() => {
 <style scoped>
 .main-page {
   display: flex;
-  height: 85vh;
+  height: 75vh;
 }
 
 .main-section {
   width: 80%; /* 80% */
+
   background-color: brown;
 }
 

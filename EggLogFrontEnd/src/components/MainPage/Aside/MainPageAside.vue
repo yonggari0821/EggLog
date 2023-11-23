@@ -4,9 +4,9 @@
       <div class="half">
         <MainPageAsideFriendList />
       </div>
-      <div class="half">
+      <!-- <div class="half">
         <MainPageAsideHashTag />
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -18,7 +18,7 @@ import MainPageAsideHashTag from "./MainPageAsideHashTag.vue";
 
 <style scoped>
 .Aside {
-  background-color: aqua;
+  background-color: azure;
   display: flex;
   flex-direction: column; /* Make it a row to split horizontally */
   height: 100%;

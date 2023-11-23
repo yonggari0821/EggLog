@@ -1,63 +1,63 @@
 <template>
-    <div>
+  <div class="divPadding">
+    <div class="mypage-container">
       <h2>마이페이지</h2>
-      <span>{{ user.id }}님 반갑습니다</span>
+      <span> <p style="color:blueviolet;">{{ user.nickname }}</p> 님 반갑습니다</span>
+      <!-- 아오 일단 그냥 ㄱㄱ-->
       <form @submit.prevent="submitForm">
-        <label for="nickname">닉네임:</label>
-        <input
-          :disabled="!currentPasswordCorrect"
-          type="text"
-          id="nickname"
-          v-model="user.nickname"
-          required
-        />
-  
-        <label for="currentPassword">현재 비밀번호:</label>
-        <!-- 현재 비밀번호를 맞췄다면 input을 비활성화 -->
-        <input
-          :disabled="currentPasswordCorrect"
-          type="password"
-          id="currentPassword"
-          v-model="currentPassword"
-          required
-        />
-        <!-- 현재 비밀번호를 틀렸다면 -->
-        <span v-if="!currentPasswordCorrect"
-          >현재 비밀번호가 일치하지 않습니다.</span
-        >
-  
+        <div class="form-group">
+          <label for="nickname">닉네임</label>
+          <input
+            :disabled="!currentPasswordCorrect"
+            type="text"
+            id="nickname"
+            v-model="user.nickname"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="currentPassword">현재 비밀번호</label>
+          <input
+            :disabled="currentPasswordCorrect"
+            type="password"
+            id="currentPassword"
+            v-model="currentPassword"
+            required
+          />
+          <span v-if="!currentPasswordCorrect">
+            현재 비밀번호가 일치하지 않습니다.
+          </span>
+        </div>
+
         <button @click="checkCurrentPassword">비밀번호 확인</button>
-  
-        <label for="newPassword">새 비밀번호:</label>
-        <!-- 원래 비활성화였다가 현재 비밀번호를 맞췄다면 input을 활성화 -->
-        <input
-          :disabled="!currentPasswordCorrect"
-          type="password"
-          id="newPassword"
-          v-model="newPassword"
-          required
-        />
-  
-        <label for="statusMessage">상태 메시지:</label>
-        <textarea
-          :disabled="!currentPasswordCorrect"
-          id="statusMessage"
-          v-model="user.statusMessage"
-        ></textarea>
-  
-        <!-- <label for="profilePicture">프로필 사진 변경:</label>
-        <input
-          :disabled="!currentPasswordCorrect"
-          type="file"
-          id="profilePicture"
-          @change="updateProfilePicture"
-        /> -->
-  
-        <button @click="updateDone">저장</button>
-        <button @click="goBack">뒤로가기</button>
+
+        <div class="form-group">
+          <label for="newPassword">새 비밀번호</label>
+          <input
+            :disabled="!currentPasswordCorrect"
+            type="password"
+            id="newPassword"
+            v-model="newPassword"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="statusMessage">상태 메시지</label>
+          <textarea
+            :disabled="!currentPasswordCorrect"
+            id="statusMessage"
+            v-model="user.statusMessage"
+          ></textarea>
+        </div>
+
+        <button @click="updateDone" class="btn-save">저장</button>
+        <button @click="goBack" class="btn-back">뒤로가기</button>
       </form>
     </div>
-  </template>
+  </div>
+</template>
   
   <script setup>
   import axios from "axios";
@@ -168,4 +168,47 @@
   
   <style scoped>
   /* 필요한 스타일링 추가 */
+  .divPadding{
+    
+  padding-top: 3.3vw;
+  }
+  
+.mypage-container {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 0.5rem;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+}
+
+.btn-save, .btn-back {
+  padding: 0.75rem 1rem;
+  margin-right: 0.5rem;
+  background-color: #aad1f1;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-save:hover, .btn-back:hover {
+  background-color: #fbff0c;
+}
+
   </style>

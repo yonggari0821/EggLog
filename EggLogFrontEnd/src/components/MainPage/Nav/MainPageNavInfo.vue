@@ -1,9 +1,11 @@
 <template>
   <div class="myinfo">
-    <div @click="mypage">마이페이지</div>
-    <p>{{ user.nickname }} 님 환영합니다.</p>
+    <br />
+    <div style="display: inline-flex; align-items: flex-end">
+      <p style="font-size: 30px; font-weight: bold">{{ user.nickname }}</p>
+      <p>&nbsp 님 환영합니다.</p>
+    </div>
     <p>{{ user.statusMessage }}</p>
-    <button @click="logout">로그아웃</button>
   </div>
 </template>
 
@@ -16,26 +18,21 @@ const userStore = useUserStore();
 
 const user = computed(() => userStore.user);
 
-const logout = () => {
-  alert("정상적으로 로그아웃 되었습니다.");
-  localStorage.removeItem("userid");
-  localStorage.removeItem("accesstoken");
-  router.push({ name: "IntroducePage" });
-};
-
-const mypage = () => {
-  router.push({ name: "MyPage" });
-};
-
 onMounted(() => {
   userStore.setLoginUser(localStorage.getItem("userid"));
 });
 </script>
 
 <style scoped>
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@700&family=Noto+Sans+KR:wght@500;700&display=swap");
 .myinfo {
   flex: 1;
 
   border: 1px solid purple;
+}
+
+p {
+  font-family: "Lato", sans-serif;
+  font-family: "Noto Sans KR", sans-serif;
 }
 </style>

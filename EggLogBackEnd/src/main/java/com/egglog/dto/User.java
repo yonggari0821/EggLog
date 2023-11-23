@@ -1,14 +1,14 @@
 package com.egglog.dto;
 
-import java.time.LocalDate;
+
 import java.util.Date;
 
 public class User {
     private String id; // 아이디 // PK
     private String password; // 비밀번호
     private String gender; // 성별
-    private Date birth;    // 생년월일
-    private Date regDate; // 등록일자 = 경험치와 관련
+    private String birth;    // 생년월일
+    private String regDate; // 등록일자 = 경험치와 관련
     private String nickname; // 이름
     private String statusMessage;    // 상태 메세지
     private String profilePicture;    // 프로필 사진
@@ -16,7 +16,7 @@ public class User {
     
     public User() {}
     
-    public User(String id, String password, String gender, Date birth, Date regDate, String nickname,
+    public User(String id, String password, String gender, String birth, String regDate, String nickname,
             String statusMessage, String profilePicture) {
         super();
         this.id = id;
@@ -60,22 +60,22 @@ public class User {
     }
 
 
-    public Date getBirth() {
+    public String getBirth() {
         return birth;
     }
 
 
-    public void setBirth(Date birth) {
+    public void setBirth(String birth) {
         this.birth = birth;
     }
 
 
-    public Date getRegDate() {
+    public String getRegDate() {
         return regDate;
     }
 
 
-    public void setRegDate(Date regDate) {
+    public void setRegDate(String regDate) {
         this.regDate = regDate;
     }
 

@@ -82,5 +82,27 @@ export const useDiaryStore = defineStore("diary", () => {
     }
   };
 
-  return { diary, getDiary, registDiary, updateDiary, deleteDiary };
+  const diaryList = ref([]);
+
+  const getDiaryList = function (userId) {
+    axios
+      .get(`${REST_DIARY_API}/${userId}`)
+      .then((response) => {
+        diaryList.value = response.data;
+      })
+      .catch((err) => {
+        console.log("다이어리 리스트 받아오는데 오류:", err);
+        console.log(err.response);
+      });
+  };
+
+  return {
+    diary,
+    getDiary,
+    registDiary,
+    updateDiary,
+    deleteDiary,
+    diaryList,
+    getDiaryList,
+  };
 });

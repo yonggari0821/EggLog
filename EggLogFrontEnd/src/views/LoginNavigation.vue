@@ -10,7 +10,15 @@
       <div style="flex: 1"></div>
       <div style="flex: 1"></div>
       <div style="flex: 1"></div>
-      <div style="flex: 1"></div>
+      <div style="flex: 1">
+        <div
+          class="Navp"
+          @click="moveFriendRequest"
+          style="cursor: pointer; color: white; font-weight: bold; font-size: 1.1vw"
+        >
+          <p class="Navp">친구신청</p>
+        </div>
+      </div>
       <div style="flex: 1">
         <div
           class="Navp"
@@ -52,6 +60,10 @@ const moveIntroduce = function () {
   router.push({ name: "IntroducePage" });
 };
 
+const moveFriendRequest = function () {
+  router.push({ name: "FriendsRequest" });
+};
+
 const Logout = function () {
   alert("정상적으로 로그아웃 되었습니다.");
   localStorage.removeItem("userid");
@@ -60,7 +72,7 @@ const Logout = function () {
 };
 
 const moveMyPage = function () {
-  router.push({ name: "Regist" }); // 마이페이지로 변경해야하구요
+  router.push({ name: "MyPage" }); // 마이페이지로 변경해야하구요
 };
 
 const moveDiary = function () {

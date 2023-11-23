@@ -70,6 +70,25 @@ public class UserRestController {
         }
     }
     
+    // 추가 부분 11 23 2시반
+    @GetMapping("/user/reg_date/{id}")
+    public ResponseEntity<?> getRegDate(@PathVariable String id) {
+        System.out.println("id :" + id);
+        try {
+            String regDate = userService.getRegDate(id);
+            System.out.println(regDate);
+            if(regDate != null)
+                return new ResponseEntity<String> (regDate, HttpStatus.OK);
+            return new ResponseEntity<Void> (HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        
+    }
+    //
+    
+    
+    
     
     // 목적: 회원가입
     // 매개변수: user

@@ -1,7 +1,11 @@
 <template>
   <div class="Nav">
-    <MainPageNavExp />
-    <MainPageNavInfo />
+    <div style="width: 80%">
+      <MainPageNavExp />
+    </div>
+    <div style="width: 20%">
+      <MainPageNavInfo />
+    </div>
   </div>
 </template>
 
@@ -12,7 +16,7 @@ import MainPageNavInfo from "./MainPageNavInfo.vue";
 
 <style scoped>
 .Nav {
-  background-color: yellow;
+  background-color: azure;
   display: flex;
   width: 100%;
   padding-top: 3.4vw;

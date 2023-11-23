@@ -12,6 +12,7 @@ export const useUserStore = defineStore("user", () => {
     password: null,
     gender: null,
     birth: null,
+    reg_date: null,
     nickname: null,
     status_message: null,
     profile_picture: null,
@@ -80,6 +81,7 @@ export const useUserStore = defineStore("user", () => {
     password: null,
     gender: null,
     birth: null,
+    reg_date: null,
     nickname: null,
     status_message: null,
     profile_picture: null,
@@ -107,9 +109,6 @@ export const useUserStore = defineStore("user", () => {
     axios({
       url: `${REST_USER_API}`,
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
       data: user,
     })
       .then((response) => {
@@ -133,6 +132,7 @@ export const useUserStore = defineStore("user", () => {
       password: null,
       gender: null,
       birth: null,
+      reg_date: null,
       nickname: null,
       status_message: null,
       profile_picture: null,
@@ -140,20 +140,50 @@ export const useUserStore = defineStore("user", () => {
   ]);
 
   const getFriendUsers = function (friendIds) {
-    console.log(friendIds);
+    // console.log(friendIds);
     const encodedFriendIds = friendIds.map((id) => encodeURIComponent(id));
-    const url = `${REST_USER_API}/getFriendUsers?friendIds=${encodedFriendIds.join(
-      ","
-    )}`;
+    const url = `${REST_USER_API}/getFriendUsers?friendIds=${encodedFriendIds.join(",")}`;
     axios
       .get(url)
       .then((response) => {
         friendsUsersList.value = response.data;
-        console.log(friendsUsersList.value.length);
+        // console.log(friendsUsersList.value.length);
       })
       .catch((err) => {
         console.error(err);
       });
+  };
+
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = today.getMonth() + 1;
+  const date = today.getDate();
+  const todayDate = year + "-" + month + "-" + date;
+  const reg = ref("");
+
+  const getRegDate = async function (id) {
+    await axios
+      .get(`${REST_USER_API}/reg_date/${id}`)
+      .then((response) => {
+        reg.value = response.data;
+      })
+      .catch((err) => {
+        console.log("regDate 받아오기 오류:", err);
+        console.log(err.response);
+      });
+  };
+
+  const level = ref(null);
+  const exp = ref(null);
+  const expCalculate = async () => {
+    await getRegDate(localStorage.getItem("userid"));
+    const oldDate = new Date(reg.value);
+    const newDate = new Date(todayDate);
+    let diff = Math.abs(newDate.getTime() - oldDate.getTime());
+    diff = Math.ceil(diff / (1000 * 60 * 60 * 24));
+    level.value = Math.floor(diff / 30);
+    exp.value = diff % 30;
+    console.log(exp.value);
   };
 
   return {
@@ -166,5 +196,11 @@ export const useUserStore = defineStore("user", () => {
     updateUser,
     friendsUsersList,
     getFriendUsers,
+    getRegDate,
+    todayDate,
+    reg,
+    expCalculate,
+    level,
+    exp,
   };
 });

@@ -23,5 +23,7 @@ public interface UserDao {
     public User searchById(String id);
     
     public List<User> searchFriendsUsers (List<String> friendIds);
+
+    public String getRegDate(String id);
     
 }
