@@ -12,7 +12,7 @@ export const useDiaryStore = defineStore("diary", () => {
     title: null,
     content: null,
     diaryDate: null,
-    diaryPicture: null,
+    hashtag: null,
     location: null,
   });
 
@@ -81,10 +81,23 @@ export const useDiaryStore = defineStore("diary", () => {
       });
   };
 
-  const registDiary = async function (diary) {
+  const registDiary = function (diary) {
+    console.log("test" + diary);
     try {
+      const str = diary.hashtag ? diary.hashtag.join(" ") : "";
       console.log(diary);
-      await axios.post(REST_DIARY_API, diary);
+      console.log(str);
+
+      const tDiary = {
+        userId: diary.userId,
+        title: diary.title,
+        content: diary.content,
+        diaryDate: diary.diaryDate,
+        hashtag: str.trim(), // Remove trailing space
+        location: diary.location,
+      };
+
+      axios.post(REST_DIARY_API, tDiary);
     } catch (err) {
       console.log("게시물 등록 오류:", err);
       console.log(err.response);
@@ -92,9 +105,21 @@ export const useDiaryStore = defineStore("diary", () => {
   };
 
   const updateDiary = async function (diary) {
+    console.log("test" + diary);
     try {
+      const str = (await diary.hashtag) ? diary.hashtag.join(" ") : "";
       console.log(diary);
-      await axios.put(REST_DIARY_API, diary);
+      console.log(str);
+
+      const tDiary = {
+        userId: diary.userId,
+        title: diary.title,
+        content: diary.content,
+        diaryDate: diary.diaryDate,
+        hashtag: str.trim(), // Remove trailing space
+        location: diary.location,
+      };
+      await axios.put(REST_DIARY_API, tDiary);
     } catch (err) {
       console.log("게시물 수정 오류:", err);
       console.log(err.response);

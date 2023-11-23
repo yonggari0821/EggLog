@@ -43,14 +43,15 @@
                   <!--내생각엔 getHashtagList 함수로 v-if를 해버리면 저 날짜에 diary가 없어도
                     계속 시도해보니까 따로 이번달 diary를 받아서 해당 날짜에만 true를 반환하는
                     함수가 있으면 좋을 것 같다-->
+
+                  <!-- {{ getHashtagList(day) }} -->
+                  <!-- </div> -->
+                  {{ day > 0 ? day : "" }}
                   <div v-if="getHashtagList(day)">
                     <div v-for="hashtagA in hashtagList" :key="hashtagA">
                       {{ hashtagA }}
                     </div>
                   </div>
-                  <!-- {{ getHashtagList(day) }} -->
-                  <!-- </div> -->
-                  {{ day > 0 ? day : "" }}
                 </td>
               </tr>
             </tbody>
@@ -74,7 +75,6 @@ const diaryList = computed(() => store.diaryList);
 const hashtagList = computed(() => {
   // store.hashtagList;
   if (diary.value && diary.value.hashtag) {
-    console.log(diary.value.hashtag);
     return diary.value.hashtag.split(" ");
   }
   return [];
@@ -82,8 +82,8 @@ const hashtagList = computed(() => {
 
 const diary = ref(null);
 
-const getHashtagList = async (day) => {
-  diary.value = await hasDiary(day);
+const getHashtagList = (day) => {
+  diary.value = hasDiary(day);
   if (diary.value && diary.value.hashtag) {
     return true;
   }
@@ -140,20 +140,20 @@ const weeks = computed(() => {
   return days;
 });
 
-const hashtagDate = (day) => {
-  if (!day || day < 1) {
-    return null;
-  }
-  const month =
-    currentDate.value.getMonth() + 1 < 10
-      ? `0${currentDate.value.getMonth() + 1}`
-      : `${currentDate.value.getMonth() + 1}`;
+// const hashtagDate = (day) => {
+//   if (!day || day < 1) {
+//     return null;
+//   }
+//   const month =
+//     currentDate.value.getMonth() + 1 < 10
+//       ? `0${currentDate.value.getMonth() + 1}`
+//       : `${currentDate.value.getMonth() + 1}`;
 
-  const tday = day < 10 ? `0${day}` : `${day}`;
-  console.log("tday:" + tday);
-  console.log("month:" + month);
-  return `${currentDate.value.getFullYear()}${month}${tday}`;
-};
+//   const tday = day < 10 ? `0${day}` : `${day}`;
+//   console.log("tday:" + tday);
+//   console.log("month:" + month);
+//   return `${currentDate.value.getFullYear()}${month}${tday}`;
+// };
 
 // selectDate day란
 // 해당일을 누르면 true로 해줌 selectedDate 값을

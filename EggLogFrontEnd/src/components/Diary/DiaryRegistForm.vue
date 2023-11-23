@@ -21,16 +21,67 @@
             style="width: 100%; height: 30vh"
           />
         </div>
+        <div class="form-group">
+          <label>해시태그 선택</label>
+          <div>
+            <label for="upper">
+              <input
+                id="upper"
+                type="checkbox"
+                v-model="postDiary.hashtag"
+                value="상체"
+              />
+              상체
+            </label>
+          </div>
+          <div>
+            <label for="lower">
+              <input
+                id="lower"
+                type="checkbox"
+                v-model="postDiary.hashtag"
+                value="하체"
+              />
+              하체
+            </label>
+          </div>
+          <div>
+            <label for="abs">
+              <input
+                id="abs"
+                type="checkbox"
+                v-model="postDiary.hashtag"
+                value="복근"
+              />
+              복근
+            </label>
+          </div>
+          <div>
+            <label for="body">
+              <input
+                id="body"
+                type="checkbox"
+                v-model="postDiary.hashtag"
+                value="전신"
+              />
+              전신
+            </label>
+          </div>
+        </div>
 
         <div style="background-color: azure">
           <!-- Include the Kakao Maps HTML code here -->
           <div id="map" style="width: 40vw; height: 20vh"></div>
-          <div id="clickLatlng">지도에서 위치를 클릭해서 오늘의 장소를 등록해보세요!</div>
+          <div id="clickLatlng">
+            지도에서 위치를 클릭해서 오늘의 장소를 등록해보세요!
+          </div>
           <input id="keywordInput" type="text" placeholder="검색 할 위치" />
           <button @click="searchByKeyword">검색</button>
         </div>
 
-        <button type="button" class="btn btn-primary" @click="registDiary">등록</button>
+        <button type="button" class="btn btn-primary" @click="registDiary">
+          등록
+        </button>
       </form>
     </div>
   </div>
@@ -50,9 +101,21 @@ const postDiary = ref({
   title: null,
   content: null,
   diaryDate: null,
-  diaryPicture: null,
+  hashtag: [],
   location: null,
 });
+
+const registDiary = function () {
+  postDiary.value.userId = route.params.user_id;
+  postDiary.value.diaryDate = route.params.diary_date;
+  diaryStore.registDiary(postDiary.value);
+  alert("일기가 작성되었습니다");
+  console.log("등록되었습니다.");
+  router.push({
+    name: "Diary",
+    params: { diary: JSON.stringify(postDiary.value) },
+  });
+};
 
 onMounted(() => {
   const script = document.createElement("script");
@@ -80,14 +143,28 @@ function initKakaoMap() {
     minute = minute >= 10 ? minute : "0" + minute;
     second = second >= 10 ? second : "0" + second;
 
-    return date.getFullYear() + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second;
+    return (
+      date.getFullYear() +
+      "-" +
+      month +
+      "-" +
+      day +
+      " " +
+      hour +
+      ":" +
+      minute +
+      ":" +
+      second
+    );
   }
 
   function successCallback({ coords, timestamp }) {
     latitude = coords.latitude;
     longitude = coords.longitude;
     alert(
-      `위도: ${latitude},\n경도: ${longitude},\n\n현재 시간: ${dateFormat(new Date(timestamp))}`
+      `위도: ${latitude},\n경도: ${longitude},\n\n현재 시간: ${dateFormat(
+        new Date(timestamp)
+      )}`
     );
   }
 
@@ -95,7 +172,10 @@ function initKakaoMap() {
     console.log(error);
   };
 
-  const position = navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+  const position = navigator.geolocation.getCurrentPosition(
+    successCallback,
+    errorCallback
+  );
   let latitude;
   let longitude;
 
@@ -106,7 +186,8 @@ function initKakaoMap() {
   };
   // var map = new kakao.maps.Map(container, options);
 
-  var markerImageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+  var markerImageSrc =
+    "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
   // var markerImageSize = new kakao.maps.Size(22, 35);
   var markerImage = new kakao.maps.MarkerImage(markerImageSrc, markerImageSize);
 
@@ -196,7 +277,9 @@ function initKakaoMap() {
 
     kakao.maps.event.addListener(marker, "click", function () {
       infowindow.setContent(
-        '<div style="padding:5px;font-size:12px;">' + place.place_name + "</div>"
+        '<div style="padding:5px;font-size:12px;">' +
+          place.place_name +
+          "</div>"
       );
       infowindow.open(map, marker);
     });
@@ -214,20 +297,6 @@ function initKakaoMap() {
 function handleScriptError(event) {
   console.error("Error loading Kakao Maps script:", event);
 }
-
-const registDiary = function () {
-  postDiary.value.userId = route.params.user_id;
-  postDiary.value.diaryDate = route.params.diary_date;
-  console.log(postDiary.value.userId);
-  console.log(postDiary.value.diaryDate);
-  diaryStore.registDiary(postDiary.value);
-  alert("일기가 작성되었습니다");
-  console.log("등록되었습니다.");
-  router.push({
-    name: "Diary",
-    params: { diary: JSON.stringify(postDiary.value) },
-  });
-};
 </script>
 
 <style scoped>

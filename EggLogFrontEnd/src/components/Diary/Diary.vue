@@ -1,8 +1,17 @@
 <template>
   <div class="divMargin">
     <div>
+      <div style="width: 100%; display: flex; justify-content: center; height: 65vh; margin-top: 12vh; margin-bottom: 15vh;">
+  <div style="width: 50%; display: flex; flex-direction: column;">
+    <div style="display: inline-flex; width: 100%; flex : 1">
+      <div style="display: flex; flex : 1; align-items: center; justify-content: center;">
       <label for="diaryDate">날짜</label>
+      </div>
+      <div style="display: flex; align-items: center; flex : 4"></div>
       <h1>{{ readDiary.diaryDate }}</h1>
+          </div>
+    </div>
+    
       <label for="title">제목</label>
       <h2>{{ readDiary.title }}</h2>
       <label for="content">내용</label>
@@ -28,12 +37,11 @@ const readDiary = ref({
   title: null,
   content: null,
   diaryDate: null,
-  diaryPicture: null,
+  hashtag: [],
   location: null,
 });
 
 const update = () => {
-  diaryStore.updateDiary(readDiary);
   router.push({
     name: "DiaryUpdate",
     params: { diary: JSON.stringify(readDiary.value) },
@@ -41,7 +49,10 @@ const update = () => {
 };
 
 const deleteDiary = async () => {
-  await diaryStore.deleteDiary(readDiary.value.userId, readDiary.value.diaryDate);
+  await diaryStore.deleteDiary(
+    readDiary.value.userId,
+    readDiary.value.diaryDate
+  );
   router.push({ name: "MainPage" });
 };
 

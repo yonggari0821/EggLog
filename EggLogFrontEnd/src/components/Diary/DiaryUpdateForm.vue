@@ -10,6 +10,53 @@
 
       <label for="location">게시물에 현재 위치 넣기</label>
       <input type="checkbox" id="location" checked />
+      <div class="form-group">
+        <label>해시태그 선택</label>
+        <div>
+          <label for="upper">
+            <input
+              id="upper"
+              type="checkbox"
+              v-model="putDiary.hashtag"
+              value="상체"
+            />
+            상체
+          </label>
+        </div>
+        <div>
+          <label for="lower">
+            <input
+              id="lower"
+              type="checkbox"
+              v-model="putDiary.hashtag"
+              value="하체"
+            />
+            하체
+          </label>
+        </div>
+        <div>
+          <label for="abs">
+            <input
+              id="abs"
+              type="checkbox"
+              v-model="putDiary.hashtag"
+              value="복근"
+            />
+            복근
+          </label>
+        </div>
+        <div>
+          <label for="body">
+            <input
+              id="body"
+              type="checkbox"
+              v-model="putDiary.hashtag"
+              value="전신"
+            />
+            전신
+          </label>
+        </div>
+      </div>
 
       <button
         type="button"
@@ -38,14 +85,14 @@ const putDiary = ref({
   title: null,
   content: null,
   diaryDate: null, // MainPage에서 넘어올 때 router.params.date 받아오기
-  diaryPicture: null,
+  hashtag: [],
   location: null,
 });
 
 // router.param을 통해 date와 userId 받아오기
 
-const updateDiary = function () {
-  diaryStore.updateDiary(putDiary.value);
+const updateDiary = async function () {
+  await diaryStore.updateDiary(putDiary.value);
   alert("일기가 수정되었습니다");
   console.log("수정되었습니다.");
   router.push({
@@ -59,6 +106,4 @@ onMounted(() => {
 });
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
