@@ -4,60 +4,29 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="com.egglog.dao.DiaryDao">
-	<resultMap type="Diary" id="diaryMap">
-		<result column="user_id" property="userId"/>
-		<result column="diary_date" property="diaryDate"/>
-		<result column="diary_picture" property="diaryPicture"/>
-	</resultMap>
-	<!--
+<resultMap type="Diary" id="diaryMap">
+<result column="user_id" property="userId"/>
+<result column="diary_date" property="diaryDate"/>
+</resultMap>
+<!-- 
 	Goal : diary 테이블에서 user_id가 myId이고, diary_date가 diaryDate 인 Diary 가져오기
 	Parameter : myId, diaryDate
 	Return : Diary 
-	-->
-	<select id="getDiary" resultMap="diaryMap">
-		SELECT *
-		  FROM diary
-		 WHERE user_id = #{userId} AND diary_date = #{diaryDate}
-	</select>
-	
-    <select id="getDiaryList" parameterType="String" resultMap="diaryMap">
-        SELECT *
-        FROM diary
-        WHERE user_id = #{userId}
-    </select>
-    
-    <delete id="delete">
-        DELETE FROM diary
-        WHERE user_id = #{userId}
-        AND diary_date = #{diaryDate}
-    </delete>
-	
-	<!--
+	 -->
+<select id="getDiary" resultMap="diaryMap"> SELECT * FROM diary WHERE user_id = #{userId} AND diary_date = #{diaryDate} </select>
+<select id="getDiaryList" parameterType="String" resultMap="diaryMap"> SELECT * FROM diary WHERE user_id = #{userId} </select>
+<delete id="delete"> DELETE FROM diary WHERE user_id = #{userId} AND diary_date = #{diaryDate} </delete>
+<!-- 
 	Goal : 다이어리 추가
 	Parameter : 다이어리 인스턴스
 	Return : int 다이어리 추가 됐는 지 여부 => 추가되면 1 이상 // 안되면 0
 	cf) insert 문이라 따로 resultType 써 줄 필요 X
-	-->
-	
-	<insert id="addDiary" parameterType="Diary">
-		INSERT INTO diary (user_id, title, content, diary_date, diary_picture, location)
-			 VALUES (#{ userId }, #{ title }, #{ content }, 
-			 			#{ diaryDate }, #{ diaryPicture }, #{ location })
-	</insert>
-	
-	<!--
+	 -->
+<insert id="addDiary" parameterType="Diary"> INSERT INTO diary (user_id, title, content, diary_date, hashtag, location) VALUES (#{ userId }, #{ title }, #{ content }, #{ diaryDate }, #{ hashtag}, #{ location }) </insert>
+<!-- 
 	Goal : 다이어리 수정
 	Parameter : 다이어리 인스턴스
 	Return : int 다이어리 수정 됐는 지 여부 => 수정되면 1 이상 // 안되면 0
-	-->
-	
-	<update id="modifyDiary" parameterType="Diary">
-		UPDATE diary
-		   SET user_id = #{ userId }, title = #{ title }, 
-		   				 content = #{ content }, diary_date = #{ diaryDate },
-		   				 diary_picture = #{ diaryPicture },	location = #{ location }
-		 WHERE user_id = #{userId} AND diary_date = #{diaryDate}
-	</update>
-	
-
+	 -->
+<update id="modifyDiary" parameterType="Diary"> UPDATE diary SET user_id = #{ userId }, title = #{ title }, content = #{ content }, diary_date = #{ diaryDate }, hashtag = #{ hashtag }, location = #{ location } WHERE user_id = #{userId} AND diary_date = #{diaryDate} </update>
 </mapper>

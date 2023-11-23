@@ -68,4 +68,12 @@ div {
 .Navp {
   margin-top: 0.7vw;
 }
+
+p{
+  transition: color 1s ease; /* 배경색이 변하는데 걸리는 시간과 전환 효과 지정 */
+  cursor: pointer;
+}
+
+p:hover{
+  color: red;}
 </style>

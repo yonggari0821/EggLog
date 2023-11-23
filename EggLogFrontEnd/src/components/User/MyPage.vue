@@ -1,8 +1,9 @@
 <template>
   <div class="divPadding">
     <div class="mypage-container">
-      <h2>마이페이지</h2>
-      <span> <p style="color:blueviolet;">{{ user.nickname }}</p> 님 반갑습니다</span>
+      <p style="font-size: 5vw; text-align: center;">마이페이지</p>
+      <div style="display: inline-flex;"><p style="font-weight: bold; font-size: 5vh;" class="nickName">{{ user.nickname }}</p> 
+        <div style="display: flex; align-items: flex-end; font-size: 2vh;"><p style="margin-top: 9px;">님 반갑습니다</p></div></div>
       <!-- 아오 일단 그냥 ㄱㄱ-->
       <form @submit.prevent="submitForm">
         <div class="form-group">
@@ -167,15 +168,39 @@
   </script>
   
   <style scoped>
-  /* 필요한 스타일링 추가 */
+  
+
+  @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700&display=swap");
+
+
+  .nickName:hover{
+    color: violet;
+    
+  transition: color 0.6s ease; /* 배경색이 변하는데 걸리는 시간과 전환 효과 지정 */
+  }
+
+  
+
+  p,div{
+    font-family: 'Noto Sans KR';
+    font-family: 'sans-serif';
+  }
+
   .divPadding{
     
   padding-top: 3.3vw;
   }
   
 .mypage-container {
-  max-width: 400px;
+  width: 80%;
   margin: 0 auto;
+  height: 87vh;
+  display: flex;
+  flex-direction: column;
+  color: #F95700;
+  box-shadow: 5px 5px 5px 5px gray;
+  
+  
 }
 
 
@@ -186,6 +211,7 @@
 label {
   display: block;
   margin-bottom: 0.5rem;
+  font-size: 2vw;
 }
 
 input, textarea {
@@ -205,10 +231,14 @@ input, textarea {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.6s ease; /* 배경색이 변하는데 걸리는 시간과 전환 효과 지정 */
 }
 
 .btn-save:hover, .btn-back:hover {
   background-color: #fbff0c;
+  color: black;
 }
+
+
 
   </style>

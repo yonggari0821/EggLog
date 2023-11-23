@@ -90,6 +90,10 @@ const moveIntroduce = function () {
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700&display=swap");
+
+
+
+
 .login-container {
   display: flex;
   flex-direction: column;
@@ -136,6 +140,7 @@ const moveIntroduce = function () {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.6s ease; /* 배경색이 변하는데 걸리는 시간과 전환 효과 지정 */
 }
 
 .login-button:hover {

@@ -98,6 +98,7 @@ export const useUserStore = defineStore("user", () => {
     })
       .then((res) => {
         searchedUser.value = res.data;
+        currentUser.value = res.data;
       })
       .catch((err) => console.log(err));
   };
@@ -142,7 +143,9 @@ export const useUserStore = defineStore("user", () => {
   const getFriendUsers = function (friendIds) {
     // console.log(friendIds);
     const encodedFriendIds = friendIds.map((id) => encodeURIComponent(id));
-    const url = `${REST_USER_API}/getFriendUsers?friendIds=${encodedFriendIds.join(",")}`;
+    const url = `${REST_USER_API}/getFriendUsers?friendIds=${encodedFriendIds.join(
+      ","
+    )}`;
     axios
       .get(url)
       .then((response) => {
@@ -185,6 +188,26 @@ export const useUserStore = defineStore("user", () => {
     exp.value = diff % 30;
     console.log(exp.value);
   };
+
+  const getLevel = async function (id) {
+    await getRegDate(id);
+    const oldDate = new Date(reg.value);
+    const newDate = new Date(todayDate);
+    let diff = Math.abs(newDate.getTime() - oldDate.getTime());
+    diff = Math.ceil(diff / (1000 * 60 * 60 * 24));
+    return Math.floor(diff / 30);
+  };
+
+  const currentUser = ref({
+    id: null,
+    password: null,
+    gender: null,
+    birth: null,
+    reg_date: null,
+    nickname: null,
+    status_message: null,
+    profile_picture: null,
+  });
 
   return {
     user,

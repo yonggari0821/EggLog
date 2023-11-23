@@ -34,13 +34,13 @@ CREATE TABLE IF NOT EXISTS `diary` (
   `title` VARCHAR(40) NOT NULL,
   `content` VARCHAR(500) NOT NULL,
   `diary_date` date NOT NULL,
-  `diary_picture` varchar(100) default NULL,
+  `hashtag` varchar(100) default NULL,
   `location` varchar(40) default NULL,
     PRIMARY KEY (`diary_date`, `user_id`)
   ) ENGINE = InnoDB;
   
   insert INTO `diary`
-VALUES("1", "2", "123", "2000/10/10","123","123");
+VALUES("1", "2", "123", "2000/10/10","상체 하체 복근 전신 ","123");
   
   
   

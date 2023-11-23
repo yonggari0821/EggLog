@@ -10,7 +10,8 @@
 .footerdiv {
   display: flex;
   justify-content: space-around;
-  background-color: beige;
+  color: #2C5F2D;
+  background-color: #FFE77A;
   height: 8vh;
 }
 

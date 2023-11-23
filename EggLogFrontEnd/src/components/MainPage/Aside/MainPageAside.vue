@@ -18,7 +18,7 @@ import MainPageAsideHashTag from "./MainPageAsideHashTag.vue";
 
 <style scoped>
 .Aside {
-  background-color: azure;
+  background-color: #FEFEFE;
   display: flex;
   flex-direction: column; /* Make it a row to split horizontally */
   height: 100%;

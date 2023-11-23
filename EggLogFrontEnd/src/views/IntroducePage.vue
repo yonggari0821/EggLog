@@ -54,10 +54,10 @@
             />
           </div>
           <div style="display: inline-block; align-items: center">
-            <p style="font-size: 1.5vw; font-weight: bold; 'Noto Sans KR', sans-serif;">
+            <p style="font-size: 1.5vw; font-weight: bold; ">
               당신의 근성장을
             </p>
-            <p style="font-size: 3vw; font-weight: bold; 'Noto Sans KR', sans-serif;">
+            <p style="font-size: 3vw; font-weight: bold;" >
               일기로 남겨두세요!
             </p>
           </div>
@@ -123,6 +123,12 @@ import router from "@/router";
     transform: translateX(0);
   }
 }
+
+p,div{
+    font-family: 'Noto Sans KR';
+    font-family: 'sans-serif';
+  }
+
 
 .test {
   animation: move 1s ease-in-out;

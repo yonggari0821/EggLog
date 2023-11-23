@@ -43,15 +43,41 @@ onMounted(() => {
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700&display=swap");
 
-div {
+/* @keyframes move {
+  0% {
+    background-color: #e0e0e0;
+  }
+  50% {
+    background-color: #ffff33;
+  }
+  100% {
+    background-color: #e0e0e0;
+  }
+} */
+
+
+p,div{
   font-size: 1.5vw;
   font-weight: bold;
   font-family: "Noto Sans KR", sans-serif;
-}
+  }
+
 
 .profile-exp {
   display: flex;
   align-items: center;
+  background-color: #FFE77A;
+  color: #2C5F2D;
+  /* animation: move 5s infinite; */
+  
+  transition: background-color 0.6s ease; /* 배경색이 변하는데 걸리는 시간과 전환 효과 지정 */
+  border: 2px solid gray; /* 테두리 속성 추가 */
+}
+
+.profile-exp:hover{
+
+  background-color: #FFD000;
+  color: white;
 }
 
 .profile-picture {
@@ -62,7 +88,7 @@ div {
 .exp-bar {
   flex: 2;
   height: 100px;
-  background-color: white;
+  background-color: #FFFFFF;
   border-radius: 4px;
   overflow: hidden;
   border: 1px solid gray; /* 테두리 속성 추가 */
@@ -70,8 +96,10 @@ div {
 
 .bar {
   height: 100%;
-  background-color: yellow;
+  background-color: #FAEBEF;
   transition: width 0.5s ease;
-  color: gray;
+  color: black;
+  
+  border-right: 1px solid gray; /* 테두리 속성 추가 */
 }
 </style>

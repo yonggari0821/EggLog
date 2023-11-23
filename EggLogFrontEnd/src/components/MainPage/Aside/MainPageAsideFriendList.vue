@@ -1,20 +1,42 @@
 <template>
   <div class="friend">
     <div class="makeCenter">
-      <p>친구리스트</p>
+      <br />
+      <div @click="toMain()" style="cursor: pointer margin-top: 10px">
+        <div v-if="userLevel >= 4">
+          <img src="@/assets/3달이상.png" style="height: 8vh" />
+        </div>
+        <div v-if="userLevel == 3">
+          <img src="@/assets/2달이상3달미만.png" style="height: 8vh" />
+        </div>
+        <div v-if="userLevel == 2">
+          <img src="@/assets/1달이상2달미만.png" style="height: 8vh" />
+        </div>
+        <div v-if="userLevel == 1">
+          <img src="@/assets/1달미만.png" style="height: 8vh" />
+        </div>
+        <p>{{ user.id }}</p>
+        <p>{{ user.nickname }}</p>
+      </div>
+      <hr />
+      <p style="text-align: center; font-size: 4vh; font-weight: bold">
+        친구리스트
+      </p>
       <div class="space for friends">
-        <div v-if="friendRequestList.length > 0 && friendRequestList[0].from != null">
+        <div
+          v-if="
+            friendRequestList.length > 0 && friendRequestList[0].from != null
+          "
+        >
           친구 요청이 {{ friendRequestList.length }} 개 존재합니다.
           <button @click="openModal">확인 하기</button>
         </div>
 
-        <div @click="toMain()" style="cursor: pointer">
+        <div @click="toMain()" class="friendDiv">
           <img src="user.profilePicture" alt="본인 프로필 사진" />
           <p>{{ user.id }}</p>
           <p>{{ user.nickname }}</p>
         </div>
-
-        <hr />
 
         <div id="modal">
           <div
@@ -33,22 +55,64 @@
 
         <div v-if="friendsList.length > 3">친구 많으니깐 페이지</div>
         <div v-else-if="friendsList.length > 0">
-          <div v-for="friendUser in friendsUsersList" :key="friendUser.id">
-            <p>친구 사진 : {{ friendUser.profilePicture }}</p>
-            <p>{{ friendUser.id }}</p>
-            <br />
-            <p>{{ friendUser.nickname }}</p>
-            <img
-              src="../../../assets/trash.png"
-              alt="친구 삭제 버튼"
-              class="settingButton"
-              @click="requestDelete(friendUser.id)"
-            />
+          <div
+            v-for="friendUser in friendsUsersList"
+            :key="friendUser.id"
+            class="friendDiv"
+            style="display: inline-flex"
+          >
+            <div style="display: flex; flex-direction: column; flex: 2">
+              <img
+                v-if="getFriendImagePath(friendUser.regDate) == 4"
+                :src="level4"
+                style="height: 8vh"
+              />
+              <img
+                v-if="getFriendImagePath(friendUser.regDate) == 3"
+                :src="level3"
+                style="height: 8vh"
+              />
+              <img
+                v-if="getFriendImagePath(friendUser.regDate) == 2"
+                :src="level2"
+                style="height: 8vh"
+              />
+              <img
+                v-if="getFriendImagePath(friendUser.regDate) == 1"
+                :src="level1"
+                style="height: 8vh"
+              />
+              <p>{{ friendUser.id }}</p>
+              <br />
+              <p
+                @click="moveToFriendDiary(friendUser.id, friendUser.nickname)"
+                style="cursor: pointer"
+              >
+                {{ friendUser.nickname }}
+              </p>
+            </div>
+            <div
+              style="
+                display: flex;
+                flex: 1;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <div>
+                <img
+                  src="../../../assets/trash.png"
+                  alt="친구 삭제 버튼"
+                  class="settingButton"
+                  @click="requestDelete(friendUser.id)"
+                />
+              </div>
+            </div>
           </div>
         </div>
         <div v-else>친구 좀 사겨라</div>
         <br />
-        <button @click="moveToFriendsRequest()">친구 추가 하기</button>
+        <!-- <button @click="moveToFriendsRequest()">친구 추가 하기</button> -->
       </div>
     </div>
   </div>
@@ -61,28 +125,67 @@ import { onMounted, computed, onBeforeMount } from "vue"; // 희
 import { useUserStore } from "@/stores/userStore";
 import { useFriendsStore } from "@/stores/friendsStore";
 import { useRequestStore } from "@/stores/requestStore";
+import { useDiaryStore } from "@/stores/diaryStore";
+
+import level1 from "@/assets/1달미만.png";
+import level2 from "@/assets/1달이상2달미만.png";
+import level3 from "@/assets/2달이상3달미만.png";
+import level4 from "@/assets/3달이상.png";
 
 const friendsStore = useFriendsStore();
 const userStore = useUserStore();
 const requestStore = useRequestStore();
+const diaryStore = useDiaryStore();
 
 const user = computed(() => userStore.user);
+const userLevel = computed(() => userStore.level);
+const currentUser = computed(() => userStore.currentUser);
 
 const friendsList = computed(() => friendsStore.friendsList);
 const friendsUsersList = computed(() => userStore.friendsUsersList);
 const friendRequestList = computed(() => requestStore.friendRequestList);
 
-// friendsList를 보내서
-// 해당 friend들의 이름과 사진을 받아와야 함
+const getFriendImagePath = function (regDate) {
+  const today = new Date();
+  const registrationDate = new Date(regDate);
+  const diff = Math.ceil(
+    (today.getTime() - registrationDate.getTime()) / (1000 * 60 * 60 * 24)
+  );
+
+  console.log("diff = " + diff);
+  if (diff >= 90) {
+    // userStore.friendRegDate = '@/assets/3달이상.png';
+    return 4;
+  } else if (diff >= 60) {
+    // userStore.friendRegDate = '@/assets/2달이상3달미만.png';
+    return 3;
+  } else if (diff >= 30) {
+    // userStore.friendRegDate = '@/assets/1달이상2달미만.png';
+    return 2;
+  } else {
+    // userStore.friendRegDate = '@/assets/1달미만.png';
+    return 1;
+  }
+};
+
+// 해당 친구의 다이어리로 이동하는 함수
+const moveToFriendDiary = async function (friendId, friendNickname) {
+  alert(friendNickname + "의 일기로 이동합니다.");
+  await diaryStore.getDiaryList(friendId);
+  userStore.currentUser = await userStore.searchUserById(friendId);
+};
 
 // 친구 요청 보내기 위해서 친구 검색 화면으로 이동
 const moveToFriendsRequest = function () {
   router.push({ name: "FriendsRequest" });
 };
 
-const toMain = function () {
+const toMain = async function () {
   alert("본인 다이어리로 돌아가겠습니다!");
-  router.push({ name: "MainPage" });
+  await diaryStore.getDiaryList(localStorage.getItem("userid"));
+  userStore.currentUser = await userStore.searchUserById(
+    localStorage.getItem("userid")
+  );
 };
 
 // 새로고침시마다 아래 사항들 리뉴얼
@@ -131,6 +234,40 @@ const requestDelete = function (friendId) {
 </script>
 
 <style scoped>
+/* @keyframes move {
+  0% {
+    background-color: #e0e0e0;
+  }
+  50% {
+    background-color: #ffff33;
+  }
+  100% {
+    background-color: #e0e0e0;
+  }
+} */
+
+.myinfo {
+  flex: 1;
+  height: 100%;
+  border: 1px solid #e0e0e0;
+  /* z-index: -1; */
+  background-color: azure;
+  /* animation: move 5s infinite; */
+}
+
+.friendDiv {
+  cursor: pointer;
+  transition: background-color 0.6s ease; /* 배경색이 변하는데 걸리는 시간과 전환 효과 지정 */
+  border-radius: 15px;
+  padding: 1v;
+  width: 100%;
+}
+
+.friendDiv:hover {
+  background-color: yellow;
+  color: green;
+}
+
 #modal {
   display: none;
   position: fixed;
@@ -144,29 +281,28 @@ const requestDelete = function (friendId) {
   z-index: 1000;
   font-size: 20px;
 }
-.close-button {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  padding: 10px; /* Adjust padding based on your requirement */
-  background-color: #007bff; /* Adjust background color based on your requirement */
-  color: #fff; /* Adjust text color based on your requirement */
-  border: none;
-  cursor: pointer;
-}
 
 .eachRequest {
-  border: 2px solid olivedrab;
+  border: 1px solid #e0e0e0;
   cursor: pointer;
 }
 .friend {
-  border: 1px solid red;
   height: 100%;
   box-sizing: border-box; /* Ensure the border width is included in the total height */
+  /* z-index: -1; */
+  background-color: #fefefe;
+  color: #2c5f2d;
+  /* animation: move 5s infinite; */
+  border: solid 1px #333d79;
+  border-radius: 80px;
+  padding: 1vw;
+  margin-top: 2.4vw;
+  max-height: 68vh;
 }
 
 .makeCenter {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
 }
 
 .eachFriend {

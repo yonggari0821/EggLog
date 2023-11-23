@@ -16,10 +16,25 @@ const who = ref("true");
 </script>
 
 <style scoped>
+/* @keyframes move {
+  0% {
+    background-color: #e0e0e0;
+  }
+  50% {
+    background-color: #ffff33;
+  }
+  100% {
+    background-color: #e0e0e0;
+  }
+} */
+
 .Callender {
-  background-color: azure;
   padding: 2vw;
   width: 100%;
   height: 100%;
+  /* z-index: -1; */
+  background-color: #FEFEFE;
+  /* animation: move 5s infinite; */
+  padding-left: 1vw;
 }
 </style>
