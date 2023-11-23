@@ -91,13 +91,13 @@ function initKakaoMap() {
 
   var container = document.getElementById('map');
   var options = {
-    // center: new kakao.maps.LatLng(36.35512, 127.2983),
+    center: new kakao.maps.LatLng(36.35512, 127.2983),
     level: 5
   };
-  // var map = new kakao.maps.Map(container, options);
+  var map = new kakao.maps.Map(container, options);
 
   var markerImageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
-  // var markerImageSize = new kakao.maps.Size(22, 35);
+  var markerImageSize = new kakao.maps.Size(22, 35);
   var markerImage = new kakao.maps.MarkerImage(markerImageSrc, markerImageSize);
 
   var marker = new kakao.maps.Marker({
