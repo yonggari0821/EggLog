@@ -40,9 +40,16 @@
                 >
                   <!-- week 의 da 그러니까 음..-->
                   <!--selected css를 활성화시키겠다.-->
-                  <div v-for="hashtag in store.hashtagList" :key="hashtag">
-                    {{ hashtag }}
+                  <!--내생각엔 getHashtagList 함수로 v-if를 해버리면 저 날짜에 diary가 없어도
+                    계속 시도해보니까 따로 이번달 diary를 받아서 해당 날짜에만 true를 반환하는
+                    함수가 있으면 좋을 것 같다-->
+                  <div v-if="getHashtagList(day)">
+                    <div v-for="hashtagA in hashtagList" :key="hashtagA">
+                      {{ hashtagA }}
+                    </div>
                   </div>
+                  <!-- {{ getHashtagList(day) }} -->
+                  <!-- </div> -->
                   {{ day > 0 ? day : "" }}
                 </td>
               </tr>
@@ -64,6 +71,33 @@ const selectedDate = ref(null);
 const store = useDiaryStore();
 const userId = localStorage.getItem("userid");
 const diaryList = computed(() => store.diaryList);
+const hashtagList = computed(() => {
+  // store.hashtagList;
+  if (diary.value && diary.value.hashtag) {
+    console.log(diary.value.hashtag);
+    return diary.value.hashtag.split(" ");
+  }
+  return [];
+});
+
+const diary = ref(null);
+
+const getHashtagList = async (day) => {
+  diary.value = await hasDiary(day);
+  if (diary.value && diary.value.hashtag) {
+    return true;
+  }
+  return false;
+
+  // const params = {
+  //   userId: userId,
+  //   diaryDate: hashtagDate(day),
+  // };
+
+  // console.log("Request params:", params);
+
+  // await store.getHashtagList(userId, hashtagDate(day));
+};
 
 const currentMonth = computed(() => {
   return new Intl.DateTimeFormat("en", {
@@ -106,17 +140,25 @@ const weeks = computed(() => {
   return days;
 });
 
+const hashtagDate = (day) => {
+  if (!day || day < 1) {
+    return null;
+  }
+  const month =
+    currentDate.value.getMonth() + 1 < 10
+      ? `0${currentDate.value.getMonth() + 1}`
+      : `${currentDate.value.getMonth() + 1}`;
+
+  const tday = day < 10 ? `0${day}` : `${day}`;
+  console.log("tday:" + tday);
+  console.log("month:" + month);
+  return `${currentDate.value.getFullYear()}${month}${tday}`;
+};
+
 // selectDate day란
 // 해당일을 누르면 true로 해줌 selectedDate 값을
 // 여기서의 day는 1, 2 ,3 ,4 ,5 임.
 const selectDate = (day) => {
-  console.log("오늘 월은 !??" + currentMonth.value);
-  console.log("weeks야 !!" + weeks.value);
-  console.log("CurrentDate.value 야 !!" + currentDate.value);
-  console.log("오늘 날짜는 !? " + day);
-  console.log("연을 불러오자 !!" + currentDate.value.getFullYear());
-  console.log("월을 불러오자 !!" + currentDate.value.getMonth());
-  console.log("일을 불러오자 !!" + currentDate.value.getDay());
   selectedDate.value =
     day > 0
       ? new Date(
@@ -125,13 +167,6 @@ const selectDate = (day) => {
           day
         )
       : null;
-
-  console.log("selectedDate의 값은?" + selectedDate.value);
-
-  console.log("선택된 연을 불러오자 !!" + selectedDate.value.getFullYear());
-  console.log("선택된 월을 불러오자 !!" + (selectedDate.value.getMonth() + 1));
-  console.log("선택된 일을 불러오자 !!" + selectedDate.value.getDate());
-
   const month = ref(null);
   const tday = ref(null);
 
@@ -150,7 +185,6 @@ const selectDate = (day) => {
   const useDate = `${selectedDate.value.getFullYear()}${month.value}${
     tday.value
   }`;
-  console.log("내가 보내줄 데이터야 ! " + useDate);
 
   // // 형함수명();
   store.getDiary(userId, useDate);
@@ -184,16 +218,18 @@ const goToNextMonth = () => {
 
 const hasDiary = function (day) {
   const year = currentDate.value.getFullYear();
-  const month = currentDate.value.getMonth() + 1; // 월은 0부터 시작하므로 +1 해줍니다.
+  const month = currentDate.value.getMonth() + 1;
   const paddedMonth = month < 10 ? `0${month}` : `${month}`;
   const formattedDate = `${year}-${paddedMonth}-${day < 10 ? `0${day}` : day}`;
 
-  return diaryList.value.some((diary) => diary.diaryDate === formattedDate);
-};
+  const foundDiary = diaryList.value.find(
+    (diary) => diary.diaryDate === formattedDate
+  );
 
+  return foundDiary || null; // 일기가 없을 경우에는 null을 반환
+};
 onMounted(() => {
   store.getDiaryList(userId);
-  store.getHashtagList(userId, date);
 });
 </script>
 

@@ -16,22 +16,35 @@ export const useDiaryStore = defineStore("diary", () => {
     location: null,
   });
 
-  const getHashtagList = (id, date) => {
+  const hashtagList = ref(null);
+  const getHashtagList = function (someUserId, someDiaryDate) {
+    const params = {
+      userId: someUserId,
+      diaryDate: someDiaryDate,
+    };
+
+    console.log("Server request params:", params);
     axios
-      .get(`${REST_DIARY_API}`, {
-        params: {
-          userId: id,
-          diaryDate: date,
-        },
-      })
+      .get(`${REST_DIARY_API}`, { params: params })
       .then((response) => {
-        return response.data.hashtag.split(/\s+/g);
+        if (response.data && response.data.hashtag) {
+          console.log(response.data);
+          console.log(response.data.hashtag);
+          console.log(response.data.hashtag.split(/\s+/g));
+          hashtagList.value = response.data.hashtag.split(/\s+/g);
+          return true;
+        } else {
+          hashtagList.value = null;
+          return false;
+        }
       })
+
       .catch((err) => {
         console.error("Error in getHashtagList:", err); // Logging the error for debugging
         if (err.response) {
           console.error("Server responded with:", err.response.data);
         }
+        throw err;
       });
   };
 
@@ -124,5 +137,6 @@ export const useDiaryStore = defineStore("diary", () => {
     diaryList,
     getDiaryList,
     getHashtagList,
+    hashtagList,
   };
 });
