@@ -1,6 +1,30 @@
 <template>
-  <div class="exp">
-    <p>{{ regDate }}</p>
+  <div class="profile-exp">
+    <div class="profile-picture" style="display: flex; justify-content: center">
+      <div v-if="userStore.level >= 3">
+        <img src="@/assets/3달이상.png" alt="Profile Image" />
+        마스터
+      </div>
+      <div v-else-if="userStore.level >= 2">
+        <img src="@/assets/2달이상3달미만.png" alt="Profile Image" />
+        레벨3
+      </div>
+      <div v-else-if="userStore.level >= 1">
+        <img src="@/assets/1달이상2달미만.png" alt="Profile Image" />
+        레벨2
+      </div>
+      <div v-else>
+        <img src="@/assets/1달미만.png" alt="Profile Image" />
+        레벨1
+      </div>
+    </div>
+
+    <!-- exp를 가로 막대 그래프로 나타내기 -->
+    <div class="exp-bar">
+      <div class="bar" :style="{ width: expPercentage }">{{ userStore.exp }}/30</div>
+    </div>
+
+    <div style="flex: 1"></div>
   </div>
 </template>
 
@@ -9,36 +33,45 @@ import { useUserStore } from "@/stores/userStore";
 import { ref, computed, onMounted, onBeforeMount } from "vue";
 
 const userStore = useUserStore();
-const regDate = ref("");
-// regDate가져오기
-const exp = computed(() => {
-  // const oldDate = new Date("2023-04-20");
-  // const newDate = new Date("2023-06-12");
-  // let diff = Math.abs(newDate.getTime() - oldDate.getTime());
-  // diff = Math.ceil(diff / (1000 * 60 * 60 * 24));
-  // console.log(diff);
-  console.log(userStore.regDate);
-  regDate.value = userStore.regDate;
-  //  - userStore.todayDate
-});
+const expPercentage = computed(() => `${(userStore.exp / 30) * 100}%`);
 
-onBeforeMount(() => {
-  // const oldDate = new Date("2023-04-20");
-  // const newDate = new Date("2023-06-12");
-  // let diff = Math.abs(newDate.getTime() - oldDate.getTime());
-  // diff = Math.ceil(diff / (1000 * 60 * 60 * 24));
-  // console.log(diff);
-  userStore.getRegDate(localStorage.getItem("userid"));
-  console.log(userStore.reg);
-  regDate.value = userStore.reg;
-  //  - userStore.todayDate
+onMounted(() => {
+  userStore.expCalculate();
 });
 </script>
 
 <style scoped>
-.exp {
-  flex: 4;
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700&display=swap");
 
-  border: 1px solid rgb(0, 9, 128);
+div {
+  font-size: 1.5vw;
+  font-weight: bold;
+  font-family: "Noto Sans KR", sans-serif;
+}
+
+.profile-exp {
+  display: flex;
+  align-items: center;
+}
+
+.profile-picture {
+  flex: 1;
+  margin-right: 16px;
+}
+
+.exp-bar {
+  flex: 2;
+  height: 100px;
+  background-color: white;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid gray; /* 테두리 속성 추가 */
+}
+
+.bar {
+  height: 100%;
+  background-color: yellow;
+  transition: width 0.5s ease;
+  color: gray;
 }
 </style>

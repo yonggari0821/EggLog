@@ -65,6 +65,7 @@ public class FriendsRestController {
     @ApiOperation(value = "친구 관계를 끊는다.", response = Integer.class)
     public ResponseEntity<?> delete (@RequestBody Friends friends)
     {
+        System.out.println(friends);
         try {
             boolean result = friendsService.delete(friends);
             if (result) return new ResponseEntity<String>("Success to break off with friend", HttpStatus.OK);

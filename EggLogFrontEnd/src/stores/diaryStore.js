@@ -16,6 +16,25 @@ export const useDiaryStore = defineStore("diary", () => {
     location: null,
   });
 
+  const getHashtagList = (id, date) => {
+    axios
+      .get(`${REST_DIARY_API}`, {
+        params: {
+          userId: id,
+          diaryDate: date,
+        },
+      })
+      .then((response) => {
+        return response.data.hashtag.split(/\s+/g);
+      })
+      .catch((err) => {
+        console.error("Error in getHashtagList:", err); // Logging the error for debugging
+        if (err.response) {
+          console.error("Server responded with:", err.response.data);
+        }
+      });
+  };
+
   const getDiary = function (someUserId, someDiaryDate) {
     const params = {
       userId: someUserId,
@@ -82,5 +101,28 @@ export const useDiaryStore = defineStore("diary", () => {
     }
   };
 
-  return { diary, getDiary, registDiary, updateDiary, deleteDiary };
+  const diaryList = ref([]);
+
+  const getDiaryList = function (userId) {
+    axios
+      .get(`${REST_DIARY_API}/${userId}`)
+      .then((response) => {
+        diaryList.value = response.data;
+      })
+      .catch((err) => {
+        console.log("다이어리 리스트 받아오는데 오류:", err);
+        console.log(err.response);
+      });
+  };
+
+  return {
+    diary,
+    getDiary,
+    registDiary,
+    updateDiary,
+    deleteDiary,
+    diaryList,
+    getDiaryList,
+    getHashtagList,
+  };
 });

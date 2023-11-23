@@ -62,6 +62,8 @@ public class RequestRestController {
     // Return : 요청 등록 완료 반환
     @PostMapping("/request")
     public ResponseEntity<?> sendRequest(@RequestBody Request request) {
+        System.out.println("요청요청요청요청");
+        System.out.println(request);
         if(requestService.sendRequest(request)) return new ResponseEntity<Boolean>(true, HttpStatus.OK);
         return new ResponseEntity<Boolean>(false, HttpStatus.NOT_ACCEPTABLE);
     }

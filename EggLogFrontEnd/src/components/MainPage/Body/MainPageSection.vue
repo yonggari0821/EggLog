@@ -17,7 +17,8 @@ const who = ref("true");
 
 <style scoped>
 .Callender {
-  background-color: rgb(56, 165, 42);
+  background-color: azure;
+  padding: 2vw;
   width: 100%;
   height: 100%;
 }

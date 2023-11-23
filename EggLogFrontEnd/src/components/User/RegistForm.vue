@@ -17,17 +17,9 @@
           <label for="id">아이디</label>
         </div>
         <div style="flex: 3">
-          <input
-            type="text"
-            id="id"
-            v-model="user.id"
-            @blur="checkID"
-            required
-          />
+          <input type="text" id="id" v-model="user.id" @blur="checkID" required />
         </div>
-        <span v-if="IDExists" class="error-message"
-          >이미 사용 중인 아이디입니다.</span
-        >
+        <span v-if="IDExists" class="error-message">이미 사용 중인 아이디입니다.</span>
       </div>
 
       <div class="form-group">
@@ -35,12 +27,7 @@
           <label for="password">비밀번호</label>
         </div>
         <div style="flex: 3">
-          <input
-            type="password"
-            id="password"
-            v-model="user.password"
-            required
-          />
+          <input type="password" id="password" v-model="user.password" required />
         </div>
       </div>
 
@@ -49,16 +36,9 @@
           <label for="passwordConfirm">비밀번호 확인</label>
         </div>
         <div style="flex: 3">
-          <input
-            type="password"
-            id="passwordConfirm"
-            v-model="passwordConfirm"
-            required
-          />
+          <input type="password" id="passwordConfirm" v-model="passwordConfirm" required />
         </div>
-        <span v-if="passwordsDoNotMatch" class="error-message"
-          >비밀번호가 일치하지 않습니다.</span
-        >
+        <span v-if="passwordsDoNotMatch" class="error-message">비밀번호가 일치하지 않습니다.</span>
       </div>
 
       <div class="form-group">
@@ -84,31 +64,13 @@
           <label>성별</label>
         </div>
         <div class="gender-options" style="flex: 3">
-          <input
-            type="radio"
-            id="male"
-            value="male"
-            v-model="user.gender"
-            required
-          />
+          <input type="radio" id="male" value="male" v-model="user.gender" required />
           <label for="male">남성</label>
 
-          <input
-            type="radio"
-            id="female"
-            value="female"
-            v-model="user.gender"
-            required
-          />
+          <input type="radio" id="female" value="female" v-model="user.gender" required />
           <label for="female">여성</label>
 
-          <input
-            type="radio"
-            id="else"
-            value="else"
-            v-model="user.gender"
-            required
-          />
+          <input type="radio" id="else" value="else" v-model="user.gender" required />
           <label for="else">그 외</label>
         </div>
       </div>
@@ -123,9 +85,7 @@
         >
           등록
         </button>
-        <button type="button" class="btn btn-secondary" @click="cancel">
-          취소
-        </button>
+        <button type="button" class="btn btn-secondary" @click="cancel">취소</button>
       </div>
     </form>
   </div>

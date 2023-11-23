@@ -39,10 +39,10 @@ VALUES (#{id}, #{password}, #{gender}, #{birth}, #{regDate}, #{nickname}, #{stat
   </if>
 </select>
 
-<select id="getRegDate" parameterType="String" resultMap="userMap">
-	SELECT reg_date
-	FROM user
-	WHERE id = #{id};
+<select id="getRegDate" parameterType="String" resultType="String">
+    SELECT reg_date
+    FROM user
+    WHERE id = #{id};
 </select>
 
 </mapper>

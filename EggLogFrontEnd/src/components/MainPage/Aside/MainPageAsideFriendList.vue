@@ -3,11 +3,7 @@
     <div class="makeCenter">
       <p>친구리스트</p>
       <div class="space for friends">
-        <div
-          v-if="
-            friendRequestList.length > 0 && friendRequestList[0].from != null
-          "
-        >
+        <div v-if="friendRequestList.length > 0 && friendRequestList[0].from != null">
           친구 요청이 {{ friendRequestList.length }} 개 존재합니다.
           <button @click="openModal">확인 하기</button>
         </div>
@@ -94,9 +90,9 @@ onMounted(async () => {
   await friendsStore.getFriendsList(localStorage.getItem("userid")); // 친구 리스트
   const friendIds = friendsStore.friendsList;
   userStore.getFriendUsers(friendIds); // 친구들의 유저정보들
-  // console.log(friendsUsersList);
+  console.log(friendsUsersList);
   await requestStore.getFriendRequestList(localStorage.getItem("userid")); // 친구 요청 리스트
-  // console.log(friendRequestList.value.length);
+  console.log(friendRequestList.value.length);
 });
 
 // 모달 열기

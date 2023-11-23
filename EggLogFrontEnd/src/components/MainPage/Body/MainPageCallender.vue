@@ -1,37 +1,56 @@
 <!-- src/components/Calendar.vue -->
 <template>
-  <div>
-    <div class="calendar-header">
-      <button @click="goToPreviousMonth">&lt;</button>
-      <h2>{{ currentMonth }}</h2>
-      <button @click="goToNextMonth">&gt;</button>
-    </div>
-    <table class="table">
-      <thead>
-        <tr>
-          <th v-for="day in daysOfWeek" :key="day">{{ day }}</th>
-        </tr>
-        <!-- day 는 일월화수목금토-->
-      </thead>
-      <tbody>
-        <!-- weeks 는 4개인가봐?-->
-        <tr v-for="week in weeks" :key="week">
-          <!-- day 는 1 , 2,  3 , 4 와 같은 일수-->
-          <td
-            v-for="day in week"
-            :key="day"
-            @click="selectDate(day)"
-            :class="{ selected: isDaySelected(day) }"
+  <div style="height: 100%" class="entire-calender">
+    <div>
+      <div class="callender">
+        <div class="calendar-header">
+          <button @click="goToPreviousMonth">&lt;</button>
+          <p
+            style="
+              color: gray;
+              font-size: 30px;
+              font-family: 'Lato', sans-serif;
+              font-family: 'Noto Sans KR', sans-serif;
+            "
           >
-            <!-- week 의 da 그러니까 음..-->
-            <!--selected css를 활성화시키겠다.-->
-
-            {{ day > 0 ? day : "" }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <div></div>
+            {{ currentMonth }}
+          </p>
+          <button @click="goToNextMonth">&gt;</button>
+        </div>
+        <div class="tableCss">
+          <table class="table">
+            <thead>
+              <tr>
+                <th v-for="day in daysOfWeek" :key="day">{{ day }}</th>
+              </tr>
+              <!-- day 는 일월화수목금토-->
+            </thead>
+            <tbody>
+              <!-- weeks 는 4개인가봐?-->
+              <tr v-for="week in weeks" :key="week">
+                <!-- day 는 1 , 2,  3 , 4 와 같은 일수-->
+                <td
+                  v-for="day in week"
+                  :key="day"
+                  @click="selectDate(day)"
+                  :class="{
+                    selected: isDaySelected(day),
+                    hasDiary: hasDiary(day),
+                  }"
+                >
+                  <!-- week 의 da 그러니까 음..-->
+                  <!--selected css를 활성화시키겠다.-->
+                  <div v-for="hashtag in store.hashtagList" :key="hashtag">
+                    {{ hashtag }}
+                  </div>
+                  {{ day > 0 ? day : "" }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -44,15 +63,16 @@ const currentDate = ref(new Date());
 const selectedDate = ref(null);
 const store = useDiaryStore();
 const userId = localStorage.getItem("userid");
+const diaryList = computed(() => store.diaryList);
 
 const currentMonth = computed(() => {
-  return new Intl.DateTimeFormat("kr", {
+  return new Intl.DateTimeFormat("en", {
     month: "long",
     year: "numeric",
   }).format(currentDate.value);
 });
 
-const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
+const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 const weeks = computed(() => {
   const firstDayOfMonth = new Date(
@@ -162,29 +182,68 @@ const goToNextMonth = () => {
   );
 };
 
+const hasDiary = function (day) {
+  const year = currentDate.value.getFullYear();
+  const month = currentDate.value.getMonth() + 1; // 월은 0부터 시작하므로 +1 해줍니다.
+  const paddedMonth = month < 10 ? `0${month}` : `${month}`;
+  const formattedDate = `${year}-${paddedMonth}-${day < 10 ? `0${day}` : day}`;
+
+  return diaryList.value.some((diary) => diary.diaryDate === formattedDate);
+};
+
 onMounted(() => {
-  // selectDate(currentDate.value.getDate());
+  store.getDiaryList(userId);
+  store.getHashtagList(userId, date);
 });
 </script>
 
 <style scoped>
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@700&family=Noto+Sans+KR:wght@700&display=swap");
+@keyframes move {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.callender {
+  padding: 1vw;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  overflow: auto;
+}
 .calendar-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: rgb(184, 110, 67);
+  color: black;
+  flex: 1;
 }
 
-table {
+.tableCss {
   width: 100%;
-  border-collapse: collapse;
+  height: 100%;
+  flex: 4;
 }
 
-th,
-td {
+th {
   padding: 10px;
-  border: 1px solid #ddd;
+  border: 1px solid gray;
   text-align: center;
+  background-color: white;
+  color: gray;
+}
+td {
+  padding: 1vw;
+  border: 1px solid gray;
+  text-align: center;
+  height: 100px;
+  background-color: white;
+  color: gray;
 }
 
 .selected {
@@ -202,5 +261,22 @@ button {
 
 button:hover {
   color: #007bff;
+}
+
+.entire-calender {
+  background-color: #ffe5d5;
+  border: 1px solid gray; /* 테두리 속성 추가 */
+  border-radius: 80px 80px 10px 10px;
+  padding-top: 22px;
+  margin: 10px;
+  height: 40vh;
+
+  animation: move 1s ease-in-out;
+}
+
+.hasDiary {
+  background-color: rgb(224, 236, 52);
+  color: #000000;
+  cursor: pointer;
 }
 </style>

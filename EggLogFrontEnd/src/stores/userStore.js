@@ -142,9 +142,7 @@ export const useUserStore = defineStore("user", () => {
   const getFriendUsers = function (friendIds) {
     // console.log(friendIds);
     const encodedFriendIds = friendIds.map((id) => encodeURIComponent(id));
-    const url = `${REST_USER_API}/getFriendUsers?friendIds=${encodedFriendIds.join(
-      ","
-    )}`;
+    const url = `${REST_USER_API}/getFriendUsers?friendIds=${encodedFriendIds.join(",")}`;
     axios
       .get(url)
       .then((response) => {
@@ -160,15 +158,13 @@ export const useUserStore = defineStore("user", () => {
   const year = today.getFullYear();
   const month = today.getMonth() + 1;
   const date = today.getDate();
-  const todayDate = year + "/" + month + "/" + date;
+  const todayDate = year + "-" + month + "-" + date;
   const reg = ref("");
 
-  const getRegDate = function (id) {
-    console.log(id);
-    axios
+  const getRegDate = async function (id) {
+    await axios
       .get(`${REST_USER_API}/reg_date/${id}`)
       .then((response) => {
-        console.log(response.data);
         reg.value = response.data;
       })
       .catch((err) => {
@@ -176,6 +172,20 @@ export const useUserStore = defineStore("user", () => {
         console.log(err.response);
       });
   };
+
+  const level = ref(null);
+  const exp = ref(null);
+  const expCalculate = async () => {
+    await getRegDate(localStorage.getItem("userid"));
+    const oldDate = new Date(reg.value);
+    const newDate = new Date(todayDate);
+    let diff = Math.abs(newDate.getTime() - oldDate.getTime());
+    diff = Math.ceil(diff / (1000 * 60 * 60 * 24));
+    level.value = Math.floor(diff / 30);
+    exp.value = diff % 30;
+    console.log(exp.value);
+  };
+
   return {
     user,
     setLoginUser,
@@ -189,5 +199,8 @@ export const useUserStore = defineStore("user", () => {
     getRegDate,
     todayDate,
     reg,
+    expCalculate,
+    level,
+    exp,
   };
 });

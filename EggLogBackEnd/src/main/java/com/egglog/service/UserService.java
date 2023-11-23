@@ -29,5 +29,5 @@ public interface UserService {
     
     User login(String id , String pw);
 
-	String getRegDate(String id);
+    String getRegDate(String id);
 }

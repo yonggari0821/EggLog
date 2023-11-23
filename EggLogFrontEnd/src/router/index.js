@@ -109,16 +109,19 @@ const routes = [
     path: "/diaryregist/:user_id/:diary_date",
     name: "DiaryRegist",
     component: DiaryRegist,
+    beforeEnter: requireAuth(),
   },
   {
     path: "/diaryupdate/:diary",
     name: "DiaryUpdate",
     component: DiaryUpdate,
+    beforeEnter: requireAuth(),
   },
   {
     path: "/mypage",
     name: "MyPage",
     component: MyPage,
+    beforeEnter: requireAuth(),
   },
   {
     path: "/friendsRequest",

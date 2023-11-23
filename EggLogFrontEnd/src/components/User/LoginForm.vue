@@ -25,6 +25,7 @@
         :class="{ 'input-focused': pwFocus }"
         @focus="pwFocus = true"
         @blur="pwFocus = false"
+        @keyup.enter="login"
       />
       <br />
       <div class="button-container">
@@ -95,6 +96,7 @@ const moveIntroduce = function () {
   align-items: center;
   padding-top: 3vw;
   height: 93vh;
+  background-color: azure;
 }
 
 .form-container {
@@ -105,7 +107,7 @@ const moveIntroduce = function () {
   padding-left: 10vw;
   padding-right: 10vw;
   display: block;
-  background-color: antiquewhite;
+  background-color: #ffe5d5;
 }
 
 .input-field {
