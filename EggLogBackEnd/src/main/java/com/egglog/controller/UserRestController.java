@@ -60,8 +60,10 @@ public class UserRestController {
     // 반환값: List<User>
     @GetMapping("/user/getFriendUsers")
     public ResponseEntity<List<User>> getFriendUsers(@RequestParam List<String> friendIds) {
+        System.out.println("친구입니다" + friendIds.toString());
         try {
             List<User> userList = userService.getUsersByIds(friendIds);
+            System.out.println(userList.toString());
             return new ResponseEntity<>(userList, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -71,8 +73,10 @@ public class UserRestController {
     // 추가 부분 11 23 2시반
     @GetMapping("/user/reg_date/{id}")
     public ResponseEntity<?> getRegDate(@PathVariable String id) {
+        System.out.println("id :" + id);
         try {
             String regDate = userService.getRegDate(id);
+            System.out.println(regDate);
             if(regDate != null)
                 return new ResponseEntity<String> (regDate, HttpStatus.OK);
             return new ResponseEntity<Void> (HttpStatus.NO_CONTENT);
@@ -134,6 +138,7 @@ public class UserRestController {
        
    @PostMapping("/user/login")// 로그인
    public ResponseEntity<?> login(@RequestBody User user) {
+        System.out.println(user);
         String password = null;
         try {
             password = jwtUtil.createToken("password",user.getPassword());

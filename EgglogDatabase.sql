@@ -39,9 +39,6 @@ CREATE TABLE IF NOT EXISTS `diary` (
     PRIMARY KEY (`diary_date`, `user_id`)
   ) ENGINE = InnoDB;
   
-  insert INTO `diary`
-VALUES("1", "2", "123", "2000/10/10","상체 하체 복근 전신 ","123");
-  
   
   
 -- -----------------------------------------------------

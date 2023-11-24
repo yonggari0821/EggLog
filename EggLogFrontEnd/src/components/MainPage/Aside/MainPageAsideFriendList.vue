@@ -1,41 +1,49 @@
 <template>
   <div class="friend">
     <div class="makeCenter">
-      <br />
-      <div @click="toMain()" style="cursor: pointer margin-top: 10px">
-        <div v-if="userLevel >= 4">
-          <img src="@/assets/3달이상.png" style="height: 8vh" />
-        </div>
-        <div v-if="userLevel == 3">
-          <img src="@/assets/2달이상3달미만.png" style="height: 8vh" />
-        </div>
-        <div v-if="userLevel == 2">
-          <img src="@/assets/1달이상2달미만.png" style="height: 8vh" />
-        </div>
-        <div v-if="userLevel == 1">
-          <img src="@/assets/1달미만.png" style="height: 8vh" />
-        </div>
-        <p>{{ user.id }}</p>
-        <p>{{ user.nickname }}</p>
-      </div>
-      <hr />
-      <p style="text-align: center; font-size: 4vh; font-weight: bold">
-        친구리스트
-      </p>
+      <p style="text-align: center; font-size: 4vh; font-weight: bold">일기리스트</p>
       <div class="space for friends">
         <div
-          v-if="
-            friendRequestList.length > 0 && friendRequestList[0].from != null
-          "
+          v-if="friendRequestList.length > 0 && friendRequestList[0].from != null"
+          style="display: flex; justify-content: center"
         >
-          친구 요청이 {{ friendRequestList.length }} 개 존재합니다.
-          <button @click="openModal">확인 하기</button>
+          <div style="flex: 3; text-align: center; font-size: 1.2vw">
+            친구 요청이 {{ friendRequestList.length }} 개 존재합니다.
+          </div>
+          <div style="display: flex; flex: 1; justify-content: center; align-items: center">
+            <p @click="openModal" class="watchDiary" style="font-size: 1vw">확인 하기</p>
+          </div>
         </div>
 
-        <div @click="toMain()" class="friendDiv">
-          <img src="user.profilePicture" alt="본인 프로필 사진" />
-          <p>{{ user.id }}</p>
-          <p>{{ user.nickname }}</p>
+        <div class="friendDiv" style="display: flex">
+          <div style="display: flex; flex: 4">
+            <div style="display: flex; flex: 1; justify-content: center">
+              <div v-if="userLevel >= 3">
+                <img src="@/assets/3달이상.png" />
+              </div>
+              <div v-else-if="userLevel == 2">
+                <img src="@/assets/2달이상3달미만.png" />
+              </div>
+              <div v-else-if="userLevel == 1">
+                <img src="@/assets/1달이상2달미만.png" />
+              </div>
+              <div v-else>
+                <img src="@/assets/1달미만.png" />
+              </div>
+            </div>
+
+            <div style="flex: 1.5">
+              <p>내 아이디</p>
+              <p>{{ user.id }}</p>
+            </div>
+            <div style="flex: 1.5">
+              <p>내 닉네임</p>
+              <p>{{ user.nickname }}</p>
+            </div>
+          </div>
+          <div style="flex: 1; display: flex; align-items: center; justify-content: center">
+            <p @click="toMain()" class="watchDiary">보기</p>
+          </div>
         </div>
 
         <div id="modal">
@@ -61,51 +69,44 @@
             class="friendDiv"
             style="display: inline-flex"
           >
-            <div style="display: flex; flex-direction: column; flex: 2">
-              <img
-                v-if="getFriendImagePath(friendUser.regDate) == 4"
-                :src="level4"
-                style="height: 8vh"
-              />
-              <img
-                v-if="getFriendImagePath(friendUser.regDate) == 3"
-                :src="level3"
-                style="height: 8vh"
-              />
-              <img
-                v-if="getFriendImagePath(friendUser.regDate) == 2"
-                :src="level2"
-                style="height: 8vh"
-              />
-              <img
-                v-if="getFriendImagePath(friendUser.regDate) == 1"
-                :src="level1"
-                style="height: 8vh"
-              />
-              <p>{{ friendUser.id }}</p>
-              <br />
-              <p
-                @click="moveToFriendDiary(friendUser.id, friendUser.nickname)"
-                style="cursor: pointer"
-              >
-                {{ friendUser.nickname }}
-              </p>
+            <div style="display: flex; flex: 4">
+              <div style="flex: 1; display: flex; justify-content: center">
+                <img v-if="getFriendImagePath(friendUser.regDate) >= 3" :src="level4" />
+                <img v-else-if="getFriendImagePath(friendUser.regDate) >= 2" :src="level3" />
+                <img v-else-if="getFriendImagePath(friendUser.regDate) >= 1" :src="level2" />
+                <img v-else :src="level1" />
+              </div>
+              <div style="flex: 1.5">
+                <p>친구 아이디</p>
+                <p>{{ friendUser.id }}</p>
+              </div>
+              <div style="flex: 1.5">
+                <p>친구 닉네임</p>
+                <p>
+                  {{ friendUser.nickname }}
+                </p>
+              </div>
             </div>
-            <div
-              style="
-                display: flex;
-                flex: 1;
-                align-items: center;
-                justify-content: center;
-              "
-            >
-              <div>
-                <img
-                  src="../../../assets/trash.png"
-                  alt="친구 삭제 버튼"
-                  class="settingButton"
-                  @click="requestDelete(friendUser.id)"
-                />
+            <div style="display: flex; flex: 1; align-items: center; justify-content: center">
+              <div
+                style="
+                  display: flex;
+                  justify-content: center;
+                  flex-direction: column;
+                  align-items: center;
+                "
+              >
+                <div>
+                  <p
+                    @click="moveToFriendDiary(friendUser.id, friendUser.nickname)"
+                    class="watchDiary"
+                  >
+                    보기
+                  </p>
+                </div>
+                <div>
+                  <p @click="requestDelete(friendUser.id)" class="deleteDiary">삭제</p>
+                </div>
               </div>
             </div>
           </div>
@@ -132,6 +133,19 @@ import level2 from "@/assets/1달이상2달미만.png";
 import level3 from "@/assets/2달이상3달미만.png";
 import level4 from "@/assets/3달이상.png";
 
+// const level1 = "@/assets/1달미만.png";
+// const level2 = "@/assets/1달이상2달미만.png";
+// const level3 = "@/assets/2달이상3달미만.png";
+// const level4 = "@/assets/3달이상.png";
+// const levelArr =
+// [
+//   null,
+//   require("@/assets/1달미만.png"),
+//   require("@/assets/1달이상2달미만.png"),
+//   require("@/assets/2달이상3달미만.png"),
+//   require("@/assets/3달이상.png")
+// ];
+
 const friendsStore = useFriendsStore();
 const userStore = useUserStore();
 const requestStore = useRequestStore();
@@ -147,25 +161,17 @@ const friendRequestList = computed(() => requestStore.friendRequestList);
 
 const getFriendImagePath = function (regDate) {
   const today = new Date();
+  const year = today.getFullYear();
+  const month = today.getMonth() + 1;
+  const date = today.getDate();
+  const todayDate = new Date(year + "-" + month + "-" + date);
   const registrationDate = new Date(regDate);
   const diff = Math.ceil(
-    (today.getTime() - registrationDate.getTime()) / (1000 * 60 * 60 * 24)
+    (todayDate.getTime() - registrationDate.getTime()) / (1000 * 60 * 60 * 24)
   );
 
   console.log("diff = " + diff);
-  if (diff >= 90) {
-    // userStore.friendRegDate = '@/assets/3달이상.png';
-    return 4;
-  } else if (diff >= 60) {
-    // userStore.friendRegDate = '@/assets/2달이상3달미만.png';
-    return 3;
-  } else if (diff >= 30) {
-    // userStore.friendRegDate = '@/assets/1달이상2달미만.png';
-    return 2;
-  } else {
-    // userStore.friendRegDate = '@/assets/1달미만.png';
-    return 1;
-  }
+  return Math.floor(diff / 30);
 };
 
 // 해당 친구의 다이어리로 이동하는 함수
@@ -183,9 +189,7 @@ const moveToFriendsRequest = function () {
 const toMain = async function () {
   alert("본인 다이어리로 돌아가겠습니다!");
   await diaryStore.getDiaryList(localStorage.getItem("userid"));
-  userStore.currentUser = await userStore.searchUserById(
-    localStorage.getItem("userid")
-  );
+  userStore.currentUser = await userStore.searchUserById(localStorage.getItem("userid"));
 };
 
 // 새로고침시마다 아래 사항들 리뉴얼
@@ -196,6 +200,7 @@ onMounted(async () => {
   console.log(friendsUsersList);
   await requestStore.getFriendRequestList(localStorage.getItem("userid")); // 친구 요청 리스트
   console.log(friendRequestList.value.length);
+  await userStore.expCalculate();
 });
 
 // 모달 열기
@@ -246,6 +251,11 @@ const requestDelete = function (friendId) {
   }
 } */
 
+img {
+  width: 4vw;
+  height: 9vh;
+}
+
 .myinfo {
   flex: 1;
   height: 100%;
@@ -256,7 +266,6 @@ const requestDelete = function (friendId) {
 }
 
 .friendDiv {
-  cursor: pointer;
   transition: background-color 0.6s ease; /* 배경색이 변하는데 걸리는 시간과 전환 효과 지정 */
   border-radius: 15px;
   padding: 1v;
@@ -264,8 +273,29 @@ const requestDelete = function (friendId) {
 }
 
 .friendDiv:hover {
-  background-color: yellow;
-  color: green;
+  background-color: rgb(233, 187, 245);
+  color: black;
+  font-weight: bold;
+}
+
+.deleteDiary {
+  color: black;
+  transition: color 0.6s ease;
+  cursor: pointer;
+}
+
+.deleteDiary:hover {
+  color: red;
+}
+
+.watchDiary {
+  color: black;
+  transition: color 0.6s ease;
+  cursor: pointer;
+}
+
+.watchDiary:hover {
+  color: rgb(61, 248, 23);
 }
 
 #modal {

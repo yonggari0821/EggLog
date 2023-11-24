@@ -40,12 +40,6 @@ public class DiaryRestController {
 //    public ResponseEntity<?> getDiary(@RequestParam String userId, @RequestParam String diaryDate) {
     public ResponseEntity<?> getDiary(@RequestParam String userId, @RequestParam String diaryDate) {
         try {
-        	System.out.println("userId : "+userId);
-        	System.out.println("diaryDate : "+diaryDate);
-        	if (userId == null || diaryDate == null) {
-        		System.out.println("null null test");
-                return new ResponseEntity<>("Missing required parameters", HttpStatus.BAD_REQUEST);
-            }
             Diary diary = diaryService.getDiary(userId, diaryDate);
             if (diary != null)
                 return new ResponseEntity<Diary>(diary, HttpStatus.OK);

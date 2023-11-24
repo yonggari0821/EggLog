@@ -7,40 +7,26 @@
         justify-content: center;
         height: 65vh;
         margin-top: 12vh;
-        margin-bottom: 15vh;
+        margin-bottom: 12vh;
       "
     >
       <div style="width: 50%; display: flex; flex-direction: column">
         <div style="display: inline-flex; width: 100%; flex: 1">
-          <div
-            style="
-              display: flex;
-              flex: 1;
-              align-items: center;
-              justify-content: center;
-            "
-          >
+          <div style="display: flex; flex: 1; align-items: center; justify-content: center">
             <label for="diaryDate">날짜 </label>
           </div>
           <div style="display: flex; align-items: center; flex: 4">
-            <p>{{ readDiary.diaryDate }}</p>
+            <p style="width: 88%; background-color: antiquewhite">{{ readDiary.diaryDate }}</p>
           </div>
         </div>
 
         <!---->
         <div style="display: inline-flex; width: 100%; flex: 1">
-          <div
-            style="
-              display: flex;
-              flex: 1;
-              align-items: center;
-              justify-content: center;
-            "
-          >
+          <div style="display: flex; flex: 1; align-items: center; justify-content: center">
             <p>제목</p>
           </div>
           <div style="display: flex; align-items: center; flex: 4">
-            <p>{{ readDiary.title }}</p>
+            <p style="width: 88%; background-color: antiquewhite">{{ readDiary.title }}</p>
           </div>
         </div>
         <div style="display: inline-flex; width: 100%; flex: 3">
@@ -48,14 +34,25 @@
             <p>내용</p>
           </div>
           <div style="flex: 4">
-            <p style="max-width: 35vw; word-wrap: break-word">
+            <p
+              style="
+                max-width: 35vw;
+                word-wrap: break-word;
+                background-color: antiquewhite;
+                height: 100%;
+              "
+            >
               {{ readDiary.content }}
             </p>
           </div>
+          <br />
         </div>
-
-        <div style="display: inline-flex; width: 100%; flex: 2">
-          <label for="location">게시물에 저장된 위치</label>
+        <div class="hashtags-container" style="display: flex; justify-content: center; flex: 3">
+          <div style="display: flex">
+            <div class="tagtag" v-for="hashtag in readDiary.hashtag">
+              <p style="background-color: aquamarine">{{ hashtag }}</p>
+            </div>
+          </div>
         </div>
         <!-- 위치 API -->
         <div style="margin-top: auto; display: flex; justify-content: end">
@@ -81,6 +78,7 @@ const readDiary = ref({
   title: null,
   content: null,
   diaryDate: null,
+  // diaryPicture: null,
   hashtag: [],
   location: null,
 });
@@ -94,10 +92,7 @@ const update = () => {
 };
 
 const deleteDiary = async () => {
-  await diaryStore.deleteDiary(
-    readDiary.value.userId,
-    readDiary.value.diaryDate
-  );
+  await diaryStore.deleteDiary(readDiary.value.userId, readDiary.value.diaryDate);
   alert("삭제되었습니다!");
   router.push({ name: "MainPage" });
 };
@@ -106,8 +101,9 @@ const moveMainPage = function () {
   router.push({ name: "MainPage" });
 };
 
-onMounted(() => {
-  readDiary.value = JSON.parse(route.params.diary);
+onMounted(async () => {
+  readDiary.value = await JSON.parse(route.params.diary);
+  console.log(readDiary);
 });
 </script>
 
@@ -121,6 +117,23 @@ onMounted(() => {
   100% {
     opacity: 1;
   }
+}
+
+.tagtag {
+  display: inline-block;
+  font-size: 20px;
+  padding: 3px;
+  margin: 10px;
+  border-radius: 15px;
+  white-space: nowrap;
+}
+
+/* Container styles for hashtags */
+.hashtags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1px; /* Adjust the gap between hashtags as needed */
+  align-items: baseline; /* Adjust the alignment as needed */
 }
 
 .divMargin {

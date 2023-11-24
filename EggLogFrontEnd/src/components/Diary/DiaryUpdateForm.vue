@@ -46,66 +46,50 @@
               v-model="putDiary.content"
               required
               :placeholder="readDiary.content"
-              style="
-                height: 100%;
-                width: 100%;
-                max-width: 35vw;
-                word-wrap: break-word;
-              "
-            />
+              style="height: 100%; width: 100%; max-width: 35vw; word-wrap: break-word"
+            ></textarea>
           </div>
         </div>
-        <div style="display: inline-flex; width: 100%; flex: 2">
-          <label for="location">게시물에 현재 위치 넣기</label>
-          <input type="checkbox" id="location" checked />
-        </div>
-        <div class="form-group">
-          <label>해시태그 선택</label>
-          <div>
-            <label for="upper">
-              <input
-                id="upper"
-                type="checkbox"
-                v-model="putDiary.hashtag"
-                value="상체"
-              />
-              상체
-            </label>
-          </div>
-          <div>
-            <label for="lower">
-              <input
-                id="lower"
-                type="checkbox"
-                v-model="putDiary.hashtag"
-                value="하체"
-              />
-              하체
-            </label>
-          </div>
-          <div>
-            <label for="abs">
-              <input
-                id="abs"
-                type="checkbox"
-                v-model="putDiary.hashtag"
-                value="복근"
-              />
-              복근
-            </label>
-          </div>
-          <div>
-            <label for="body">
-              <input
-                id="body"
-                type="checkbox"
-                v-model="putDiary.hashtag"
-                value="전신"
-              />
-              전신
-            </label>
+        <br />
+        <!-- 추가 부분-->
+        <div style="display: inline-flex; width: 100%; flex: 1">
+          <div class="form-group">
+            <label
+              ><h3 style="font-weight: bold; font-family: Verdana, Geneva, Tahoma, sans-serif">
+                해시태그 선택
+              </h3></label
+            >
+            <div style="display: flex">
+              <!--버튼들-->
+              <div class="son">
+                <label for="upper">
+                  <input id="upper" type="checkbox" v-model="putDiary.hashtag" value="상체" />
+                  상체
+                </label>
+              </div>
+              <div class="son">
+                <label for="lower">
+                  <input id="lower" type="checkbox" v-model="putDiary.hashtag" value="하체" />
+                  하체
+                </label>
+              </div>
+              <div class="son">
+                <label for="abs">
+                  <input id="abs" type="checkbox" v-model="putDiary.hashtag" value="복근" />
+                  복근
+                </label>
+              </div>
+              <div class="son">
+                <label for="body">
+                  <input id="body" type="checkbox" v-model="putDiary.hashtag" value="전신" />
+                  전신
+                </label>
+              </div>
+            </div>
+            <!--durlRjWl-->
           </div>
         </div>
+
         <div style="margin-top: auto; display: flex; justify-content: end">
           <div @click="updateDiary" class="crud">수정 완료</div>
           <div @click="moveDiary" class="crud">뒤로가기</div>
@@ -114,6 +98,30 @@
       <!-- 위치 API -->
     </div>
   </div>
+
+  <!-- <div>
+    <h2>게시물 수정</h2>
+    <form @submit.prevent="submitForm">
+      <label for="title">제목:</label>
+      <input type="text" id="title" v-model="putDiary.title" required />
+
+      <label for="content">내용:</label>
+      <input type="text" id="content" v-model="putDiary.content" required />
+
+      <label for="location">게시물에 현재 위치 넣기</label>
+      <input type="checkbox" id="location" checked />
+
+      <button
+        type="button"
+        class="btn btn-outline-primary"
+        @click="updateDiary"
+      >
+        수정하기
+      </button>
+
+  모달 끄기 버튼 필요-->
+  <!-- </form>
+  </div> -->
 </template>
 
 <script setup>
@@ -129,8 +137,8 @@ const readDiary = ref({
   userId: null,
   title: null,
   content: null,
-  diaryDate: null, // MainPage에서 넘어올 때 router.params.date 받아오기
-  hashtag: [],
+  diaryDate: null,
+  diaryPicture: null,
   location: null,
 });
 
@@ -146,10 +154,7 @@ const putDiary = ref({
 // router.param을 통해 date와 userId 받아오기
 
 const moveDiary = function () {
-  router.push({
-    name: "Diary",
-    params: { diary: JSON.stringify(readDiary.value) },
-  });
+  router.push({ name: "Diary", params: { diary: JSON.stringify(readDiary.value) } });
 };
 
 const updateDiary = function () {
@@ -180,6 +185,9 @@ onMounted(() => {
   }
 }
 
+.son {
+  margin-left: 1vw;
+}
 .divMargin {
   padding-top: 6vh;
   background-image: url("../../assets/다이어리배경제거.png");

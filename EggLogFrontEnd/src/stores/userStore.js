@@ -2,6 +2,7 @@ import axios from "@/util/http-common";
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 import router from "@/router";
+import { functions } from "lodash";
 // import http from "@/util/http-common.js";
 
 const REST_USER_API = "http://localhost:8080/api/user";
@@ -143,9 +144,7 @@ export const useUserStore = defineStore("user", () => {
   const getFriendUsers = function (friendIds) {
     // console.log(friendIds);
     const encodedFriendIds = friendIds.map((id) => encodeURIComponent(id));
-    const url = `${REST_USER_API}/getFriendUsers?friendIds=${encodedFriendIds.join(
-      ","
-    )}`;
+    const url = `${REST_USER_API}/getFriendUsers?friendIds=${encodedFriendIds.join(",")}`;
     axios
       .get(url)
       .then((response) => {
@@ -178,6 +177,7 @@ export const useUserStore = defineStore("user", () => {
 
   const level = ref(null);
   const exp = ref(null);
+
   const expCalculate = async () => {
     await getRegDate(localStorage.getItem("userid"));
     const oldDate = new Date(reg.value);
@@ -225,5 +225,7 @@ export const useUserStore = defineStore("user", () => {
     expCalculate,
     level,
     exp,
+    getLevel,
+    currentUser,
   };
 });

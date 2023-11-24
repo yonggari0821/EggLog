@@ -12,7 +12,8 @@ export const useDiaryStore = defineStore("diary", () => {
     title: null,
     content: null,
     diaryDate: null,
-    hashtag: null,
+    // diaryPicture: null,
+    hashtag: [],
     location: null,
   });
 
@@ -81,6 +82,27 @@ export const useDiaryStore = defineStore("diary", () => {
       });
   };
 
+  // const registDiary = async function (diary) {
+  //   try {
+  //     console.log(diary);
+  //     await axios.post(REST_DIARY_API, diary);
+  //   } catch (err) {
+  //     console.log("게시물 등록 오류:", err);
+  //     console.log(err.response);
+  //   }
+  // };
+
+  // const updateDiary = async function (diary) {
+  //   try {
+  //     console.log(diary);
+  //     await axios.put(REST_DIARY_API, diary);
+  //   } catch (err) {
+  //     console.log("게시물 수정 오류:", err);
+  //     console.log(err.response);
+  //   }
+  // };
+
+  //추가 부분
   const registDiary = function (diary) {
     console.log("test" + diary);
     try {
@@ -125,6 +147,8 @@ export const useDiaryStore = defineStore("diary", () => {
       console.log(err.response);
     }
   };
+
+  // 여리까리
 
   const deleteDiary = async function (someUserId, someDiaryDate) {
     const params = {

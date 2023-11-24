@@ -122,8 +122,14 @@
             <!-- 정보들 만 담음-->
 
             <div
-           
-              class="friendAdd"
+              style="
+                flex: 2;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: #ffe5d5;
+                border-radius: 0px 40px 40px 0px;
+              "
             >
               <p @click="requestAdd(searchedUser.id)">친구 추가</p>
             </div>
@@ -188,23 +194,6 @@ const requestAdd = async function (friendId) {
   }
 }
 
-.friendAdd{
-  flex: 2;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                background-color: #ffe5d5;
-                border-radius: 0px 40px 40px 0px;
-                cursor: pointer;
-                transition: background-color 0.3s ease; /* 배경색이 변하는데 걸리는 시간과 전환 효과 지정 */
-}
-
-
-.friendAdd:hover{
-  background-color: #ec9e0d; /* 마우스를 올렸을 때의 배경색 */
-}
-
-
 .test {
   width: 85%;
   background-color: #effbff;
@@ -235,10 +224,9 @@ const requestAdd = async function (friendId) {
   background-color: #f3f3f3; /* 마우스를 올렸을 때의 배경색 */
 }
 .divMargin {
-  padding-top: 3.5vw;
   margin-left: 15vw;
   margin-right: 15vw;
-  height: 92vh;
+  height: 93vh;
 }
 .searchZone {
   /* background-color: bisque; */

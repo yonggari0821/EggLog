@@ -33,7 +33,7 @@ const who = ref("true");
   width: 100%;
   height: 100%;
   /* z-index: -1; */
-  background-color: #FEFEFE;
+  background-color: #fefefe;
   /* animation: move 5s infinite; */
   padding-left: 1vw;
 }

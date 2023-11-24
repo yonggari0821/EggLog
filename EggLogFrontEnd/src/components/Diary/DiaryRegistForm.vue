@@ -1,85 +1,99 @@
 <template>
   <div class="divPadding">
     <div class="form-container">
-      <h2>다이어리 등록</h2>
-      <h3>날짜</h3>
-      <p>{{ route.params.diary_date }}</p>
+      <h1 style="font-weight: bold">다이어리 등록</h1>
       <!-- 23 morning 날짜 추가-->
       <form @submit.prevent="submitForm">
-        <div class="form-group">
-          <label for="title">제목</label>
-          <input type="text" id="title" v-model="postDiary.title" required />
-        </div>
+        <div style="display: flex">
+          <!-- 전체 담음-->
+          <div style="flex: 1; margin-right: 1vw; margin-left: 1vw" id="one">
+            <!-- 나눌 블록-->
+            <p style="font-size: 1.2vw; font-weight: bold">날짜</p>
+            <p style="font-size: 1vw">{{ route.params.diary_date }}</p>
+            <div class="form-group">
+              <p style="font-size: 1.2vw; font-weight: bold">제목</p>
+              <input type="text" id="title" v-model="postDiary.title" required />
+            </div>
 
-        <div class="form-group">
-          <label for="content">내용</label>
-          <input
-            type="text"
-            id="content"
-            v-model="postDiary.content"
-            required
-            style="width: 100%; height: 30vh"
-          />
-        </div>
+            <div class="form-group">
+              <p style="font-size: 1.2vw; font-weight: bold">내용</p>
+              <textarea
+                id="content"
+                v-model="postDiary.content"
+                required
+                style="width: 100%; height: 30vh; background-color: transparent"
+              ></textarea>
+            </div>
+          </div>
+          <!--창헌이형파트-->
+          <div style="flex: 1; margin-left: 1vw; margin-right: 1vw" id="two">
+            <!--또 한블럭-->
+            <!--여기서 부터 묶음-->
+            <div class="form-group">
+              <p style="font-size: 3vh; font-weight: bold">해시태그 선택</p>
+              <div>
+                <label for="upper">
+                  <div style="display: flex">
+                    <div style="font-size: 2vh">상체</div>
+                    <div>
+                      <input id="upper" type="checkbox" v-model="postDiary.hashtag" value="상체" />
+                    </div>
+                  </div>
+                </label>
+              </div>
+              <div>
+                <label for="lower">
+                  <div style="display: flex">
+                    <div style="font-size: 2vh">하체</div>
+                    <div>
+                      <input id="lower" type="checkbox" v-model="postDiary.hashtag" value="하체" />
+                    </div>
+                  </div>
+                </label>
+              </div>
+              <div>
+                <label for="abs">
+                  <div style="display: flex">
+                    <div style="font-size: 2vh">복근</div>
+                    <div>
+                      <input id="abs" type="checkbox" v-model="postDiary.hashtag" value="복근" />
+                    </div>
+                  </div>
+                </label>
+              </div>
+              <div>
+                <label for="body">
+                  <div style="display: flex">
+                    <div style="font-size: 2vh">전신</div>
+                    <div>
+                      <input id="body" type="checkbox" v-model="postDiary.hashtag" value="전신" />
+                    </div>
+                  </div>
+                </label>
+              </div>
+            </div>
 
-        <div class="form-group">
-          <label>해시태그 선택</label>
-          <div>
-            <label for="upper">
-              <input
-                id="upper"
-                type="checkbox"
-                v-model="postDiary.hashtag"
-                value="상체"
-              />
-              상체
-            </label>
-          </div>
-          <div>
-            <label for="lower">
-              <input
-                id="lower"
-                type="checkbox"
-                v-model="postDiary.hashtag"
-                value="하체"
-              />
-              하체
-            </label>
-          </div>
-          <div>
-            <label for="abs">
-              <input
-                id="abs"
-                type="checkbox"
-                v-model="postDiary.hashtag"
-                value="복근"
-              />
-              복근
-            </label>
-          </div>
-          <div>
-            <label for="body">
-              <input
-                id="body"
-                type="checkbox"
-                v-model="postDiary.hashtag"
-                value="전신"
-              />
-              전신
-            </label>
+            <!--창헌이형파트-->
+
+            <div>
+              <div style="font-size: 3vh; font-weight: bold">지도</div>
+              <!-- Include the Kakao Maps HTML code here -->
+              <div id="clickLatlng">작성하는 현재 위치에요!</div>
+              <div id="map" style="width: 30vw; height: 20vh"></div>
+            </div>
           </div>
         </div>
-
-        <div style="background-color: azure">
-          <!-- Include the Kakao Maps HTML code here -->
-          <div id="map" style="width: 40vw; height: 20vh"></div>
-          <div id="clickLatlng">지도에서 위치를 참조하세요!</div>
-        </div>
-
-        <button type="button" class="btn btn-primary" @click="registDiary">
+      </form>
+      <div style="display: flex; justify-content: right">
+        <button
+          type="button"
+          class="btn btn-primary"
+          style="width: 4vw; margin-right: 1vw"
+          @click="registDiary"
+        >
           등록
         </button>
-      </form>
+      </div>
     </div>
   </div>
 </template>
@@ -98,23 +112,10 @@ const postDiary = ref({
   title: null,
   content: null,
   diaryDate: null,
+  // diaryPicture: null,
   hashtag: [],
   location: null,
 });
-
-const registDiary = function () {
-  postDiary.value.userId = route.params.user_id;
-  postDiary.value.diaryDate = route.params.diary_date;
-  console.log(postDiary.value.userId);
-  console.log(postDiary.value.diaryDate);
-  diaryStore.registDiary(postDiary.value);
-  alert("일기가 작성되었습니다");
-  console.log("등록되었습니다.");
-  router.push({
-    name: "Diary",
-    params: { diary: JSON.stringify(postDiary.value) },
-  });
-};
 
 let map = null;
 const initMap = function () {
@@ -142,20 +143,6 @@ const initMap = function () {
   map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
 };
 
-onMounted(() => {
-  if (window.kakao && window.kakao.maps) {
-    initMap();
-  } else {
-    const script = document.createElement("script"); // autoload=false 스크립트를 동적으로 로드하기 위해서 사용
-    script.src =
-      "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=df1121badf1ccb1a5144d8b82705b21a&libraries=services,clusterer,drawing&autoload=false";
-    script.addEventListener("load", () => {
-      kakao.maps.load(initMap);
-    }); //헤드태그에 추가
-    document.head.appendChild(script);
-  }
-});
-
 function initKakaoMap() {
   function dateFormat(date) {
     let month = date.getMonth() + 1;
@@ -170,28 +157,14 @@ function initKakaoMap() {
     minute = minute >= 10 ? minute : "0" + minute;
     second = second >= 10 ? second : "0" + second;
 
-    return (
-      date.getFullYear() +
-      "-" +
-      month +
-      "-" +
-      day +
-      " " +
-      hour +
-      ":" +
-      minute +
-      ":" +
-      second
-    );
+    return date.getFullYear() + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second;
   }
 
   function successCallback({ coords, timestamp }) {
     latitude = coords.latitude;
     longitude = coords.longitude;
     alert(
-      `위도: ${latitude},\n경도: ${longitude},\n\n현재 시간: ${dateFormat(
-        new Date(timestamp)
-      )}`
+      `위도: ${latitude},\n경도: ${longitude},\n\n현재 시간: ${dateFormat(new Date(timestamp))}`
     );
   }
 
@@ -199,10 +172,7 @@ function initKakaoMap() {
     console.log(error);
   };
 
-  const position = navigator.geolocation.getCurrentPosition(
-    successCallback,
-    errorCallback
-  );
+  const position = navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
   let latitude;
   let longitude;
 
@@ -213,8 +183,7 @@ function initKakaoMap() {
   };
   // var map = new kakao.maps.Map(container, options);
 
-  var markerImageSrc =
-    "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+  var markerImageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
   // var markerImageSize = new kakao.maps.Size(22, 35);
   var markerImage = new kakao.maps.MarkerImage(markerImageSrc, markerImageSize);
 
@@ -304,9 +273,7 @@ function initKakaoMap() {
 
     kakao.maps.event.addListener(marker, "click", function () {
       infowindow.setContent(
-        '<div style="padding:5px;font-size:12px;">' +
-          place.place_name +
-          "</div>"
+        '<div style="padding:5px;font-size:12px;">' + place.place_name + "</div>"
       );
       infowindow.open(map, marker);
     });
@@ -324,18 +291,52 @@ function initKakaoMap() {
 function handleScriptError(event) {
   console.error("Error loading Kakao Maps script:", event);
 }
+
+const registDiary = function () {
+  postDiary.value.userId = route.params.user_id;
+  postDiary.value.diaryDate = route.params.diary_date;
+  console.log(postDiary.value.userId);
+  console.log(postDiary.value.diaryDate);
+  diaryStore.registDiary(postDiary.value);
+  alert("일기가 작성되었습니다");
+  console.log("등록되었습니다.");
+  router.push({
+    name: "Diary",
+    params: { diary: JSON.stringify(postDiary.value) },
+  });
+};
+onMounted(() => {
+  if (window.kakao && window.kakao.maps) {
+    initMap();
+  } else {
+    const script = document.createElement("script"); // autoload=false 스크립트를 동적으로 로드하기 위해서 사용
+    script.src =
+      "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=df1121badf1ccb1a5144d8b82705b21a&libraries=services,clusterer,drawing&autoload=false";
+    script.addEventListener("load", () => {
+      kakao.maps.load(initMap);
+    }); //헤드태그에 추가
+    document.head.appendChild(script);
+  }
+});
 </script>
 
 <style scoped>
 .divPadding {
   padding-top: 3.3vw;
+  background-image: url("../../assets/다이어리배경제거.png");
+  background-size: 60% 80%;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .form-container {
   display: flex;
   flex-direction: column;
-  max-width: 400px;
-  margin: 0 auto;
+  max-width: 70vw;
+  margin-left: 22vw;
+  margin-right: 25vw;
+  padding-bottom: 8.2vh;
+  padding-top: 10vh;
 }
 
 .form-group {
@@ -357,15 +358,19 @@ input {
 }
 
 .btn {
-  padding: 0.75rem 1rem;
-  background-color: #aad1f1;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
+  border: solid 1px gray;
+  width: 8vw;
+  text-align: center;
+  margin-right: 1vw;
+  background-color: #dad8ff;
+  border-radius: 0px 0px 10px 10px;
   cursor: pointer;
+  transition: background-color 0.3s ease; /* 배경색이 변하는데 걸리는 시간과 전환 효과 지정 */
+  box-shadow: 0 4px 4px -4px black;
 }
 
 .btn:hover {
-  background-color: #fbff0c;
+  background-color: #ffe67c;
+  color: #295f2e;
 }
 </style>

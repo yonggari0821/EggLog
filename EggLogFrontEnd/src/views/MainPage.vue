@@ -39,13 +39,13 @@ onMounted(() => {
 }
 
 .main-section {
-  width: 80%; /* 80% */
+  width: 65%; /* 80% */
 
   background-color: brown;
 }
 
 .main-aside {
-  width: 20%; /* 20% */
+  width: 35%; /* 20% */
 }
 
 .Height {

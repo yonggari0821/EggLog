@@ -55,28 +55,27 @@ onMounted(() => {
   }
 } */
 
-
-p,div{
+p,
+div {
   font-size: 1.5vw;
   font-weight: bold;
   font-family: "Noto Sans KR", sans-serif;
-  }
-
+}
 
 .profile-exp {
   display: flex;
   align-items: center;
-  background-color: #FFE77A;
-  color: #2C5F2D;
+  background-color: #ffe77a;
+  color: #2c5f2d;
+  height: 100%;
   /* animation: move 5s infinite; */
-  
+
   transition: background-color 0.6s ease; /* 배경색이 변하는데 걸리는 시간과 전환 효과 지정 */
   border: 2px solid gray; /* 테두리 속성 추가 */
 }
 
-.profile-exp:hover{
-
-  background-color: #FFD000;
+.profile-exp:hover {
+  background-color: #ffd000;
   color: white;
 }
 
@@ -85,10 +84,14 @@ p,div{
   margin-right: 16px;
 }
 
+img {
+  width: 5vw;
+}
+
 .exp-bar {
   flex: 2;
   height: 100px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   border-radius: 4px;
   overflow: hidden;
   border: 1px solid gray; /* 테두리 속성 추가 */
@@ -96,10 +99,10 @@ p,div{
 
 .bar {
   height: 100%;
-  background-color: #FAEBEF;
+  background-color: #faebef;
   transition: width 0.5s ease;
   color: black;
-  
+
   border-right: 1px solid gray; /* 테두리 속성 추가 */
 }
 </style>
